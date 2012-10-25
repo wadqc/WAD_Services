@@ -20,16 +20,16 @@ import org.xml.sax.SAXException;
  *
  * @author Ralph Berendsen <>
  */
-public class XmlInputFile {
+public class XMLInputFile {
     
     private String version;
-    private String moduleconfig;
+    private String analyseModuleCfg;
     private String analyselevel;
     Document dom;
     
-    public XmlInputFile(){
+    public XMLInputFile(){
         version = "";
-        moduleconfig = "";
+        analyseModuleCfg = "";
         analyselevel = "";
     }
     
@@ -48,11 +48,11 @@ public class XmlInputFile {
             dom = db.parse(inputFile);
             
         } catch (SAXException ex) {
-            Logger.getLogger(XmlInputFile.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XMLInputFile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(XmlInputFile.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XMLInputFile.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(XmlInputFile.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(XMLInputFile.class.getName()).log(Level.SEVERE, null, ex);
         }    
     }
     
@@ -66,7 +66,7 @@ public class XmlInputFile {
             for (int i = 0 ; i < nl.getLength();i++) {
                 Element el = (Element)nl.item(i);
                 version = getTextValue(el, "version");
-                moduleconfig = getTextValue(el, "moduleconfig");
+                analyseModuleCfg = getTextValue(el, "moduleconfig");
                 analyselevel = getTextValue(el, "analyselevel");
             }
         }
@@ -76,7 +76,7 @@ public class XmlInputFile {
         //get the root element
         Element docElement = dom.getDocumentElement();
         version = getTextValue(docElement, "version");
-        moduleconfig = getTextValue(docElement, "moduleconfig");
+        analyseModuleCfg = getTextValue(docElement, "moduleconfig");
         analyselevel = getTextValue(docElement, "analyselevel");
         
         //er zitten geen nodelists in dit document
@@ -99,7 +99,7 @@ public class XmlInputFile {
     }
     
     public String getModuleConfig(){
-        return moduleconfig;
+        return analyseModuleCfg;
     }
     
     public String getAnalyseLevel(){

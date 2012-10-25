@@ -15,7 +15,6 @@ import wad.xml.Instance;
 import wad.xml.Patient;
 import wad.xml.ReadConfigXML;
 import wad.xml.Series;
-import wad.xml.Study;
 
 /**
  *
@@ -30,6 +29,8 @@ public class GetPatientFromIqcDatabase {
             getPatientByStudy(pk);
         } else if (level.equals("series")||level.equals("SERIES") || level.equals("serie")||level.equals("SERIE")){
             getPatientBySeries(pk);
+        } else if (level.equals("instance")||level.equals("INSTANCE")){
+            getPatientByInstance(pk);
         }
     }
     
@@ -59,6 +60,24 @@ public class GetPatientFromIqcDatabase {
     private void getPatientBySeries(String seriesPk){
         DatabaseParameters iqcDBParams = new DatabaseParameters();
         iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
+        String studyPk = ReadFromIqcDatabase.getStudyFkBySeriesFkFromSeries(iqcDBParams, seriesPk);
+        String patientPk = ReadFromIqcDatabase.getPatientFkByStudyFkFromStudy(iqcDBParams, studyPk);
+        setPatient(iqcDBParams, patientPk);
+        setStudyByStudyFk(iqcDBParams, studyPk);
+        //voor alleen deze series in deze study vullen
+        setSeries(iqcDBParams, seriesPk);
+        ArrayList<String> instancePkList = ReadFromIqcDatabase.getInstancePkListWithSeriesFk(iqcDBParams, seriesPk);
+        for (int j=0;j<instancePkList.size();j++){
+            setInstance(iqcDBParams, instancePkList.get(j),0);                
+        }
+         
+    }
+    
+    //Patient middels instancePk geeft maar 1 serie en bijbehorende study
+    private void getPatientByInstance(String instancePk){
+        DatabaseParameters iqcDBParams = new DatabaseParameters();
+        iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
+        String seriesPk = ReadFromIqcDatabase.getSeriesFkByInstanceFkFromInstance(iqcDBParams, instancePk);
         String studyPk = ReadFromIqcDatabase.getStudyFkBySeriesFkFromSeries(iqcDBParams, seriesPk);
         String patientPk = ReadFromIqcDatabase.getPatientFkByStudyFkFromStudy(iqcDBParams, studyPk);
         setPatient(iqcDBParams, patientPk);
@@ -170,7 +189,9 @@ public class GetPatientFromIqcDatabase {
                     rs_filesystem.close();
                     stmt_filesystem.close();
                 }
-                instance.setFilename(dirpath+"\\"+filepath);
+                String archivePath = ReadConfigXML.readFileElement("archive");
+                archivePath = archivePath.replace('/', '\\');
+                instance.setFilename(archivePath+dirpath+"\\"+filepath);
                 rs_files.close();
                 stmt_files.close();  
                 this.patient.getStudy().getSeries(serieNo).addInstance(instance);

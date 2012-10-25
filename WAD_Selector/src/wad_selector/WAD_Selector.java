@@ -5,6 +5,7 @@
 package wad_selector;
 
 import java.util.Timer;
+import wad.xml.ReadConfigXML;
 
 /**
  *
@@ -16,7 +17,8 @@ public class WAD_Selector {
     
     private WAD_Selector(){ 
         studyCheckTimer = new Timer();
-        studyCheckTimer.schedule(new SelectorTimer(),0, 30000);
+        Integer interval = Integer.parseInt(ReadConfigXML.readSettingsElement("timer"));
+        studyCheckTimer.schedule(new SelectorTimer(),0, interval);
     }
 
     /**

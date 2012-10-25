@@ -4,11 +4,7 @@
  */
 package wad.db;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.sql.*;
-import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 /**
@@ -16,26 +12,37 @@ import java.util.logging.Logger;
  * @author Ralph Berendsen <>
  */
 public class PacsDatabaseConnection {
+    public static final String DATABASE_USER = "user";
+    public static final String DATABASE_PASSWORD = "password";
+    public static final String MYSQL_AUTO_RECONNECT = "autoReconnect";
+    public static final String MYSQL_MAX_RECONNECTS = "maxReconnects";
     
     
     public static Connection conDb(DatabaseParameters dbParam) {
-        java.sql.Connection con = null;        
+         String driver = dbParam.driverclass;
 
-        try {
-            Class.forName(dbParam.driverclass).newInstance();            
-            //Class.forName("com.mysql.jdbc.Driver").newInstance();
-            con = DriverManager.getConnection(dbParam.connectionURL, dbParam.username, dbParam.password);            
-            return con;
+         try {Class.forName(driver);
+            String dbURL = dbParam.connectionURL;
+            String dbUsername = dbParam.username;
+            String dbPassword = dbParam.password;
+
+            java.util.Properties connProperties = new java.util.Properties();
+            connProperties.put(DATABASE_USER, dbUsername);
+            connProperties.put(DATABASE_PASSWORD, dbPassword);
+
+            connProperties.put(MYSQL_AUTO_RECONNECT, "true");
+
+            connProperties.put(MYSQL_MAX_RECONNECTS, "4");
+            return DriverManager.getConnection(dbURL, connProperties);
         } catch (SQLException ex) {
             Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex);
         }
-        return con;
+         return null;
+        
     }
     
     public static void closeDb(Connection con, Statement stmt, ResultSet rs){

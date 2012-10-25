@@ -6,6 +6,7 @@
     Author     : Ralph Berendsen
     Description:
         Configuratie voor DCM4CHEE database en iqc database.
+        Configuratie van paden voor analysemodule bestanden
 -->
 
 <root>
@@ -36,8 +37,23 @@
         </iqc-db>
     </datasources>
     <filepath>
-        <analysefile>C:/apps/BVT/WAD_Software/XML/XMLanalyse/</analysefile>    
-        <inputfile>C:/apps/BVT/WAD_Software/XML/XMLinput/</inputfile>    
-        <configfile>C:/apps/BVT/WAD_Software/XML/XMLconfig/</configfile>    
+        <!-- Absoluut pad van de uploads map, eindig met /-->
+        <uploads>C:/apps/BVT/WAD_Software/WAD_Interface/WAD-IQC/uploads/</uploads>
+        <analysemodule>analysemodule/</analysemodule>    
+        <analysemodule_cfg>analysemodule_cfg/</analysemodule_cfg>    
+        <!-- Relatief pad (tov WAD_Selector installatie) van de XML mappen voor analysemodule_input en output-->
+        <analysemodule_input>../XML/analysemodule_input/</analysemodule_input>    
+        <analysemodule_output>../XML/analysemodule_output/</analysemodule_output>        
+        <!-- Pad van dcm4chee server -->
+        <!-- bijvoorbeeld: C:/WAD-software/dcm4chee-2.17.1-mysql/server/default/ -->
+        <archive>C:/apps/BVT/dcm4chee/</archive>
     </filepath>
+    <settings>
+        <!-- Stop het programma na uitvoer van de eerste timer: 1=stop, 0=doorgaan -->
+        <!-- Indien het programma als service draait zorgen dat deze waarde op 0 staat -->
+        <stop>1</stop>
+        <!-- Tijd tussen uitvoer van de timer in ms -->
+        <timer>10000</timer>
+    </settings>
+    
 </root>

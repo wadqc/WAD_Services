@@ -19,13 +19,10 @@ import java.util.logging.Logger;
  */
 public class WriteToIqcDatabase {
     
-    public static void WriteResulsetInTable(DatabaseParameters dbParam, ResultSet rsRead, String tableName){
-        Connection dbConnection;                
+    public static void WriteResulsetInTable(Connection dbConnection, ResultSet rsRead, String tableName){
         Statement stmt_Write;
         ResultSet rs_Write;
-        
-        dbConnection = PacsDatabaseConnection.conDb(dbParam);
-        
+                
         //INSERT INTO tablename (colomns,..,) values ('','')
         String sqlTable = "INSERT INTO "+tableName+"(";
         String sqlColomn = "";
@@ -44,13 +41,11 @@ public class WriteToIqcDatabase {
                         sqlValues = sqlValues+", ";
                     }
                     colomnLabel = rsWriteMetaData.getColumnLabel(i);  
-                    sqlColomn = sqlColomn+colomnLabel;
-                    //String value = rsRead.getString(colomnLabel);
+                    sqlColomn = sqlColomn+colomnLabel;                    
                     Object value = rsRead.getObject(colomnLabel);
                     if (value==null){
                         sqlValues = sqlValues+rsRead.getString(colomnLabel);
-                    } else {
-                        //sqlValues = sqlValues+"'"+rsRead.getString(colomnLabel)+"'";
+                    } else {                        
                         if (value instanceof Integer){
                             sqlValues = sqlValues+value;
                         } else if (value instanceof Boolean){
@@ -71,19 +66,15 @@ public class WriteToIqcDatabase {
                 stmt_Write.close();
                 System.out.println("Output executeUpdate : " + count);
             }
-        } catch (SQLException ex) {
-            PacsDatabaseConnection.closeDb(dbConnection, null, null);
+        } catch (SQLException ex) {            
             Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        PacsDatabaseConnection.closeDb(dbConnection, null, null);
+        }        
     }
     
     //Vullen collector_study_status 
-    public static void WriteStudyStatus(DatabaseParameters dbParam, String studyFk, String status){
-        Connection dbConnection;                
+    public static void WriteStudyStatus(Connection dbConnection, String studyFk, String status){
         Statement stmt_Write;        
         
-        dbConnection = PacsDatabaseConnection.conDb(dbParam);
         Timestamp creationTime = new Timestamp(System.currentTimeMillis());
         
         //INSERT INTO tablename (colomns,..,) values ('','')        
@@ -94,18 +85,14 @@ public class WriteToIqcDatabase {
             int count = stmt_Write.executeUpdate(sqlStatement); 
             stmt_Write.close();
         } catch (SQLException ex) {
-            PacsDatabaseConnection.closeDb(dbConnection, null, null);
             Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
-        PacsDatabaseConnection.closeDb(dbConnection, null, null);
     }
     
     //Vullen collector_study_status 
-    public static void UpdateStudyStatus(DatabaseParameters dbParam, String studyFk, String status){
-        Connection dbConnection;                
+    public static void UpdateStudyStatus(Connection dbConnection, String studyFk, String status){
         Statement stmt_Write;
         
-        dbConnection = PacsDatabaseConnection.conDb(dbParam);
         Timestamp creationTime = new Timestamp(System.currentTimeMillis());
         
         //Update tablename (colomns,..,) values ('','')        
@@ -116,18 +103,14 @@ public class WriteToIqcDatabase {
             int count = stmt_Write.executeUpdate(sqlStatement); 
             stmt_Write.close();
         } catch (SQLException ex) {
-            PacsDatabaseConnection.closeDb(dbConnection, null, null);
             Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        PacsDatabaseConnection.closeDb(dbConnection, null, null);
+        }        
     }
     
     //Vullen collector_series_status 
-    public static void WriteSeriesStatus(DatabaseParameters dbParam, String seriesFk, String status){
-        Connection dbConnection;                
+    public static void WriteSeriesStatus(Connection dbConnection, String seriesFk, String status){
         Statement stmt_Write;
         
-        dbConnection = PacsDatabaseConnection.conDb(dbParam);
         Timestamp creationTime = new Timestamp(System.currentTimeMillis());
         
         //INSERT INTO tablename (colomns,..,) values ('','')        
@@ -138,19 +121,14 @@ public class WriteToIqcDatabase {
             int count = stmt_Write.executeUpdate(sqlStatement); 
             stmt_Write.close();
         } catch (SQLException ex) {
-            PacsDatabaseConnection.closeDb(dbConnection, null, null);
             Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        PacsDatabaseConnection.closeDb(dbConnection, null, null);
+        }        
     }
     
     //Update collector_series_status 
-    public static void UpdateSeriesStatus(DatabaseParameters dbParam, String seriesFk, String status){
-        Connection dbConnection;                
-        Statement stmt_Write;
-        ResultSet rs_Write;
+    public static void UpdateSeriesStatus(Connection dbConnection, String seriesFk, String status){
+        Statement stmt_Write;        
         
-        dbConnection = PacsDatabaseConnection.conDb(dbParam);
         Timestamp creationTime = new Timestamp(System.currentTimeMillis());
         
         //Update tablename (colomns,..,) values ('','')        
@@ -161,9 +139,7 @@ public class WriteToIqcDatabase {
             int count = stmt_Write.executeUpdate(sqlStatement);  
             stmt_Write.close();
         } catch (SQLException ex) {
-            PacsDatabaseConnection.closeDb(dbConnection, null, null);
             Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
-        PacsDatabaseConnection.closeDb(dbConnection, null, null);
     }
 }

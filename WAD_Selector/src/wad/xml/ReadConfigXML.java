@@ -36,14 +36,12 @@ public class ReadConfigXML {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse (new File("config.xml"));
-            //File file = new File("C:\\apps\\BVT\\dcm4chee\\dcm4chee-2.17.1-mysql\\server\\default\\deploy\\pacs-mysql-ds.xml");
-            //Document doc = docBuilder.parse (file);
-            
+            Document doc = docBuilder.parse (new File("../config.xml"));
+                        
             doc.getDocumentElement ().normalize ();
             //System.out.println("Root element " + doc.getDocumentElement().getNodeName());
             
-            NodeList datasources = doc.getElementsByTagName("datasources"); 
+            //NodeList datasources = doc.getElementsByTagName("datasources"); 
             
             NodeList firstLocalDatasource = doc.getElementsByTagName("DCM4CHEE-db");            
             Node fstNode = firstLocalDatasource.item(0);
@@ -109,14 +107,12 @@ public class ReadConfigXML {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse (new File("config.xml"));
-            //File file = new File("C:\\apps\\BVT\\dcm4chee\\dcm4chee-2.17.1-mysql\\server\\default\\deploy\\pacs-mysql-ds.xml");
-            //Document doc = docBuilder.parse (file);
+            Document doc = docBuilder.parse (new File("../config.xml"));
             
             doc.getDocumentElement ().normalize ();
             //System.out.println("Root element " + doc.getDocumentElement().getNodeName());
             
-            NodeList datasources = doc.getElementsByTagName("datasources"); 
+            //NodeList datasources = doc.getElementsByTagName("datasources"); 
             
             NodeList firstLocalDatasource = doc.getElementsByTagName("iqc-db");            
             Node fstNode = firstLocalDatasource.item(0);
@@ -194,11 +190,37 @@ public class ReadConfigXML {
         try{
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse (new File("config.xml"));
+            Document doc = docBuilder.parse (new File("../config.xml"));
             
             Element docElement = doc.getDocumentElement();
             
             NodeList nlFilepath = docElement.getElementsByTagName("filepath");
+            
+            if (nlFilepath != null && nlFilepath.getLength()>0) {
+                for (int i = 0 ; i < nlFilepath.getLength();i++) {
+                    Element elFilepath = (Element)nlFilepath.item(i);
+                    return getTextValue(elFilepath, ElementName);
+                }
+            }            
+        }catch (ParserConfigurationException pce) {
+            
+        }catch (SAXException se) {
+            
+        }catch (IOException ioe){
+            
+        }
+        return null;
+    }
+    
+    public static String readSettingsElement(String ElementName){
+        try{
+            DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+            Document doc = docBuilder.parse (new File("../config.xml"));
+            
+            Element docElement = doc.getDocumentElement();
+            
+            NodeList nlFilepath = docElement.getElementsByTagName("settings");
             
             if (nlFilepath != null && nlFilepath.getLength()>0) {
                 for (int i = 0 ; i < nlFilepath.getLength();i++) {

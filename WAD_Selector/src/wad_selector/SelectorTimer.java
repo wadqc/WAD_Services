@@ -4,13 +4,11 @@
  */
 package wad_selector;
 
-import java.util.ArrayList;
+import java.sql.Connection;
 import java.util.TimerTask;
-import selector.SelectorSummary;
+import selector.Selector;
 import wad.xml.ReadConfigXML;
 import wad.db.*;
-import wad.xml.XmlInputFile;
-
 
 /**
  *
@@ -20,30 +18,34 @@ public class SelectorTimer extends TimerTask{
 
     @Override
     public void run() {
-        //Testen van XmlInputFile
-//        XmlInputFile inputFile = new XmlInputFile();
-//        inputFile.read("C:/apps/BVT/WAD_Software/XML/XMLinput/MRI_Joost_input.xml");
-//        String analyseLevel = inputFile.getAnalyseLevel();
-//        
-        //Testen patient voor wegschrijven analysefile        
-        //GetPatientFromIqcDatabase getPatient = new GetPatientFromIqcDatabase("17", "study") ;
-//        GetPatientFromIqcDatabase getPatient = new GetPatientFromIqcDatabase("51", "series") ;
-//        Patient patient = getPatient.getPatient();
-//        
-//        XmlAnalyseFile xmlAnalyseFile = new XmlAnalyseFile(patient, inputFile);
-//        xmlAnalyseFile.write("C:/apps/BVT/WAD_Software/XML/XMLanalyse/MRI_Joost_analyse2.xml");
-//        
-//        XmlAnalyseFile xmlAnalyseFile2 = new XmlAnalyseFile(patient, inputFile);
-//        xmlAnalyseFile2.read("C:/apps/BVT/WAD_Software/XML/XMLanalyse/MRI_Joost_analyse2.xml");
+        System.out.println("Start SelectorTimer");
                 
         DatabaseParameters iqcDBParams = new DatabaseParameters();
         iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
         
-        //testen nieuwe selector code
-        SelectorSummary selectorSummary = new SelectorSummary();
-        selectorSummary.Selector(iqcDBParams);
+        //Maak een databaseConnection en gebruik deze als variable om door te geven
+        //Maken van nieuwe connections voor elke nieuwe query loopt tegen limitaties bij
+        //zeer groot aantal queries. Op dat moment worden oude connecties, die nog greserveerd zijn
+        //hergebruikt, dit kan niet en eindigd in een JDBC-driver fout.
         
-        String dummy = "Stop tijdens testen";
+        Connection dbConnection = PacsDatabaseConnection.conDb(iqcDBParams);
+        
+        //testen nieuwste selector code
+        Selector selector = new Selector();
+        selector.Selector(dbConnection);
+        
+        //Sluiten van de databaseConenction nadat de selector één keer doorlopen is.
+        PacsDatabaseConnection.closeDb(dbConnection, null, null);
+        
+        //Te gebruiken voor een linebreakpoint in Netbeans
+        String dummy = "Stop tijdens testen";        
+        
+        System.out.println("Einde SelectorTimer");
+        
+        if (ReadConfigXML.readSettingsElement("stop").equals("1")){
+            System.out.println("Afsluiten");        
+            this.cancel();
+        }
     }
     
 }

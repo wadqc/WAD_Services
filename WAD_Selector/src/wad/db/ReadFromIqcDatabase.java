@@ -173,6 +173,32 @@ public class ReadFromIqcDatabase {
         return pkList;
     }
     
+    public static String getSeriesFkByInstanceFkFromInstance(DatabaseParameters dbParam, String instanceFk){
+        Connection dbConnection;
+        ResultSet rs_instance;        
+        Statement stmt_instance;        
+        
+        dbConnection = PacsDatabaseConnection.conDb(dbParam);
+        try {
+            stmt_instance = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String statement = "SELECT series_fk FROM instance WHERE pk='"+instanceFk+"'";
+            rs_instance = stmt_instance.executeQuery(statement);            
+            if (rs_instance.next()) {
+                String seriesFk = rs_instance.getString("series_fk");
+                PacsDatabaseConnection.closeDb(dbConnection, stmt_instance, rs_instance);
+                return seriesFk;                               
+            } else {
+                PacsDatabaseConnection.closeDb(dbConnection, stmt_instance, rs_instance);
+                return null;
+            }
+        } catch (SQLException ex) {
+            PacsDatabaseConnection.closeDb(dbConnection, null, null);
+            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        PacsDatabaseConnection.closeDb(dbConnection, null, null);
+        return null;
+    }
+    
     public static String getStudyFkBySeriesFkFromSeries(DatabaseParameters dbParam, String seriesFk){
         Connection dbConnection;
         ResultSet rs_series;        

@@ -20,13 +20,12 @@ import java.util.logging.Logger;
 public class CollectorStatusTable {
     private ArrayList<CollectorStatusRow> colStatusTable = new ArrayList<CollectorStatusRow>();
     
-    public CollectorStatusTable(DatabaseParameters dbParam, String tableName){        
-        Connection dbConnection;
+    public CollectorStatusTable(Connection dbConnection, String tableName){        
         ResultSet rs_collectorStatus;        
         Statement stmt_collectorStatus; 
         String statement = "";
         
-        dbConnection = PacsDatabaseConnection.conDb(dbParam);
+        //dbConnection = PacsDatabaseConnection.conDb(dbParam);
         try {
             stmt_collectorStatus = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             statement = "SELECT * FROM "+tableName;            
@@ -35,12 +34,12 @@ public class CollectorStatusTable {
                 this.colStatusTable.add(new CollectorStatusRow(rs_collectorStatus.getString(1), rs_collectorStatus.getString(2), rs_collectorStatus.getString(3)));
                 //serie_fk = rs_study.getString("pk");                
             }
-            PacsDatabaseConnection.closeDb(dbConnection, stmt_collectorStatus, rs_collectorStatus);
+            //PacsDatabaseConnection.closeDb(dbConnection, stmt_collectorStatus, rs_collectorStatus);
         } catch (SQLException ex) {
-            PacsDatabaseConnection.closeDb(dbConnection, null, null);
+            //PacsDatabaseConnection.closeDb(dbConnection, null, null);
             Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
-        PacsDatabaseConnection.closeDb(dbConnection, null, null);
+        //PacsDatabaseConnection.closeDb(dbConnection, null, null);
         
     }
     
