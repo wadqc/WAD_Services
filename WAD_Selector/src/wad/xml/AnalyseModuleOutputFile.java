@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import wad.db.ReadFromPacsDatabase;
 
 /**
  *
@@ -70,7 +69,7 @@ public class AnalyseModuleOutputFile {
                 rs_analyseModule.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnalyseModuleOutputFile.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     

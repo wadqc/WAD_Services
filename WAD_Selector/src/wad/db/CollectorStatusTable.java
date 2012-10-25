@@ -37,7 +37,7 @@ public class CollectorStatusTable {
             //PacsDatabaseConnection.closeDb(dbConnection, stmt_collectorStatus, rs_collectorStatus);
         } catch (SQLException ex) {
             //PacsDatabaseConnection.closeDb(dbConnection, null, null);
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CollectorStatusTable.class.getName()).log(Level.SEVERE, null, ex);
         }
         //PacsDatabaseConnection.closeDb(dbConnection, null, null);
         

@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import wad.db.CollectorStatusTable;
-import wad.db.ReadFromPacsDatabase;
 import wad.db.WriteGewensteProcessen;
 import wad.db.WriteToIqcDatabase;
 
@@ -110,7 +109,7 @@ public class Selector {
                 if (selectorSeriesFk!=null){
                     //controleer of er een match is
                     //Maak een hashmap met <kolomnaam, waarde> van selector_series met betreffende pk
-                    HashMap<String, String> selectorSeriesMap = getSelectorLevelHashmap(selectorPatientFk, "series"); 
+                    HashMap<String, String> selectorSeriesMap = getSelectorLevelHashmap(selectorSeriesFk, "series"); 
                     //Maak een hashmap met <kolomnaam, waarde> van series met betreffende pk
                     HashMap<String, String> seriesMap = getLevelHashmap(seriesFkList.get(i), "series");
                     seriesMatch = isEqualSeriesHashmaps(selectorSeriesMap, seriesMap);
@@ -397,7 +396,7 @@ public class Selector {
                 selectorPk.add(rs_selector.getString("pk"));                                              
             }            
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return selectorPk;
     }
@@ -416,7 +415,7 @@ public class Selector {
                 levelFk = rs_selector.getString("selector_"+level+"_fk");                                              
             }            
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return levelFk;
     }
@@ -438,7 +437,7 @@ public class Selector {
                 }             
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Selector.class.getName()).log(Level.SEVERE, null, ex);
         }        
         return selectorLevelMap;
     }
@@ -458,7 +457,7 @@ public class Selector {
                 columnList.add(md.getColumnLabel(i));
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Selector.class.getName()).log(Level.SEVERE, null, ex);
         }        
         return columnList;
     }
@@ -480,7 +479,7 @@ public class Selector {
                 }                                               
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return levelMap;
     }
@@ -612,7 +611,7 @@ public class Selector {
                 return null;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -632,7 +631,7 @@ public class Selector {
                 return null;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -651,7 +650,7 @@ public class Selector {
             }
             return instancePkList;
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }
@@ -670,7 +669,7 @@ public class Selector {
             }
             return instancePkList;
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(Selector.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
     }

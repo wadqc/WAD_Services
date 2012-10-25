@@ -4,17 +4,12 @@
  */
 package wad.xml;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import wad.db.DatabaseParameters;
-import wad.db.PacsDatabaseConnection;
-import wad.db.ReadFromPacsDatabase;
 
 /**
  *
@@ -61,7 +56,7 @@ public class AnalyseModuleInputValues {
                 rs_analyseModuleCfg.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(AnalyseModuleInputValues.class.getName()).log(Level.SEVERE, null, ex);
         }
         
     }   

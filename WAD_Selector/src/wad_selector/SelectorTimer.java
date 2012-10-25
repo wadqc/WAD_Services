@@ -5,6 +5,9 @@
 package wad_selector;
 
 import java.sql.Connection;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.TimerTask;
 import selector.Selector;
 import wad.xml.ReadConfigXML;
@@ -18,7 +21,17 @@ public class SelectorTimer extends TimerTask{
 
     @Override
     public void run() {
-        System.out.println("Start SelectorTimer");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        Date date = new Date();
+        String datum = dateFormat.format(date).substring(6, 8)+ "-" +
+                        dateFormat.format(date).substring(4, 6)+ "-" +
+                        dateFormat.format(date).substring(0, 4);
+        String tijd = dateFormat.format(date).substring(8, 10)+ ":" +
+                        dateFormat.format(date).substring(10, 12)+ ":" +
+                        dateFormat.format(date).substring(12, 14)+ "." +
+                        dateFormat.format(date).substring(14);
+                        
+        System.out.println(datum+" "+ tijd + ":Start SelectorTimer");
                 
         DatabaseParameters iqcDBParams = new DatabaseParameters();
         iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
@@ -40,10 +53,28 @@ public class SelectorTimer extends TimerTask{
         //Te gebruiken voor een linebreakpoint in Netbeans
         String dummy = "Stop tijdens testen";        
         
-        System.out.println("Einde SelectorTimer");
+        date = new Date();
+        datum = dateFormat.format(date).substring(6, 8)+ "-" +
+                dateFormat.format(date).substring(4, 6)+ "-" +
+                dateFormat.format(date).substring(0, 4);
+        tijd = dateFormat.format(date).substring(8, 10)+ ":" +
+               dateFormat.format(date).substring(10, 12)+ ":" +
+               dateFormat.format(date).substring(12, 14)+ "." +
+               dateFormat.format(date).substring(14);
+                 
+        System.out.println(datum+" "+ tijd + ":Einde SelectorTimer");
         
         if (ReadConfigXML.readSettingsElement("stop").equals("1")){
-            System.out.println("Afsluiten");        
+            date = new Date();
+            datum = dateFormat.format(date).substring(6, 8)+ "-" +
+                    dateFormat.format(date).substring(4, 6)+ "-" +
+                    dateFormat.format(date).substring(0, 4);
+            tijd = dateFormat.format(date).substring(8, 10)+ ":" +
+                   dateFormat.format(date).substring(10, 12)+ ":" +
+                   dateFormat.format(date).substring(12, 14)+ "." +
+                   dateFormat.format(date).substring(14);
+                 
+            System.out.println(datum+" "+ tijd + ":Afsluiten");        
             this.cancel();
         }
     }

@@ -297,7 +297,7 @@ public class WriteGewensteProcessen {
         String anaModInputFilepath = ReadConfigXML.readFileElement("analysemodule_input");
         String anaModAbsFilename = anaModInputFilepath.replace("..", mainDir);
         anaModAbsFilename = anaModAbsFilename.replace("/","\\");
-        GetPatientFromIqcDatabase patient = new GetPatientFromIqcDatabase( levelPk, analyseModuleInputValues.getAnalyseLevel());
+        GetPatientFromIqcDatabase patient = new GetPatientFromIqcDatabase( dbConnection, levelPk, analyseModuleInputValues.getAnalyseLevel());
         AnalyseModuleInputFile anaModInputFile = new AnalyseModuleInputFile(patient.getPatient(), analyseModuleInputValues);        
         anaModInputFile.write(anaModInputFilepath+createDateTime+".xml");        
         return analyseModuleInputValues;    
