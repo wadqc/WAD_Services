@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!--
+    Document   : config.xml
+    Created on : 21 mei 2012, 16:53
+    Author     : Ralph Berendsen
+    Description:
+        Configuratie voor DCM4CHEE database en iqc database.
+-->
+
+<root>
+    <datasources>
+        <DCM4CHEE-db>
+            <jndi-name>pacsDS</jndi-name> 
+            <connection-url>jdbc:mysql://localhost:3306/pacsdb</connection-url> 
+            <driver-class>com.mysql.jdbc.Driver</driver-class> 
+            <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation> 
+            <user-name>pacs</user-name> 
+            <password>pacs</password> 
+            <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.MySQLExceptionSorter</exception-sorter-class-name> 
+-           <metadata>
+                <type-mapping>mySQL</type-mapping> 
+            </metadata>
+        </DCM4CHEE-db>
+        <iqc-db>
+            <jndi-name>pacsDS</jndi-name> 
+            <connection-url>jdbc:mysql://localhost:3306/iqc</connection-url> 
+            <driver-class>com.mysql.jdbc.Driver</driver-class> 
+            <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation> 
+            <user-name>wad</user-name> 
+            <password>wad</password> 
+            <exception-sorter-class-name>org.jboss.resource.adapter.jdbc.vendor.MySQLExceptionSorter</exception-sorter-class-name> 
+-           <metadata>
+                <type-mapping>mySQL</type-mapping> 
+            </metadata>
+        </iqc-db>
+    </datasources>
+    <filepath>
+        <analysefile>C:/apps/BVT/WAD_Software/XML/XMLanalyse/</analysefile>    
+        <inputfile>C:/apps/BVT/WAD_Software/XML/XMLinput/</inputfile>    
+        <configfile>C:/apps/BVT/WAD_Software/XML/XMLconfig/</configfile>    
+    </filepath>
+</root>
