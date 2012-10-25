@@ -83,7 +83,7 @@ public class ReadFromPacsDatabase {
             rs_study = stmt_study.executeQuery("SELECT * FROM study");
             while (rs_study.next()) {
                 studyList.add(rs_study.getString("study_iuid"));
-                //serie_fk = rs_study.getString("pk");                
+                //serie_fk = rs_files.getString("pk");                
             }            
             rs_study.close();
             stmt_study.close();
@@ -127,7 +127,7 @@ public class ReadFromPacsDatabase {
             stmt_study = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs_study = stmt_study.executeQuery("SELECT pk FROM study WHERE study_iuid='"+studyIUID+"'");
             while (rs_study.next()) {
-                //studyList.add(rs_study.getString("study_iuid"));
+                //studyList.add(rs_files.getString("study_iuid"));
                 study_fk = rs_study.getString("pk"); 
                 stmt_serie = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 rs_serie = stmt_serie.executeQuery("SELECT * FROM series WHERE study_fk='"+study_fk+"'");
@@ -363,7 +363,7 @@ public class ReadFromPacsDatabase {
             rs_study = stmt_study.executeQuery("SELECT * FROM study");
             while (rs_study.next()) {
                 studyList.add(rs_study.getString("study_iuid"));
-                //serie_fk = rs_study.getString("pk");                
+                //serie_fk = rs_files.getString("pk");                
             }            
             rs_study.close();
             stmt_study.close();
@@ -371,5 +371,25 @@ public class ReadFromPacsDatabase {
             Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
         return studyList;
+    }
+    
+    //Read filepath with given file_md5
+    public static String getFilepathWithFilemd5(Connection dbConnection, String filemd5){
+        String filepath = null;        
+        ResultSet rs_files;        
+        Statement stmt_files;        
+        
+        try {
+            stmt_files = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs_files = stmt_files.executeQuery("SELECT filepath FROM files WHERE file_md5='"+filemd5+"'");
+            while (rs_files.next()) {                
+                filepath = rs_files.getString("filepath");                              
+            }
+            rs_files.close();
+            stmt_files.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return filepath;
     }
 }

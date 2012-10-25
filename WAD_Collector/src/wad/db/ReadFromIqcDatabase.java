@@ -307,4 +307,82 @@ public class ReadFromIqcDatabase {
         return null;
     }
     
+    public static String getStudyStatusByStudyIUID(Connection dbConnection, String studyIUID){
+        ResultSet rs_studyStatus;        
+        Statement stmt_studyStatus;        
+        
+        try {
+            stmt_studyStatus = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String statement = "SELECT study_status FROM study WHERE study_iuid='"+studyIUID+"'";
+            rs_studyStatus = stmt_studyStatus.executeQuery(statement);            
+            if (rs_studyStatus.next()) {
+                String study_status = rs_studyStatus.getString("study_status");
+                return study_status;                               
+            } else {
+                return null;
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
+    }
+    
+    //Read filepath with given file_md5
+    public static String getFilepathWithFilemd5(Connection dbConnection, String filemd5){
+        String filepath = null;        
+        ResultSet rs_files;        
+        Statement stmt_files;        
+        
+        try {
+            stmt_files = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs_files = stmt_files.executeQuery("SELECT filepath FROM files WHERE file_md5='"+filemd5+"'");
+            while (rs_files.next()) {                
+                filepath = rs_files.getString("filepath");                              
+            }
+            rs_files.close();
+            stmt_files.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return filepath;
+    }
+    
+    public static ArrayList<String> getFilemd5ListFromFiles(Connection dbConnection){
+        ArrayList<String> filedmd5List = new ArrayList<String>();        
+        ResultSet rs_files;        
+        Statement stmt_files;        
+        
+        try {
+            stmt_files = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs_files = stmt_files.executeQuery("SELECT file_md5 FROM files");
+            while (rs_files.next()) {                
+                filedmd5List.add(rs_files.getString("file_md5"));                              
+            }
+            rs_files.close();
+            stmt_files.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return filedmd5List;
+    }
+    
+    //Get the primary key of a table based on a unique identifier (by example sieres_iuid or study_iuid
+    public static String getPkWithUniqueIdentifier(Connection dbConnection, String tableName, String uid_name, String uid_value){        
+        ResultSet rs_serie;        
+        Statement stmt_serie;        
+        
+        try {
+            stmt_serie = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs_serie = stmt_serie.executeQuery("SELECT pk FROM "+tableName+"  WHERE "+uid_name+"='"+uid_value+"'");
+            if (rs_serie.next()) {
+                String result = rs_serie.getString("pk"); 
+                return result;
+            }                      
+        } catch (SQLException ex) {
+            Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }        
+        return "-1";
+        
+    }
+    
 }

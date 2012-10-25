@@ -52,12 +52,13 @@ public class CheckNewStudy {
         }        
         //Indien een study niet compleet is, dus collector_study_status = 0 dan moet deze opnieuw gecontroleerd worden.
         for (int i=0;i<iqcStudyIUID.size();i++){
-            String studyFk = ReadFromPacsDatabase.getPkWithUniqueIdentifier(pacsConnection, "study", "study_iuid", iqcStudyIUID.get(i));
-            if (ReadFromIqcDatabase.getStudyStatusByStudyFk(iqcConnection, studyFk).equals("0")){
+            String studyFk = ReadFromIqcDatabase.getPkWithUniqueIdentifier(iqcConnection, "study", "study_iuid", iqcStudyIUID.get(i));
+            if (ReadFromIqcDatabase.getCollectorStudyStatusByStudyFk(iqcConnection, studyFk).equals("0")){
                 //System.out.println("Collector_study_status : 0");
                 //System.out.println("Study_iuid : " + iqcStudyIUID.get(i));
                 CheckSeriesWithStudyIUID.CheckSeries(pacsConnection, iqcConnection, iqcStudyIUID.get(i));
             }
+            
         }
         //Indien een serie later wordt toegevoegd aan de studie die al als compleet is gemarkeerd dient de controle voor betreffende studie opnieuw te lopen.
         //Hoe hiermee om te gaan, stel Analyse is al gedaan, moet deze dan opnieuw?
@@ -90,6 +91,14 @@ public class CheckNewStudy {
                     //System.out.println("Series status : 1");
                 }
             }
-        } 
+        }
+        
+        //Controle op verwijderde studies!!!
+        //Als een studie verwijderd wordt hoeft alleen de verwijzing van filepath in fiels aangepast te worden
+        int count = UpdateFiles.start(iqcConnection, pacsConnection);
+        if (count>0){
+            System.out.println("Files updated : "+Integer.toString(count));
+        }
+        
     }
 }

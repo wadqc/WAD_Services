@@ -141,5 +141,23 @@ public class WriteToIqcDatabase {
         } catch (SQLException ex) {
             Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
         }
+    } 
+    
+    //Used to update the files when a study/series has been removed of re-imported into the pacsDB
+    public static void UpdateFiles(Connection dbConnection, String fileMd5, String filepath){
+        Statement stmt_Write;        
+        
+        Timestamp creationTime = new Timestamp(System.currentTimeMillis());
+        
+        //Update tablename (colomns,..,) values ('','')        
+        String sqlStatement = "UPDATE files SET filepath='"+filepath+"' WHERE file_md5='"+fileMd5+"'";            
+        
+        try {                        
+            stmt_Write = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            int count = stmt_Write.executeUpdate(sqlStatement);  
+            stmt_Write.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 }

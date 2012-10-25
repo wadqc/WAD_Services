@@ -77,7 +77,7 @@ public class CheckSeriesWithStudyIUID {
         }
         //Controleren of study compleet is, dan collector_study_status bijwerken naar 1
         if (studyComplete){
-            String studyFk = ReadFromPacsDatabase.getPkWithUniqueIdentifier(pacsConnection, "study", "study_iuid", pacsStudyIUID);            
+            String studyFk = ReadFromIqcDatabase.getPkWithUniqueIdentifier(iqcConnection, "study", "study_iuid", pacsStudyIUID);            
             WriteToIqcDatabase.UpdateStudyStatus(iqcConnection, studyFk, "1");
             //System.out.println("Study status : 1");
             
