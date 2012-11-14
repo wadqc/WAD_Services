@@ -1,0 +1,6 @@
+9-nov-2012 12:14:28 wad_collector.CollectorTimer run
+INFO: 09-11-2012 12:14:28.997: Start CollectorTimer
+9-nov-2012 12:15:06 wad_collector.CollectorTimer run
+INFO: 09-11-2012 12:15:06.572: Einde CollectorTimer
+9-nov-2012 12:15:06 wad_collector.CollectorTimer run
+INFO: 09-11-2012 12:15:06.588: Afsluiten.

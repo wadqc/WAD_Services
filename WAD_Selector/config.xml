@@ -37,8 +37,8 @@
         </iqc-db>
     </datasources>
     <filepath>
-        <!-- Absoluut pad van de uploads map, eindig met /-->
-        <uploads>C:/apps/BVT/WAD_Software/WAD_Interface/WAD-IQC/uploads/</uploads>
+        <!-- Absoluut pad van de map WAD-IQC, eindig met /-->
+        <uploads>C:/xampp/htdocs/</uploads>
         <analysemodule>analysemodule/</analysemodule>    
         <analysemodule_cfg>analysemodule_cfg/</analysemodule_cfg>    
         <!-- Relatief pad (tov WAD_Selector installatie) van de XML mappen voor analysemodule_input en output-->
@@ -54,6 +54,8 @@
         <stop>1</stop>
         <!-- Tijd tussen uitvoer van de timer in ms -->
         <timer>10000</timer>
+        <!-- Aantal analysemodules dat gelijktijdig mag draaien -->
+        <jobs>3</jobs>
     </settings>
     
 </root>
