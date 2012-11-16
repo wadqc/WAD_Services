@@ -22,6 +22,7 @@ nb-configuration.xml
 *.class
 
 # Package Files #
-*.jar
+#*.jar  --> zorgt ervoor dat de benodigde libraries ook worden meegekopieerd
+#           wel eerst een "clean" draaien voordat je een commit doet!
 *.war
 *.ear
