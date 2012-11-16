@@ -10,7 +10,8 @@
 Thumbs.db
 
 # NetBeans specific #
-nbproject/private/
+#nbproject/private/
+private/
 build/
 nbbuild/
 dist/
