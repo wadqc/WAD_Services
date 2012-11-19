@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import wad.logger.LoggerWrapper;
 
 
 /**
@@ -36,8 +37,8 @@ public class CollectorStatusTable {
             }
             //PacsDatabaseConnection.closeDb(dbConnection, stmt_collectorStatus, rs_collectorStatus);
         } catch (SQLException ex) {
-            //PacsDatabaseConnection.closeDb(dbConnection, null, null);
-            Logger.getLogger(CollectorStatusTable.class.getName()).log(Level.SEVERE, null, ex);
+            //PacsDatabaseConnection.closeDb(dbConnection, null, null);            
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{CollectorStatusTable.class.getName(), ex});
         }
         //PacsDatabaseConnection.closeDb(dbConnection, null, null);
         

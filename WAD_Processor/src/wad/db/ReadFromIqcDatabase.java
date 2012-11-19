@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import wad.logger.LoggerWrapper;
+import wad.xml.ReadConfigXML;
 
 /**
  *
@@ -33,7 +34,7 @@ public class ReadFromIqcDatabase {
                 studyList.add(rs_study.getString("study_iuid"));
                 //serie_fk = rs_patient.getString("pk");                
             }
-        } catch (SQLException ex) {            
+        } catch (SQLException ex) {
             LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }        
         return studyList;
@@ -301,6 +302,64 @@ public class ReadFromIqcDatabase {
                 return study_status;                               
             } else {
                 return null;
+            }
+        } catch (SQLException ex) {
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+        }
+        return null;
+    }
+    
+    public static String getAnalyseModuleBySelectorFk(Connection dbConnection, String selectorFk){
+        ResultSet rs_selector;        
+        Statement stmt_selector; 
+        ResultSet rs_analyseModule;        
+        Statement stmt_analyseModule;
+        
+        try {
+            stmt_selector = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String statement = "SELECT analysemodule_fk FROM selector WHERE pk='"+selectorFk+"'";
+            rs_selector = stmt_selector.executeQuery(statement);            
+            if (rs_selector.next()) {
+                String analysemoduleFk = rs_selector.getString("analysemodule_fk");                
+                stmt_analyseModule = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                statement = "SELECT * FROM analysemodule WHERE pk='"+analysemoduleFk+"'";
+                rs_analyseModule = stmt_selector.executeQuery(statement);            
+                if (rs_analyseModule.next()) {
+                    String filename = rs_analyseModule.getString("filename");
+                    String filepath = rs_analyseModule.getString("filepath");                    
+                    String uploadPath = ReadConfigXML.readFileElement("uploads");
+                    return (uploadPath+filepath+filename).replace("/","\\");
+                }
+                stmt_analyseModule.close();
+                rs_analyseModule.close();
+            }
+        } catch (SQLException ex) {
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+        }
+        return null;
+    }
+    
+    public static String getAnalyseModuleCfgBySelectorFk(Connection dbConnection, String selectorFk){
+        ResultSet rs_selector;        
+        Statement stmt_selector;
+        ResultSet rs_analyseModuleCfg;        
+        Statement stmt_analyseModuleCfg;
+        
+        try {
+            stmt_selector = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            rs_selector = stmt_selector.executeQuery("SELECT * FROM selector WHERE pk='"+selectorFk+"'");
+            if (rs_selector.next()) {                
+                String analyseModuleCfg_fk=rs_selector.getString("analysemodule_cfg_fk");
+                stmt_analyseModuleCfg = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+                rs_analyseModuleCfg = stmt_analyseModuleCfg.executeQuery("SELECT * FROM analysemodule_cfg WHERE pk='"+analyseModuleCfg_fk+"'");
+                if (rs_analyseModuleCfg.next()) {                    
+                    String filepath=rs_analyseModuleCfg.getString("filepath");
+                    String filename=rs_analyseModuleCfg.getString("filename");                    
+                    String uploadPath = ReadConfigXML.readFileElement("uploads");
+                    return (uploadPath+filepath+filename).replace("/","\\");
+                }
+                stmt_analyseModuleCfg.close();
+                rs_analyseModuleCfg.close();
             }
         } catch (SQLException ex) {
             LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});

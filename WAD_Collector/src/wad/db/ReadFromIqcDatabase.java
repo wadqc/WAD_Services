@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import wad.logger.LoggerWrapper;
 
 /**
  *
@@ -34,6 +35,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }        
         return studyList;
     }
@@ -53,6 +55,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return false;
     }
@@ -71,6 +74,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return false;
     }
@@ -91,6 +95,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return null;
     }
@@ -111,6 +116,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return null;
     }
@@ -135,6 +141,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return pkList;
     }
@@ -155,6 +162,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return null;
     }
@@ -175,6 +183,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return null;
     }
@@ -195,6 +204,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return null;
     }
@@ -219,6 +229,7 @@ public class ReadFromIqcDatabase {
             stmt_serie.close();
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return seriesList;
     }
@@ -243,6 +254,7 @@ public class ReadFromIqcDatabase {
             stmt_instance.close();
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return seriesList;
     }
@@ -264,6 +276,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return null;
     }
@@ -283,6 +296,7 @@ public class ReadFromIqcDatabase {
             stmt_tableName.close();
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return pkList;
     }
@@ -303,6 +317,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return null;
     }
@@ -323,6 +338,7 @@ public class ReadFromIqcDatabase {
             }
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return null;
     }
@@ -343,6 +359,7 @@ public class ReadFromIqcDatabase {
             stmt_files.close();
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return filepath;
     }
@@ -362,6 +379,7 @@ public class ReadFromIqcDatabase {
             stmt_files.close();
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
         return filedmd5List;
     }
@@ -380,6 +398,7 @@ public class ReadFromIqcDatabase {
             }                      
         } catch (SQLException ex) {
             Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }        
         return "-1";
         

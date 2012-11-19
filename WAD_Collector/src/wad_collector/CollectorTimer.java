@@ -9,8 +9,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import wad.db.DatabaseParameters;
 import wad.db.PacsDatabaseConnection;
+import wad.logger.LoggerWrapper;
 import wad.xml.ReadConfigXML;
 
 /**
@@ -21,6 +23,7 @@ public class CollectorTimer extends TimerTask{
 
     @Override
     public void run() {
+        LoggerWrapper loggerWrapper = LoggerWrapper.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         Date date = new Date();
         String datum = dateFormat.format(date).substring(6, 8)+ "-" +
@@ -31,8 +34,8 @@ public class CollectorTimer extends TimerTask{
                         dateFormat.format(date).substring(12, 14)+ "." +
                         dateFormat.format(date).substring(14);
                         
-        System.out.println(datum+" "+ tijd + ": Start CollectorTimer");
-        
+        //System.out.println(datum+" "+ tijd + ": Start CollectorTimer");
+        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Start CollectorTimer", new Object[]{datum, tijd});
         DatabaseParameters iqcDBParams = new DatabaseParameters();
         iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
         DatabaseParameters pacsDBParams = new DatabaseParameters();
@@ -60,7 +63,8 @@ public class CollectorTimer extends TimerTask{
                dateFormat.format(date).substring(12, 14)+ "." +
                dateFormat.format(date).substring(14);
                  
-        System.out.println(datum+" "+ tijd + ": Einde CollectorTimer");
+        //System.out.println(datum+" "+ tijd + ": Einde CollectorTimer");
+        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Einde CollectorTimer", new Object[]{datum, tijd});
         if (ReadConfigXML.readSettingsElement("stop").equals("1")){
             date = new Date();
             datum = dateFormat.format(date).substring(6, 8)+ "-" +
@@ -71,7 +75,8 @@ public class CollectorTimer extends TimerTask{
                    dateFormat.format(date).substring(12, 14)+ "." +
                    dateFormat.format(date).substring(14);
                  
-        System.out.println(datum+" "+ tijd + ":Afsluiten.");
+        //System.out.println(datum+" "+ tijd + ":Afsluiten.");
+        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Afsluiten.", new Object[]{datum, tijd});
             this.cancel();
             System.exit(0);
         } 

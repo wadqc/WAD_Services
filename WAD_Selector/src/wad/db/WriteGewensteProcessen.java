@@ -14,7 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import wad.logger.LoggerWrapper;
 import wad.xml.*;
 
 /**
@@ -64,8 +64,8 @@ public class WriteGewensteProcessen {
             }
             stmt_gewenste.close();
             rs_gewenste.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {            
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
         }
         
         if (!rowExists){
@@ -87,7 +87,7 @@ public class WriteGewensteProcessen {
                 stmt_Write.close();
                 //WriteToIqcDatabase.UpdateSeriesStatus(dbConnection, seriesFk, "3");
             } catch (SQLException ex) {
-                Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
             }
         }
         
@@ -135,7 +135,7 @@ public class WriteGewensteProcessen {
             stmt_gewenste.close();
             rs_gewenste.close();
         } catch (SQLException ex) {
-            Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
         }
         
         if (!rowExists){
@@ -156,7 +156,7 @@ public class WriteGewensteProcessen {
                 int count = stmt_Write.executeUpdate(sqlStatement);
                 stmt_Write.close();
             } catch (SQLException ex) {
-                Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
             }
         }   
     }
@@ -203,7 +203,7 @@ public class WriteGewensteProcessen {
             stmt_gewenste.close();
             rs_gewenste.close();
         } catch (SQLException ex) {
-            Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
         }
                 
         if (!rowExists){
@@ -224,7 +224,7 @@ public class WriteGewensteProcessen {
                 int count = stmt_Write.executeUpdate(sqlStatement); 
                 stmt_Write.close();
             } catch (SQLException ex) {
-                Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+                LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
             }            
         }   
     }
@@ -278,7 +278,7 @@ public class WriteGewensteProcessen {
             
             return fks;
         } catch (SQLException ex) {
-            Logger.getLogger(WriteToIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
         }
         fks.add("-1");
         fks.add("-1");

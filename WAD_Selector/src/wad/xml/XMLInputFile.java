@@ -15,6 +15,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
+import wad.logger.LoggerWrapper;
 
 /**
  *
@@ -47,12 +48,12 @@ public class XMLInputFile {
             
             dom = db.parse(inputFile);
             
-        } catch (SAXException ex) {
-            Logger.getLogger(XMLInputFile.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (IOException ex) {
-            Logger.getLogger(XMLInputFile.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ParserConfigurationException ex) {
-            Logger.getLogger(XMLInputFile.class.getName()).log(Level.SEVERE, null, ex);
+        }catch (ParserConfigurationException pce) {
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{XMLInputFile.class.getName(), pce});
+        }catch (SAXException se) {
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{XMLInputFile.class.getName(), se});
+        }catch (IOException ioe){
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{XMLInputFile.class.getName(), ioe});
         }    
     }
     

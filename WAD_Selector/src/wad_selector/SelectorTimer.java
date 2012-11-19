@@ -9,9 +9,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
+import java.util.logging.Level;
 import selector.Selector;
 import wad.xml.ReadConfigXML;
 import wad.db.*;
+import wad.logger.LoggerWrapper;
 
 /**
  *
@@ -21,6 +23,7 @@ public class SelectorTimer extends TimerTask{
 
     @Override
     public void run() {
+        LoggerWrapper loggerWrapper = LoggerWrapper.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         Date date = new Date();
         String datum = dateFormat.format(date).substring(6, 8)+ "-" +
@@ -32,7 +35,8 @@ public class SelectorTimer extends TimerTask{
                         dateFormat.format(date).substring(14);
                         
         System.out.println(datum+" "+ tijd + ":Start SelectorTimer");
-                
+        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Start SelectorTimer", new Object[]{datum, tijd});
+        
         DatabaseParameters iqcDBParams = new DatabaseParameters();
         iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
         
@@ -63,7 +67,7 @@ public class SelectorTimer extends TimerTask{
                dateFormat.format(date).substring(14);
                  
         System.out.println(datum+" "+ tijd + ":Einde SelectorTimer");
-        
+        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Einde SelectorTimer", new Object[]{datum, tijd});
         if (ReadConfigXML.readSettingsElement("stop").equals("1")){
             date = new Date();
             datum = dateFormat.format(date).substring(6, 8)+ "-" +
@@ -74,7 +78,8 @@ public class SelectorTimer extends TimerTask{
                    dateFormat.format(date).substring(12, 14)+ "." +
                    dateFormat.format(date).substring(14);
                  
-            System.out.println(datum+" "+ tijd + ":Afsluiten");        
+            System.out.println(datum+" "+ tijd + ":Afsluiten");
+            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Afsluiten SelectorTimer", new Object[]{datum, tijd});
             this.cancel();
         }
     }

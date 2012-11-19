@@ -6,9 +6,11 @@ package wad_collector;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.logging.Level;
 import wad.db.ReadFromIqcDatabase;
 import wad.db.ReadFromPacsDatabase;
 import wad.db.WriteToIqcDatabase;
+import wad.logger.LoggerWrapper;
 
 /**
  *
@@ -18,7 +20,7 @@ public class CheckNewStudy {
     
             
     public void CheckNewStudy(Connection pacsConnection, Connection iqcConnection){
-        
+        LoggerWrapper.myLogger.log(Level.FINEST, "{0}", "CheckNewStudy");
         //Ophalen PACSDB parameters uit config.xml
         //DatabaseParameters pacsDBParams = new DatabaseParameters();
         //pacsDBParams = ReadConfigXML.ReadPacsDBParameters(pacsDBParams);
@@ -96,8 +98,8 @@ public class CheckNewStudy {
         //Controle op verwijderde studies!!!
         //Als een studie verwijderd wordt hoeft alleen de verwijzing van filepath in fiels aangepast te worden
         int count = UpdateFiles.start(iqcConnection, pacsConnection);
-        if (count>0){
-            System.out.println("Files updated : "+Integer.toString(count));
+        if (count>0){            
+            LoggerWrapper.myLogger.log(Level.FINEST, "Files updated : {0}", Integer.toString(count));            
         }
         
     }

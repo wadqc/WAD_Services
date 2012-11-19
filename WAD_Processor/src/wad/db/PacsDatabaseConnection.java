@@ -6,7 +6,6 @@ package wad.db;
 
 import java.sql.*;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import wad.logger.LoggerWrapper;
 /**
  *
@@ -36,11 +35,9 @@ public class PacsDatabaseConnection {
             connProperties.put(MYSQL_MAX_RECONNECTS, "4");
             return DriverManager.getConnection(dbURL, connProperties);
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});          
-            
-        } catch (ClassNotFoundException ex) {
             LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
-            
+        } catch (ClassNotFoundException ex) {
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});            
         }
          return null;
         

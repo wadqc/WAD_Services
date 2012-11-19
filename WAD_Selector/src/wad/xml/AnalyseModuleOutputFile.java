@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import wad.logger.LoggerWrapper;
 
 /**
  *
@@ -41,7 +42,7 @@ public class AnalyseModuleOutputFile {
             file.getParentFile().mkdirs();
             created = file.createNewFile();
         } catch (IOException ioe){
-            System.out.println("Error while creating new file:"+ioe);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1} {2}", new Object[]{AnalyseModuleOutputFile.class.getName(), ioe, "Error while creating new file"});
         }
         
     }
@@ -69,7 +70,7 @@ public class AnalyseModuleOutputFile {
                 rs_analyseModule.close();
             }
         } catch (SQLException ex) {
-            Logger.getLogger(AnalyseModuleOutputFile.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleOutputFile.class.getName(), ex});            
         }
     }
     

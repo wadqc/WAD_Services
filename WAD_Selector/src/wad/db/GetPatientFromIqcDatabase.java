@@ -11,6 +11,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import wad.logger.LoggerWrapper;
 import wad.xml.Instance;
 import wad.xml.Patient;
 import wad.xml.ReadConfigXML;
@@ -105,7 +106,7 @@ public class GetPatientFromIqcDatabase {
             stmt_patient.close();
             rs_patient.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GetPatientFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
         }
     }
     
@@ -123,8 +124,8 @@ public class GetPatientFromIqcDatabase {
             }
             stmt_study.close();
             rs_study.close();
-        } catch (SQLException ex) {
-            Logger.getLogger(GetPatientFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {            
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
         }
     }
     
@@ -144,7 +145,7 @@ public class GetPatientFromIqcDatabase {
             stmt_series.close();
             rs_series.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GetPatientFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
         }
     }
     
@@ -176,7 +177,11 @@ public class GetPatientFromIqcDatabase {
                 }
                 String archivePath = ReadConfigXML.readFileElement("archive");
                 archivePath = archivePath.replace('/', '\\');
-                instance.setFilename(archivePath+dirpath+"\\"+filepath);
+                if (!dirpath.contains(archivePath)){
+                    instance.setFilename(archivePath+dirpath+"\\"+filepath);
+                } else {                
+                    instance.setFilename(dirpath+"\\"+filepath);
+                }
                 rs_files.close();
                 stmt_files.close();  
                 this.patient.getStudy().getSeries(serieNo).addInstance(instance);
@@ -184,7 +189,7 @@ public class GetPatientFromIqcDatabase {
             stmt_instance.close();
             rs_instance.close();
         } catch (SQLException ex) {
-            Logger.getLogger(GetPatientFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
         }
     }
 }

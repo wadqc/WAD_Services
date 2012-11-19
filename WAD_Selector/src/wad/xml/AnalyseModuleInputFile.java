@@ -12,7 +12,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -25,6 +24,7 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
+import wad.logger.LoggerWrapper;
 /**
  *
  * @author Ralph Berendsen <>
@@ -50,6 +50,7 @@ public class AnalyseModuleInputFile {
     public void write(String filename){
         this.analayseModuleInputFile = new File(filename);
         createDOMTree();
+        analayseModuleInputFile.getParentFile().mkdirs();
         printToFile();
     }
     
@@ -72,7 +73,7 @@ public class AnalyseModuleInputFile {
             dom = db.newDocument();
 	}catch(ParserConfigurationException pce) {
             //dump it
-            System.out.println("Error while trying to instantiate DocumentBuilder " + pce);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1} {2}", new Object[]{AnalyseModuleInputFile.class.getName(), pce, "Error while trying to instantiate DocumentBuilder "});
             System.exit(1);
 	}
     }
@@ -123,7 +124,7 @@ public class AnalyseModuleInputFile {
             serializer.write(dom, output);
             
         } catch(FileNotFoundException fnf){
-          System.out.println(fnf);  
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1} {2}", new Object[]{AnalyseModuleInputFile.class.getName(), fnf, "File not found."});            
         }
     }
     
@@ -221,11 +222,11 @@ public class AnalyseModuleInputFile {
             dom = db.parse(inputFile);
             
         } catch (SAXException ex) {
-            Logger.getLogger(XMLInputFile.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputFile.class.getName(), ex});
         } catch (IOException ex) {
-            Logger.getLogger(XMLInputFile.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputFile.class.getName(), ex});
         } catch (ParserConfigurationException ex) {
-            Logger.getLogger(XMLInputFile.class.getName()).log(Level.SEVERE, null, ex);
+            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputFile.class.getName(), ex});
         }    
     }
     
