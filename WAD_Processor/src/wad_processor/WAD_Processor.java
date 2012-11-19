@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package wad_processor2;
+package wad_processor;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -13,11 +13,11 @@ import wad.xml.ReadConfigXML;
  *
  * @author titulaer
  */
-public class WAD_Processor2 {
+public class WAD_Processor {
 Timer processListTimer;
 
     
-    private WAD_Processor2(){
+    private WAD_Processor(){
         processListTimer = new Timer();
         CheckNewJobs c = new CheckNewJobs();
         //c.aantalConcurrentJobs=2;
@@ -32,7 +32,7 @@ Timer processListTimer;
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        WAD_Processor2 client =  new WAD_Processor2(); 
+        WAD_Processor client =  new WAD_Processor(); 
     }
     
 }

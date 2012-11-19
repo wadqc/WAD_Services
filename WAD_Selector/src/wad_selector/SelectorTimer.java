@@ -24,18 +24,12 @@ public class SelectorTimer extends TimerTask{
     @Override
     public void run() {
         LoggerWrapper loggerWrapper = LoggerWrapper.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
         Date date = new Date();
-        String datum = dateFormat.format(date).substring(6, 8)+ "-" +
-                        dateFormat.format(date).substring(4, 6)+ "-" +
-                        dateFormat.format(date).substring(0, 4);
-        String tijd = dateFormat.format(date).substring(8, 10)+ ":" +
-                        dateFormat.format(date).substring(10, 12)+ ":" +
-                        dateFormat.format(date).substring(12, 14)+ "." +
-                        dateFormat.format(date).substring(14);
+		String datumtijd = dateFormat.format(date);
                         
-        System.out.println(datum+" "+ tijd + ":Start SelectorTimer");
-        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Start SelectorTimer", new Object[]{datum, tijd});
+        System.out.println(datumtijd + ":Start SelectorTimer");
+        LoggerWrapper.myLogger.log(Level.INFO, "{0}: Start SelectorTimer", new Object[]{datumtijd});
         
         DatabaseParameters iqcDBParams = new DatabaseParameters();
         iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
@@ -58,28 +52,16 @@ public class SelectorTimer extends TimerTask{
         String dummy = "Stop tijdens testen";        
         
         date = new Date();
-        datum = dateFormat.format(date).substring(6, 8)+ "-" +
-                dateFormat.format(date).substring(4, 6)+ "-" +
-                dateFormat.format(date).substring(0, 4);
-        tijd = dateFormat.format(date).substring(8, 10)+ ":" +
-               dateFormat.format(date).substring(10, 12)+ ":" +
-               dateFormat.format(date).substring(12, 14)+ "." +
-               dateFormat.format(date).substring(14);
+		datumtijd = dateFormat.format(date);
                  
-        System.out.println(datum+" "+ tijd + ":Einde SelectorTimer");
-        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Einde SelectorTimer", new Object[]{datum, tijd});
+        System.out.println(datumtijd + ":Einde SelectorTimer");
+        LoggerWrapper.myLogger.log(Level.INFO, "{0}: Einde SelectorTimer", new Object[]{datumtijd});
         if (ReadConfigXML.readSettingsElement("stop").equals("1")){
             date = new Date();
-            datum = dateFormat.format(date).substring(6, 8)+ "-" +
-                    dateFormat.format(date).substring(4, 6)+ "-" +
-                    dateFormat.format(date).substring(0, 4);
-            tijd = dateFormat.format(date).substring(8, 10)+ ":" +
-                   dateFormat.format(date).substring(10, 12)+ ":" +
-                   dateFormat.format(date).substring(12, 14)+ "." +
-                   dateFormat.format(date).substring(14);
+            datumtijd = dateFormat.format(date);
                  
-            System.out.println(datum+" "+ tijd + ":Afsluiten");
-            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Afsluiten SelectorTimer", new Object[]{datum, tijd});
+            System.out.println(datumtijd + ":Afsluiten");
+            LoggerWrapper.myLogger.log(Level.INFO, "{0}: Afsluiten SelectorTimer", new Object[]{datumtijd});
             this.cancel();
         }
     }

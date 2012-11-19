@@ -24,18 +24,11 @@ public class CollectorTimer extends TimerTask{
     @Override
     public void run() {
         LoggerWrapper loggerWrapper = LoggerWrapper.getInstance();
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
         Date date = new Date();
-        String datum = dateFormat.format(date).substring(6, 8)+ "-" +
-                        dateFormat.format(date).substring(4, 6)+ "-" +
-                        dateFormat.format(date).substring(0, 4);
-        String tijd = dateFormat.format(date).substring(8, 10)+ ":" +
-                        dateFormat.format(date).substring(10, 12)+ ":" +
-                        dateFormat.format(date).substring(12, 14)+ "." +
-                        dateFormat.format(date).substring(14);
+		String datumtijd = dateFormat.format(date);
                         
-        //System.out.println(datum+" "+ tijd + ": Start CollectorTimer");
-        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Start CollectorTimer", new Object[]{datum, tijd});
+        LoggerWrapper.myLogger.log(Level.INFO, "{0}: Start CollectorTimer", new Object[]{datumtijd});
         DatabaseParameters iqcDBParams = new DatabaseParameters();
         iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
         DatabaseParameters pacsDBParams = new DatabaseParameters();
@@ -55,28 +48,14 @@ public class CollectorTimer extends TimerTask{
         PacsDatabaseConnection.closeDb(iqcConnection, null, null);
         PacsDatabaseConnection.closeDb(pacsConnection, null, null);
         date = new Date();
-        datum = dateFormat.format(date).substring(6, 8)+ "-" +
-                dateFormat.format(date).substring(4, 6)+ "-" +
-                dateFormat.format(date).substring(0, 4);
-        tijd = dateFormat.format(date).substring(8, 10)+ ":" +
-               dateFormat.format(date).substring(10, 12)+ ":" +
-               dateFormat.format(date).substring(12, 14)+ "." +
-               dateFormat.format(date).substring(14);
+		datumtijd = dateFormat.format(date);
                  
-        //System.out.println(datum+" "+ tijd + ": Einde CollectorTimer");
-        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Einde CollectorTimer", new Object[]{datum, tijd});
+        LoggerWrapper.myLogger.log(Level.INFO, "{0}: Einde CollectorTimer", new Object[]{datumtijd});
         if (ReadConfigXML.readSettingsElement("stop").equals("1")){
             date = new Date();
-            datum = dateFormat.format(date).substring(6, 8)+ "-" +
-                    dateFormat.format(date).substring(4, 6)+ "-" +
-                    dateFormat.format(date).substring(0, 4);
-            tijd = dateFormat.format(date).substring(8, 10)+ ":" +
-                   dateFormat.format(date).substring(10, 12)+ ":" +
-                   dateFormat.format(date).substring(12, 14)+ "." +
-                   dateFormat.format(date).substring(14);
+			datumtijd = dateFormat.format(date);
                  
-        //System.out.println(datum+" "+ tijd + ":Afsluiten.");
-        LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}: Afsluiten.", new Object[]{datum, tijd});
+			LoggerWrapper.myLogger.log(Level.INFO, "{0}: Afsluiten.", new Object[]{datumtijd});
             this.cancel();
             System.exit(0);
         } 

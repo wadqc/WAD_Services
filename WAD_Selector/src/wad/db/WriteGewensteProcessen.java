@@ -234,7 +234,7 @@ public class WriteGewensteProcessen {
         Statement stmt_Write;
         ArrayList<String> fks = new ArrayList<String>();
         
-        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
         Date date = new Date();
         
         String anaModInputFilepath = ReadConfigXML.readFileElement("analysemodule_input");                
