@@ -53,6 +53,7 @@ public class CheckNewJobs extends TimerTask {
                 GewensteProces gp = new GewensteProces();
                 gp.getGewensteProcesByKey(dbConnection, Integer.toString(rp.ID()));
                 if (!rp.stoppedWithError()) {
+                    //TODO aanpassen bij absoluut filepath voor XML in config.xml
                     String output = ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_output", gp.getOutputKey());
                     String currentDir = System.getProperty("user.dir");
                     File dir = new File(currentDir);
@@ -93,6 +94,7 @@ public class CheckNewJobs extends TimerTask {
                     String anaModuleFile = ReadFromIqcDatabase.getAnalyseModuleBySelectorFk(dbConnection, gp.getSelectorKey());
                     //String anaModuleCfgFile = ReadFromIqcDatabase.getAnalyseModuleCfgBySelectorFk(dbConnection, gp.getSelectorKey());
 
+                    //TODO aanpassen bij absoluut filepath voor XML in config.xml
                     String input = ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_input", gp.getInputKey());
 
                     String currentDir = System.getProperty("user.dir");
