@@ -234,10 +234,13 @@ public class WriteGewensteProcessen {
         Statement stmt_Write;
         ArrayList<String> fks = new ArrayList<String>();
         
-        DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
+        //Karakters zoals "-",":" en " " zijn niet wenselijk in een bestandsnaam, vandaar een eenvoudig formaat
+        //DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
+        DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmssSSS");
         Date date = new Date();
         
-        String anaModInputFilepath = ReadConfigXML.readFileElement("analysemodule_input");                
+        String anaModInputFilepath = "XML/analysemodule_input/";
+        String absAnaModInputFilepath = ReadConfigXML.readFileElement("analysemodule_input")+anaModInputFilepath;                
         
         AnalyseModuleInputValues anaModInputVal = writeFiles(dbConnection, levelPk, selectorFk, dateFormat.format(date));
         
@@ -291,17 +294,18 @@ public class WriteGewensteProcessen {
         analyseModuleInputValues.setModuleOutput(anaModOutFile.getAbsoluteFilename());
         analyseModuleInputValues.setAnalyseModuleOutputFilename(anaModOutFile.getFilename());
         analyseModuleInputValues.setAnalyseModuleOutputFilepath(anaModOutFile.getFilepath());
-        //TODO aanpassen bij absoluut filepath voor XML in config.xml
-        String currentDir = System.getProperty("user.dir");
-        File dir = new File(currentDir);
-        String mainDir = dir.getParent();
-        String anaModInputFilepath = ReadConfigXML.readFileElement("analysemodule_input");
-        //TODO aanpassen bij absoluut filepath voor XML in config.xml
-        String anaModAbsFilename = anaModInputFilepath.replace("..", mainDir);
-        anaModAbsFilename = anaModAbsFilename.replace("/","\\");
+        // aanpassen bij absoluut filepath voor XML in config.xml
+//        String currentDir = System.getProperty("user.dir");
+//        File dir = new File(currentDir);
+//        String mainDir = dir.getParent();
+//        String anaModInputFilepath = ReadConfigXML.readFileElement("analysemodule_input");
+        String absAnaModInputFilepath = ReadConfigXML.readFileElement("XML")+"XML/analysemodule_input/";
+        
+        //String anaModAbsFilename = anaModInputFilepath.replace("..", mainDir);
+        String anaModAbsFilename = absAnaModInputFilepath.replace("/","\\");
         GetPatientFromIqcDatabase patient = new GetPatientFromIqcDatabase( dbConnection, levelPk, analyseModuleInputValues.getAnalyseLevel());
         AnalyseModuleInputFile anaModInputFile = new AnalyseModuleInputFile(patient.getPatient(), analyseModuleInputValues);        
-        anaModInputFile.write(anaModInputFilepath+createDateTime+".xml");        
+        anaModInputFile.write(absAnaModInputFilepath+createDateTime+".xml");        
         return analyseModuleInputValues;    
     }
 }

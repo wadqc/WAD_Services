@@ -29,13 +29,15 @@ public class AnalyseModuleOutputFile {
         this.selectorPk = SelectorPk;
         getModuleName(dbConnection);
         this.fileName = this.analyseModule+"/"+createDateTime+"/result.xml";
-        //TODO aanpassen bij absoluut filepath voor XML in config.xml
+        //aanpassen bij absoluut filepath voor XML in config.xml
         String currentDir = System.getProperty("user.dir");
         File dir = new File(currentDir);
         String mainDir = dir.getParent();
-        this.filePath = ReadConfigXML.readFileElement("analysemodule_output");                
-               
-        this.absoluteFilename = this.filePath.replace("..",mainDir)+ this.fileName;
+//        this.filePath = ReadConfigXML.readFileElement("analysemodule_output");                
+        this.filePath = "XML/analysemodule_output/";
+        
+        //this.absoluteFilename = this.filePath.replace("..",mainDir)+ this.fileName;
+        this.absoluteFilename = ReadConfigXML.readFileElement("XML")+this.filePath+ this.fileName;
         this.absoluteFilename = this.absoluteFilename.replace("/","\\");
         File file = new File(this.absoluteFilename);
         boolean created = false;

@@ -74,9 +74,9 @@
     
     <target name="-post-clean"> 
         <!-- Copy needed files into the build directory. -->        
-        <mkdir dir="dist/doc" />              
+        <!-- <mkdir dir="dist/doc" />              
         <copy file="config.xml" tofile="dist/config.xml" />
-        <copy file="config.xml" tofile="../config.xml" />
+        <copy file="config.xml" tofile="../config.xml" /> -->
     </target>
     
 </project>

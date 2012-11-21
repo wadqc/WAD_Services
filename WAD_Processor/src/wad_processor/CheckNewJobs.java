@@ -49,16 +49,16 @@ public class CheckNewJobs extends TimerTask {
             rp = i.next();
             if (!rp.isRunning()) {
                 LoggerWrapper.myLogger.log(Level.INFO, "{0}", "thread " + rp.ID() + " stopped, removing from currentJobList");
-                //TODO RB BT update process met rp.ID() stopped
+                // RB BT update process met rp.ID() stopped
                 GewensteProces gp = new GewensteProces();
                 gp.getGewensteProcesByKey(dbConnection, Integer.toString(rp.ID()));
                 if (!rp.stoppedWithError()) {
-                    //TODO aanpassen bij absoluut filepath voor XML in config.xml
-                    String output = ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_output", gp.getOutputKey());
-                    String currentDir = System.getProperty("user.dir");
-                    File dir = new File(currentDir);
-                    String mainDir = dir.getParent();
-                    output = output.replace("..", mainDir);
+                    // aanpassen bij absoluut filepath voor XML in config.xml
+                    String output = ReadConfigXML.readFileElement("XML")+ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_output", gp.getOutputKey());
+//                    String currentDir = System.getProperty("user.dir");
+//                    File dir = new File(currentDir);
+//                    String mainDir = dir.getParent();
+//                    output = output.replace("..", mainDir);
                     output = output.replace("/", "\\");
                     gp.updateStatus(dbConnection, 3);
                     AnalyseModuleResultFile resultFile = new AnalyseModuleResultFile(output);
@@ -69,12 +69,12 @@ public class CheckNewJobs extends TimerTask {
                 } else {
                     gp.updateStatus(dbConnection, 10);
                 }
-                //Einde TODO RB
+                
                 i.remove();
             }
         }
         if (processList.size() < aantalConcurrentJobs) {
-            //TODO RB check op nieuw te starten processen met processID, zo ja dan verder
+            //RB check op nieuw te starten processen met processID, zo ja dan verder
             //Pak het eertse item uit de tabel gewenste_processen
             GewensteProces gp = new GewensteProces();
             if (gp.getFirstGewensteProcesByStatus(dbConnection, 0)) {
@@ -84,7 +84,7 @@ public class CheckNewJobs extends TimerTask {
                 WAD_ProcessThread p = new WAD_ProcessThread();
                 try {
                     teller = 0;
-                    //TODO RB update process met id op start zetten 
+                    //RB update process met id op start zetten 
 
                     String[] command;
                     //command = new String[2];
@@ -94,16 +94,16 @@ public class CheckNewJobs extends TimerTask {
                     String anaModuleFile = ReadFromIqcDatabase.getAnalyseModuleBySelectorFk(dbConnection, gp.getSelectorKey());
                     //String anaModuleCfgFile = ReadFromIqcDatabase.getAnalyseModuleCfgBySelectorFk(dbConnection, gp.getSelectorKey());
 
-                    //TODO aanpassen bij absoluut filepath voor XML in config.xml
-                    String input = ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_input", gp.getInputKey());
+                    //aanpassen bij absoluut filepath voor XML in config.xml
+                    String input = ReadConfigXML.readFileElement("XML")+ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_input", gp.getInputKey());
 
-                    String currentDir = System.getProperty("user.dir");
-                    File dir = new File(currentDir);
-                    String mainDir = dir.getParent();
-                    input = input.replace("..", mainDir);
+//                    String currentDir = System.getProperty("user.dir");
+//                    File dir = new File(currentDir);
+//                    String mainDir = dir.getParent();
+//                    input = input.replace("..", mainDir);
                     input = input.replace("/", "\\");
 
-                    //TODO controle op type extensie, zodat m-files, java-files etc de juiste commandline meekrijgen
+                    //controle op type extensie, zodat m-files, java-files etc de juiste commandline meekrijgen
                     //command[0] = "java -jar "+anaModuleFile + " \"" + input +"\"";
                     //command[1] = anaModuleFile + " " + input;
                     if (matchExtension(anaModuleFile, "jar")) {

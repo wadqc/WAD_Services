@@ -38,23 +38,19 @@
     </datasources>
     <filepath>
         <!-- Absoluut pad van de map WAD-IQC, eindig met /-->
-		<!-- bijvoorbeeld: c:/WAD-software/WAD_Interface/website/ -->
-		<!--           of: C:/xampp/htdocs/ -->
-        <uploads>c:/WAD-software/WAD_Interface/website/</uploads>
+        <uploads>C:/xampp/htdocs/</uploads>
         <analysemodule>analysemodule/</analysemodule>    
         <analysemodule_cfg>analysemodule_cfg/</analysemodule_cfg>    
-        <!-- Relatief pad (tov WAD_Selector installatie) van de XML mappen voor analysemodule_input en output-->
-        <analysemodule_input>../XML/analysemodule_input/</analysemodule_input>    
-        <analysemodule_output>../XML/analysemodule_output/</analysemodule_output>        
+        <!-- Absoluut pad  van de XML map voor analysemodule_input en output-->        
+        <XML>c:/WAD_Software/data/</XML>      
         <!-- Pad van dcm4chee server -->
-        <!--   bijvoorbeeld: C:/WAD-software/dcm4chee-2.17.1-mysql/server/default/ -->
-		<!--             of: C:/apps/BVT/dcm4chee/ -->
-        <archive>C:/WAD-software/dcm4chee-2.17.1-mysql/server/default/</archive>
+        <!-- bijvoorbeeld: C:/WAD_software/dcm4chee-2.17.1-mysql/server/default/ -->
+        <archive>C:/WAD_Software/</archive>
     </filepath>
     <settings>
         <!-- Stop het programma na uitvoer van de eerste timer: 1=stop, 0=doorgaan -->
         <!-- Indien het programma als service draait zorgen dat deze waarde op 0 staat -->
-        <stop>0</stop>
+        <stop>1</stop>
         <!-- Tijd tussen uitvoer van de timer in ms -->
         <timer>10000</timer>
         <!-- Aantal analysemodules dat gelijktijdig mag draaien -->

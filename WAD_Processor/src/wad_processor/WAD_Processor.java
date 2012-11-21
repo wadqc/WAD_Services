@@ -4,9 +4,7 @@
  */
 package wad_processor;
 
-import java.util.Timer;
-import java.util.TimerTask;
-import java.util.ArrayList; 
+import java.util.Timer; 
 import wad.xml.ReadConfigXML;
 
 /**
@@ -31,7 +29,7 @@ Timer processListTimer;
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+        
         WAD_Processor client =  new WAD_Processor(); 
     }
     

@@ -36,7 +36,7 @@ public class ReadConfigXML {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse (new File("../config.xml"));
+            Document doc = docBuilder.parse (new File("../../config.xml"));
                         
             doc.getDocumentElement ().normalize ();
             //System.out.println("Root element " + doc.getDocumentElement().getNodeName());
@@ -107,7 +107,7 @@ public class ReadConfigXML {
         try {
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse (new File("../config.xml"));
+            Document doc = docBuilder.parse (new File("../../config.xml"));
             
             doc.getDocumentElement ().normalize ();
             //System.out.println("Root element " + doc.getDocumentElement().getNodeName());
@@ -190,7 +190,7 @@ public class ReadConfigXML {
         try{
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse (new File("../config.xml"));
+            Document doc = docBuilder.parse (new File("../../config.xml"));
             
             Element docElement = doc.getDocumentElement();
             
@@ -216,7 +216,7 @@ public class ReadConfigXML {
         try{
             DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
-            Document doc = docBuilder.parse (new File("../config.xml"));
+            Document doc = docBuilder.parse (new File("../../config.xml"));
             
             Element docElement = doc.getDocumentElement();
             
