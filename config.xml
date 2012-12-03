@@ -46,7 +46,7 @@
         <!-- Relatief pad (tov WAD_Selector installatie) van de XML mappen voor analysemodule_input en output-->
         <analysemodule_input>../XML/analysemodule_input/</analysemodule_input>    
         <analysemodule_output>../XML/analysemodule_output/</analysemodule_output>        
-        <!-- Pad van dcm4chee server -->
+        <!-- Pad van dcm4chee server voor default archive -->
         <!--   bijvoorbeeld: C:/WAD-software/dcm4chee-2.17.1-mysql/server/default/ -->
 		<!--             of: C:/apps/BVT/dcm4chee/ -->
         <archive>C:/WAD-software/dcm4chee-2.17.1-mysql/server/default/</archive>

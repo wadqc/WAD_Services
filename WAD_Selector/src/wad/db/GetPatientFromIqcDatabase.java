@@ -177,11 +177,19 @@ public class GetPatientFromIqcDatabase {
                 }
                 String archivePath = ReadConfigXML.readFileElement("archive");
                 archivePath = archivePath.replace('/', '\\');
-                if (!dirpath.contains(archivePath)){
-                    instance.setFilename(archivePath+dirpath+"\\"+filepath);
-                } else {                
+                // VUmc - JK - 20121203 - allow multiple archive locations
+                // If database table filesystem column dirpath starts with '/', '\' or has ':' as 2nd character
+                // then we assume the dirpath is absolute and we don't need to add the archivePath. However,
+                // if no archive location is configured in DCM4CHEE, dirpath is relative and starting from
+                // the archive path, so it needs to be added in that case.
+                if ( (dirpath.indexOf("/") == 0) || (dirpath.indexOf("\\") == 0) || (dirpath.indexOf(":") == 1) ) {
+                    // assume this is an absolute path
                     instance.setFilename(dirpath+"\\"+filepath);
+                } else {
+                    // assume this is a relative path and need to add configured archivePath in front
+                    instance.setFilename(archivePath+dirpath+"\\"+filepath);
                 }
+                // End VUmc - JK - 20121203
                 rs_files.close();
                 stmt_files.close();  
                 this.patient.getStudy().getSeries(serieNo).addInstance(instance);
