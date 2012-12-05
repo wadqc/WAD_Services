@@ -1,0 +1,2 @@
+net start WAD_Processor
+pause
