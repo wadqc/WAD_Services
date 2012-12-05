@@ -30,20 +30,23 @@ public class CheckSeriesWithStudyIUID {
                     //serie bestaat al dus is al verwerkt
                     
                 } else {                
-                    //serie bestaat niet dus verwerken
-                    WriteToIqcDatabase.WriteResulsetInTable(iqcConnection,ReadFromPacsDatabase.getSeriesResultSetWithSeriesIUID(pacsConnection, pacsSeriesIUID.get(i)),"series");
-                    //study en patient wegschrijven in de tabellen                    
+                    // serie bestaat niet dus verwerken
+                    // VUmc - Joost Kuijer - volgorde kopieren gewijzigd om relaties in de database mogelijk te maken,
+                    // dan moet eerst de patient gemaakt zijn, voordat zijn studies gekopieerd kunnen worden.
+                    // Eerst patient overhalen
+                    String patientFk = ReadFromPacsDatabase.getForeignKeyWithUniqueIdentifier(pacsConnection, "study", "patient_fk", "study_iuid", pacsStudyIUID);
+                    if (!ReadFromIqcDatabase.rowExistsByPrimaryKey(iqcConnection,"patient", patientFk)){
+                        WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithPrimaryKey(pacsConnection, "patient", patientFk), "patient");
+                    }
+                    //study overhalen                    
                     String studyFk = ReadFromPacsDatabase.getPkWithUniqueIdentifier(pacsConnection, "study", "study_iuid", pacsStudyIUID);                    
                     if (!ReadFromIqcDatabase.rowExistsByPrimaryKey(iqcConnection,"study", studyFk)){
                         WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getStudyResultSetWithStudyIUID(pacsConnection, pacsStudyIUID), "study");
                         //study status 0 vermelden in collector_study_status tabel
                         WriteToIqcDatabase.WriteStudyStatus(iqcConnection, studyFk, "0");
-                        //Study is over, nu kan ook de patient overgehaald worden
-                        String patientFk = ReadFromPacsDatabase.getForeignKeyWithUniqueIdentifier(pacsConnection, "study", "patient_fk", "study_iuid", pacsStudyIUID);
-                        if (!ReadFromIqcDatabase.rowExistsByPrimaryKey(iqcConnection,"patient", patientFk)){
-                            WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithPrimaryKey(pacsConnection, "patient", patientFk), "patient");
-                        }
                     }
+                    //serie kopieren
+                    WriteToIqcDatabase.WriteResulsetInTable(iqcConnection,ReadFromPacsDatabase.getSeriesResultSetWithSeriesIUID(pacsConnection, pacsSeriesIUID.get(i)),"series");
                     
                     //Instances kopieren
                     ArrayList<String> instancePk = ReadFromPacsDatabase.getInstancePkWithSeriesIUID(pacsConnection, pacsSeriesIUID.get(i)); 

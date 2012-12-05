@@ -33,7 +33,7 @@ public class CheckNewStudy {
         //Lezen van studie tabel in iqcDB
         ArrayList<String> iqcStudyIUID = ReadFromIqcDatabase.getStudies(iqcConnection);
         
-        //Bestaat de study_iuid niet in iqcDB dan timer starten op controleren van de serie        
+        //Bestaat de study_iuid niet in iqcDB dan timer starten op controleren van de serie   
         for (int i=0;i<pacsStudyIUID.size();i++){
             int j=1;
             Boolean isEqual = false;
@@ -97,10 +97,14 @@ public class CheckNewStudy {
         
         //Controle op verwijderde studies!!!
         //Als een studie verwijderd wordt hoeft alleen de verwijzing van filepath in fiels aangepast te worden
-        int count = UpdateFiles.start(iqcConnection, pacsConnection);
-        if (count>0){            
-            LoggerWrapper.myLogger.log(Level.FINEST, "Files updated : {0}", Integer.toString(count));            
-        }
+        // ** TODO **
+        // VUmc - Joost Kuijer - (tijdelijk) uitgeschakeld ivm performance problemen:
+        // - duurt ca 2500 / min bij grote aantallen beelden
+        // - meer dan standaard geheugen nodig (ca 1024m bij 10000 beelden)
+        //int count = UpdateFiles.start(iqcConnection, pacsConnection);
+        //if (count>0){            
+        //    LoggerWrapper.myLogger.log(Level.FINEST, "Files updated : {0}", Integer.toString(count));            
+        //}
         
     }
 }
