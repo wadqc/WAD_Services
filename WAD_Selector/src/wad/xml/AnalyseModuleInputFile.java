@@ -118,6 +118,7 @@ public class AnalyseModuleInputFile {
             DOMImplementationLS impl = (DOMImplementationLS) domImpl;            
             
             LSSerializer serializer = impl.createLSSerializer();
+            serializer.getDomConfig().setParameter("format-pretty-print", true);
             LSOutput output = impl.createLSOutput();
             output.setEncoding("UTF-8");
             output.setByteStream(new FileOutputStream(analayseModuleInputFile));
