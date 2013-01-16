@@ -9,11 +9,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.TimerTask;
-import java.util.logging.Level;
 import wad.db.DatabaseParameters;
 import wad.db.PacsDatabaseConnection;
-import wad.logger.LoggerWrapper;
 import wad.xml.ReadConfigXML;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -21,14 +21,17 @@ import wad.xml.ReadConfigXML;
  */
 public class CollectorTimer extends TimerTask{
 
+    private static Log log = LogFactory.getLog(CollectorTimer.class);
+    
     @Override
     public void run() {
-        LoggerWrapper loggerWrapper = LoggerWrapper.getInstance();
+        //LoggerWrapper loggerWrapper = LoggerWrapper.getInstance();
         DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss.SSS");
         Date date = new Date();
-		String datumtijd = dateFormat.format(date);
+	String datumtijd = dateFormat.format(date);
                         
-        LoggerWrapper.myLogger.log(Level.INFO, "{0}: Start CollectorTimer", new Object[]{datumtijd});
+        //LoggerWrapper.myLogger.log(Level.INFO, "{0}: Start CollectorTimer", new Object[]{datumtijd});
+        log.debug("Start CollectorTimer");
         DatabaseParameters iqcDBParams = new DatabaseParameters();
         iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
         DatabaseParameters pacsDBParams = new DatabaseParameters();
@@ -48,14 +51,16 @@ public class CollectorTimer extends TimerTask{
         PacsDatabaseConnection.closeDb(iqcConnection, null, null);
         PacsDatabaseConnection.closeDb(pacsConnection, null, null);
         date = new Date();
-		datumtijd = dateFormat.format(date);
+	datumtijd = dateFormat.format(date);
                  
-        LoggerWrapper.myLogger.log(Level.INFO, "{0}: Einde CollectorTimer", new Object[]{datumtijd});
+        //LoggerWrapper.myLogger.log(Level.INFO, "{0}: Einde CollectorTimer", new Object[]{datumtijd});
+        log.debug("Einde CollectorTimer");
         if (ReadConfigXML.readSettingsElement("stop").equals("1")){
             date = new Date();
-			datumtijd = dateFormat.format(date);
+            datumtijd = dateFormat.format(date);
                  
-			LoggerWrapper.myLogger.log(Level.INFO, "{0}: Afsluiten.", new Object[]{datumtijd});
+            //LoggerWrapper.myLogger.log(Level.INFO, "{0}: Afsluiten.", new Object[]{datumtijd});
+            log.info("Afsluiten");
             this.cancel();
             System.exit(0);
         } 

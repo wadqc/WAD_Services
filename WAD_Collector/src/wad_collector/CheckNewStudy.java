@@ -6,11 +6,11 @@ package wad_collector;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.logging.Level;
 import wad.db.ReadFromIqcDatabase;
 import wad.db.ReadFromPacsDatabase;
 import wad.db.WriteToIqcDatabase;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -18,9 +18,14 @@ import wad.logger.LoggerWrapper;
  */
 public class CheckNewStudy {
     
+    private static Log log = LogFactory.getLog(CheckNewStudy.class);
             
     public void CheckNewStudy(Connection pacsConnection, Connection iqcConnection){
-        LoggerWrapper.myLogger.log(Level.FINEST, "{0}", "CheckNewStudy");
+        log.debug("CheckNewStudy");
+        
+        try {
+        
+        //LoggerWrapper.myLogger.log(Level.FINEST, "{0}", "CheckNewStudy");
         //Ophalen PACSDB parameters uit config.xml
         //DatabaseParameters pacsDBParams = new DatabaseParameters();
         //pacsDBParams = ReadConfigXML.ReadPacsDBParameters(pacsDBParams);
@@ -106,5 +111,8 @@ public class CheckNewStudy {
         //    LoggerWrapper.myLogger.log(Level.FINEST, "Files updated : {0}", Integer.toString(count));            
         //}
         
+        } catch (NullPointerException ex) {
+            log.error("database error: "+ex);
+        }
     }
 }

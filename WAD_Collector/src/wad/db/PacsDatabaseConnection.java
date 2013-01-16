@@ -5,15 +5,15 @@
 package wad.db;
 
 import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 /**
  *
  * @author Ralph Berendsen <>
  */
 public class PacsDatabaseConnection {
     
+    private static Log log = LogFactory.getLog(PacsDatabaseConnection.class);
     
     public static Connection conDb(DatabaseParameters dbParam) {
         java.sql.Connection con = null;        
@@ -24,17 +24,21 @@ public class PacsDatabaseConnection {
             con = DriverManager.getConnection(dbParam.connectionURL, dbParam.username, dbParam.password);            
             return con;
         } catch (SQLException ex) {
-            Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+            log.error(ex);
+            //Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
         } catch (InstantiationException ex) {
-            Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+            log.error(ex);
+            //Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
         } catch (IllegalAccessException ex) {
-            Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+            log.error(ex);
+            //Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-            LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+            log.error(ex);
+            //Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+            //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
         }
         return con;
     }
@@ -51,8 +55,9 @@ public class PacsDatabaseConnection {
                 con.close();
             }
         } catch (SQLException ex) {
-                    Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
-                    LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+                    log.error(ex);
+                    //Logger.getLogger(PacsDatabaseConnection.class.getName()).log(Level.SEVERE, null, ex);
+                    //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
                 }
     } 
 }

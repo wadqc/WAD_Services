@@ -7,7 +7,6 @@ package wad.xml;
 import java.io.File;
 import java.io.IOException;
 import java.io.StringWriter;
-import java.util.logging.Level;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -23,7 +22,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 import wad.db.DatabaseParameters;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 
 /**
@@ -31,6 +31,8 @@ import wad.logger.LoggerWrapper;
  * @author Ralph Berendsen <>
  */
 public class ReadConfigXML {
+    
+    private static Log log = LogFactory.getLog(ReadConfigXML.class);
     
     public static DatabaseParameters ReadPacsDBParameters(DatabaseParameters dbParams){
         try {
@@ -93,11 +95,11 @@ public class ReadConfigXML {
             
             
         } catch (SAXException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadConfigXML.class.getName(), ex});
+            log.error(ex);            
         } catch (IOException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadConfigXML.class.getName(), ex});
+            log.error(ex);
         } catch (ParserConfigurationException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadConfigXML.class.getName(), ex});
+            log.error(ex);
         }
         return dbParams;
         
@@ -164,11 +166,11 @@ public class ReadConfigXML {
             
             
         } catch (SAXException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadConfigXML.class.getName(), ex});
+            log.error(ex);
         } catch (IOException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadConfigXML.class.getName(), ex});
+            log.error(ex);
         } catch (ParserConfigurationException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadConfigXML.class.getName(), ex});
+            log.error(ex);
         }
         return dbParams;
         

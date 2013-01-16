@@ -79,4 +79,8 @@
         <copy file="config.xml" tofile="../config.xml" /> -->
     </target>
     
+	<target name="-post-jar"> 
+        <copy file="config/log4j.properties" flatten="true" todir="${dist.dir}/config" overwrite="true"/> 
+    </target> 
+	
 </project>

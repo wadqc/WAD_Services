@@ -9,15 +9,16 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
  * @author Ralph Berendsen <>
  */
 public class ReadFromPacsDatabase {
+    
+    private static Log log = LogFactory.getLog(ReadFromPacsDatabase.class);
     
     public static ArrayList<String> getFileListFromSerie(Connection dbConnection, String serieUID) {
         ResultSet rs_serie;
@@ -68,7 +69,8 @@ public class ReadFromPacsDatabase {
             }
             return profileList;
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return profileList;
     }
@@ -89,7 +91,8 @@ public class ReadFromPacsDatabase {
             rs_study.close();
             stmt_study.close();
         } catch (SQLException ex) {            
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return studyList;
     }
@@ -109,7 +112,8 @@ public class ReadFromPacsDatabase {
             rs_series.close();
             stmt_series.close();
         } catch (SQLException ex) {            
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return seriesList;
     }
@@ -141,7 +145,8 @@ public class ReadFromPacsDatabase {
             rs_study.close();
             stmt_study.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return seriesList;
     }
@@ -172,7 +177,8 @@ public class ReadFromPacsDatabase {
             rs_series.close();
             stmt_series.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return instanceList;
     }
@@ -190,7 +196,8 @@ public class ReadFromPacsDatabase {
                     files_pk = rs_files.getString("pk");
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return files_pk;
     }
@@ -208,7 +215,8 @@ public class ReadFromPacsDatabase {
                     filesystem_pk = rs_files.getString("filesystem_fk");
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return filesystem_pk;
     }
@@ -226,7 +234,8 @@ public class ReadFromPacsDatabase {
                 return result;
             }            
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }        
         return "-1";
         
@@ -245,7 +254,8 @@ public class ReadFromPacsDatabase {
                 return result;
             }                      
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }        
         return "-1";
         
@@ -264,7 +274,8 @@ public class ReadFromPacsDatabase {
                 return result;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }        
         return "-1";
         
@@ -281,7 +292,8 @@ public class ReadFromPacsDatabase {
             //dbConnection.close();
             return rs;
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }        
         return null;        
     }
@@ -297,7 +309,8 @@ public class ReadFromPacsDatabase {
             //dbConnection.close();
             return rs;            
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }        
         return null;        
     }
@@ -312,7 +325,8 @@ public class ReadFromPacsDatabase {
             rs = stmt_study.executeQuery("SELECT * FROM "+tableName+" WHERE pk='"+pk+"'");            
             return rs;            
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }        
         return null;        
     }
@@ -328,7 +342,8 @@ public class ReadFromPacsDatabase {
             //dbConnection.close();
             return rs;            
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }        
         return null;        
     }
@@ -348,7 +363,8 @@ public class ReadFromPacsDatabase {
             rs_series.close();
             stmt_series.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return seriesList;
     }
@@ -369,7 +385,8 @@ public class ReadFromPacsDatabase {
             rs_study.close();
             stmt_study.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return studyList;
     }
@@ -389,7 +406,8 @@ public class ReadFromPacsDatabase {
             rs_files.close();
             stmt_files.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
+            log.error(ex);
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromPacsDatabase.class.getName(), ex});
         }
         return filepath;
     }
