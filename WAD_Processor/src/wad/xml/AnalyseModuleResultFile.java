@@ -69,11 +69,18 @@ public class AnalyseModuleResultFile {
         parseDocument();
     }
     
-    public void read(){
+    public boolean read(){
         if (this.analayseModuleResultFile!=null){
             parseXmlFile(this.analayseModuleResultFile);        
-            parseDocument();
+            try{
+                parseDocument();
+                return true;
+            } catch(Exception ex){                
+                log.error(ex);
+                return false;
+            }
         }
+        return false;
     }
     
     
@@ -357,6 +364,7 @@ public class AnalyseModuleResultFile {
         Element docElement = dom.getDocumentElement();        
         resultArray.clear();                
         //get a nodelist of <patient>
+
         NodeList nlResults = docElement.getElementsByTagName("results");
         if (nlResults != null && nlResults.getLength()>0) {
             for (int i = 0 ; i < nlResults.getLength();i++) {
@@ -404,8 +412,7 @@ public class AnalyseModuleResultFile {
                     result.setNiveau(getTextValue(elResults, "niveau"));
                     result.setObjectnaampad(getTextValue(elResults, "object_naam_pad"));                   
                     resultArray.add(result);
-                } 
-                
+                }                 
             }
         }
     }

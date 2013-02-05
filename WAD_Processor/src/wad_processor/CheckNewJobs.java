@@ -23,15 +23,14 @@ import wad.xml.ReadConfigXML;
  * @author titulaer
  */
 public class CheckNewJobs extends TimerTask {
-    
+
     private static Log log = LogFactory.getLog(CheckNewJobs.class);
-    
     public int aantalConcurrentJobs = 4;
     ArrayList<WAD_ProcessThread> processList = new ArrayList<WAD_ProcessThread>();
     int processID = 0;
     //Teller om een aantal loops te laten doorlopen voordat afgesloten wordt.
     //Dit bouw ik in om te voorkomen dat bij het starten de applicatie niet oneindig blijft lopen, maar egstopt kan worden via een setting in de config.xml
-    //De teller wordt op nul gezet indien er processen lopen, bij 5 keer doorlopen zonder active processen gaat de aplpicatie uit.
+    //De teller wordt op nul gezet indien er processen lopen, bij 5 keer doorlopen zonder actieve processen gaat de aplpicatie uit.
     public int teller = 0;
 
     public void run() {
@@ -56,30 +55,25 @@ public class CheckNewJobs extends TimerTask {
                 GewensteProces gp = new GewensteProces();
                 gp.getGewensteProcesByKey(dbConnection, Integer.toString(rp.ID()));
                 if (!rp.stoppedWithError()) {
-                    // aanpassen bij absoluut filepath voor XML in config.xml
-                    String output = ReadConfigXML.readFileElement("XML")+ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_output", gp.getOutputKey());
-//                    String currentDir = System.getProperty("user.dir");
-//                    File dir = new File(currentDir);
-//                    String mainDir = dir.getParent();
-//                    output = output.replace("..", mainDir);
-                    output = output.replace("/", "\\");
-                    gp.updateStatus(dbConnection, 3);
-                    AnalyseModuleResultFile resultFile = new AnalyseModuleResultFile(output);
-                    resultFile.read();
-                    gp.updateStatus(dbConnection, 4);
-                    WriteResultaten writeResultaten = new WriteResultaten(dbConnection, resultFile, Integer.parseInt(gp.getKey()));
-                    gp.updateStatus(dbConnection, 5);
+                    processFinishedProcess(dbConnection, gp);
                 } else {
                     gp.updateStatus(dbConnection, 10);
                 }
-                
+
                 i.remove();
             }
         }
         if (processList.size() < aantalConcurrentJobs) {
-            //RB check op nieuw te starten processen met processID, zo ja dan verder
-            //Pak het eertse item uit de tabel gewenste_processen
             GewensteProces gp = new GewensteProces();
+            //RB Controleren of er processen zijn die eerder niet afgemaakt waren.
+            //Status 1 en 2 nog geen actie
+            //Status 3 en 4 nogmaals proberen te importeren
+            if (gp.getFirstGewensteProcesByStatus(dbConnection, 3)) {
+                processFinishedProcess(dbConnection, gp);
+            } else if (gp.getFirstGewensteProcesByStatus(dbConnection, 4)) {
+                processFinishedProcess(dbConnection, gp);
+            } else //RB check op nieuw te starten processen met processID, zo ja dan verder
+            //Pak het eertse item uit de tabel gewenste_processen            
             if (gp.getFirstGewensteProcesByStatus(dbConnection, 0)) {
                 //Zet het gewenste process op status 1 (Gestart)
                 gp.updateStatus(dbConnection, 1);
@@ -98,7 +92,7 @@ public class CheckNewJobs extends TimerTask {
                     //String anaModuleCfgFile = ReadFromIqcDatabase.getAnalyseModuleCfgBySelectorFk(dbConnection, gp.getSelectorKey());
 
                     //aanpassen bij absoluut filepath voor XML in config.xml
-                    String input = ReadConfigXML.readFileElement("XML")+ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_input", gp.getInputKey());
+                    String input = ReadConfigXML.readFileElement("XML") + ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_input", gp.getInputKey());
 
 //                    String currentDir = System.getProperty("user.dir");
 //                    File dir = new File(currentDir);
@@ -173,5 +167,23 @@ public class CheckNewJobs extends TimerTask {
             return false;
         }
 
+    }
+
+    private void processFinishedProcess(Connection dbConnection, GewensteProces gp) {
+        // aanpassen bij absoluut filepath voor XML in config.xml
+        String output = ReadConfigXML.readFileElement("XML") + ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_output", gp.getOutputKey());
+        output = output.replace("/", "\\");
+        gp.updateStatus(dbConnection, 3);
+        AnalyseModuleResultFile resultFile = new AnalyseModuleResultFile(output);
+        Boolean succes = resultFile.read();
+        if (succes) {
+            gp.updateStatus(dbConnection, 4);
+            WriteResultaten writeResultaten = new WriteResultaten(dbConnection, resultFile, Integer.parseInt(gp.getKey()));
+            gp.updateStatus(dbConnection, 5);
+        } else {
+            log.error("Problemen bij het verwerken van result.xml behorende bij proces "+gp.getKey());
+            gp.updateStatus(dbConnection, 10);
+        }
+        
     }
 }
