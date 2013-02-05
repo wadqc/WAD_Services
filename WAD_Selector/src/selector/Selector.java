@@ -11,12 +11,13 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import wad.db.CollectorStatusTable;
 import wad.db.WriteGewensteProcessen;
 import wad.db.WriteToIqcDatabase;
-import wad.logger.LoggerWrapper;
+//import wad.logger.LoggerWrapper;
+//import wad_selector.SelectorTimer;
 
 /**
  *
@@ -25,6 +26,8 @@ import wad.logger.LoggerWrapper;
 public class Selector {
     //DatabaseParameters dbParam;
     Connection dbConnection;
+    
+    private static Log log = LogFactory.getLog(Selector.class);
     
     public void Selector(Connection dbConnection){
         this.dbConnection = dbConnection;
@@ -397,7 +400,8 @@ public class Selector {
                 selectorPk.add(rs_selector.getString("pk"));                                              
             }            
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            log.error(ex);
         }
         return selectorPk;
     }
@@ -416,7 +420,8 @@ public class Selector {
                 levelFk = rs_selector.getString("selector_"+level+"_fk");                                              
             }            
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            log.error(ex);
         }
         return levelFk;
     }
@@ -438,7 +443,8 @@ public class Selector {
                 }             
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            log.error(ex);
         }        
         return selectorLevelMap;
     }
@@ -458,7 +464,8 @@ public class Selector {
                 columnList.add(md.getColumnLabel(i));
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            log.error(ex);
         }        
         return columnList;
     }
@@ -480,7 +487,8 @@ public class Selector {
                 }                                               
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            log.error(ex);
         }
         return levelMap;
     }
@@ -612,7 +620,8 @@ public class Selector {
                 return null;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            log.error(ex);
         }
         return null;
     }
@@ -632,7 +641,8 @@ public class Selector {
                 return null;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            log.error(ex);
         }
         return null;
     }
@@ -651,7 +661,8 @@ public class Selector {
             }
             return instancePkList;
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            log.error(ex);
         }
         return null;
     }
@@ -670,7 +681,8 @@ public class Selector {
             }
             return instancePkList;
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
+            log.error(ex);
         }
         return null;
     }

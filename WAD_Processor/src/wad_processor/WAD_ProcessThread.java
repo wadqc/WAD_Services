@@ -4,17 +4,18 @@
  */
 package wad_processor;
 
-import java.util.*;
 import java.io.*;
-import java.util.logging.Level;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
  * @author titulaer
  */
 public class WAD_ProcessThread extends Thread {
-
+    
+    private static Log log = LogFactory.getLog(WAD_ProcessThread.class);
+    
     private int _ID = 0;
 
     public int ID() {
@@ -46,7 +47,8 @@ public class WAD_ProcessThread extends Thread {
             _args = args;
         } catch (Throwable t) {
             //t.printStackTrace();
-            LoggerWrapper.myLogger.log(Level.WARNING, "{0} {1}", new Object[]{WAD_ProcessThread.class.getName(), t.toString()});
+            //LoggerWrapper.myLogger.log(Level.WARNING, "{0} {1}", new Object[]{WAD_ProcessThread.class.getName(), t.toString()});
+            log.warn(t);
         }
     }
 
@@ -65,7 +67,8 @@ public class WAD_ProcessThread extends Thread {
             _running = false;
         } catch (Throwable t) {
             //t.printStackTrace();
-            LoggerWrapper.myLogger.log(Level.WARNING, "{0} {1}", new Object[]{WAD_ProcessThread.class.getName(), t.toString()});
+            //LoggerWrapper.myLogger.log(Level.WARNING, "{0} {1}", new Object[]{WAD_ProcessThread.class.getName(), t.toString()});
+            log.warn(t);
             _running = false;
             _error = true;
         }

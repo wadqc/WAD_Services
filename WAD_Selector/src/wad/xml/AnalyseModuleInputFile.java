@@ -11,10 +11,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.logging.Level;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -24,7 +25,6 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
-import wad.logger.LoggerWrapper;
 /**
  *
  * @author Ralph Berendsen <>
@@ -37,6 +37,8 @@ public class AnalyseModuleInputFile {
     private Patient patient;
     private File analayseModuleInputFile;
     Document dom;
+    
+    private static Log log = LogFactory.getLog(AnalyseModuleInputFile.class);
     
     public AnalyseModuleInputFile(Patient patient, AnalyseModuleInputValues analyseModuleInputValues){
         this.patient = patient;        
@@ -73,7 +75,8 @@ public class AnalyseModuleInputFile {
             dom = db.newDocument();
 	}catch(ParserConfigurationException pce) {
             //dump it
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1} {2}", new Object[]{AnalyseModuleInputFile.class.getName(), pce, "Error while trying to instantiate DocumentBuilder "});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1} {2}", new Object[]{AnalyseModuleInputFile.class.getName(), pce, "Error while trying to instantiate DocumentBuilder "});
+            log.fatal(pce);
             System.exit(1);
 	}
     }
@@ -125,7 +128,8 @@ public class AnalyseModuleInputFile {
             serializer.write(dom, output);
             
         } catch(FileNotFoundException fnf){
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1} {2}", new Object[]{AnalyseModuleInputFile.class.getName(), fnf, "File not found."});            
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1} {2}", new Object[]{AnalyseModuleInputFile.class.getName(), fnf, "File not found."});            
+            log.error(fnf);
         }
     }
     
@@ -223,11 +227,14 @@ public class AnalyseModuleInputFile {
             dom = db.parse(inputFile);
             
         } catch (SAXException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputFile.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputFile.class.getName(), ex});
+            log.error(ex);
         } catch (IOException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputFile.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputFile.class.getName(), ex});
+            log.error(ex);
         } catch (ParserConfigurationException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputFile.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputFile.class.getName(), ex});
+            log.error(ex);
         }    
     }
     

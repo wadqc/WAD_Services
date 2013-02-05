@@ -8,8 +8,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -22,6 +22,8 @@ public class AnalyseModuleInputValues {
     private String analyselevel;
     private String analyseModuleOutputFilename;
     private String analyseModuleOutputFilepath;
+    
+    private static Log log = LogFactory.getLog(AnalyseModuleInputValues.class);
     
     public AnalyseModuleInputValues(Connection dbConnection, String selectorPk, String createDateTime){
         version = "";
@@ -56,7 +58,8 @@ public class AnalyseModuleInputValues {
                 rs_analyseModuleCfg.close();
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputValues.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleInputValues.class.getName(), ex});
+            log.error(ex);
         }
         
     }   

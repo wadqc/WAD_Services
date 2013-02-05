@@ -9,9 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import selector.Selector;
 import wad.xml.Instance;
 import wad.xml.Patient;
 import wad.xml.ReadConfigXML;
@@ -23,6 +23,8 @@ import wad.xml.Series;
  */
 public class GetPatientFromIqcDatabase {
     private Patient patient;
+    
+    private static Log log = LogFactory.getLog(GetPatientFromIqcDatabase.class);
     
     public GetPatientFromIqcDatabase(Connection dbConnection, String pk, String level){
         patient = new Patient();
@@ -106,7 +108,8 @@ public class GetPatientFromIqcDatabase {
             stmt_patient.close();
             rs_patient.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
     }
     
@@ -125,7 +128,8 @@ public class GetPatientFromIqcDatabase {
             stmt_study.close();
             rs_study.close();
         } catch (SQLException ex) {            
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
     }
     
@@ -145,7 +149,8 @@ public class GetPatientFromIqcDatabase {
             stmt_series.close();
             rs_series.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
     }
     
@@ -197,7 +202,8 @@ public class GetPatientFromIqcDatabase {
             stmt_instance.close();
             rs_instance.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GetPatientFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
     }
 }

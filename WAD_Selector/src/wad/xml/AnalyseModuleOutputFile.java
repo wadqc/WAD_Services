@@ -10,9 +10,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -24,6 +23,8 @@ public class AnalyseModuleOutputFile {
     String absoluteFilename;
     String filePath;
     String fileName;
+    
+    private static Log log = LogFactory.getLog(AnalyseModuleOutputFile.class);
     
     public AnalyseModuleOutputFile(Connection dbConnection, String SelectorPk, String createDateTime){
         this.selectorPk = SelectorPk;
@@ -45,7 +46,8 @@ public class AnalyseModuleOutputFile {
             file.getParentFile().mkdirs();
             created = file.createNewFile();
         } catch (IOException ioe){
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1} {2}", new Object[]{AnalyseModuleOutputFile.class.getName(), ioe, "Error while creating new file"});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1} {2}", new Object[]{AnalyseModuleOutputFile.class.getName(), ioe, "Error while creating new file"});
+            log.error(ioe);
         }
         
     }
@@ -73,7 +75,8 @@ public class AnalyseModuleOutputFile {
                 rs_analyseModule.close();
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleOutputFile.class.getName(), ex});            
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleOutputFile.class.getName(), ex});            
+            log.error(ex);
         }
     }
     

@@ -4,14 +4,13 @@
  */
 package wad.db;
 
-import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import wad.xml.ReadConfigXML;
 
 /**
@@ -20,6 +19,7 @@ import wad.xml.ReadConfigXML;
  */
 public class ReadFromIqcDatabase {
     
+    private static Log log = LogFactory.getLog(ReadFromIqcDatabase.class);
        
     //Read all studies from iqcDB (DCM4CHEE) and return arrayList with study_iuid from table STUDY
     public static ArrayList<String> getStudies(Connection dbConnection){
@@ -35,7 +35,8 @@ public class ReadFromIqcDatabase {
                 //serie_fk = rs_patient.getString("pk");                
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }        
         return studyList;
     }
@@ -54,7 +55,8 @@ public class ReadFromIqcDatabase {
                 return false;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return false;
     }
@@ -72,7 +74,8 @@ public class ReadFromIqcDatabase {
                 return false;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return false;
     }
@@ -92,7 +95,8 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return null;
     }
@@ -112,7 +116,8 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return null;
     }
@@ -136,7 +141,8 @@ public class ReadFromIqcDatabase {
                 //serie_fk = rs_patient.getString("pk");                
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return pkList;
     }
@@ -156,7 +162,8 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return null;
     }
@@ -176,7 +183,8 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return null;
     }
@@ -196,7 +204,8 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return null;
     }
@@ -220,7 +229,8 @@ public class ReadFromIqcDatabase {
             rs_serie.close();               
             stmt_serie.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return seriesList;
     }
@@ -244,7 +254,8 @@ public class ReadFromIqcDatabase {
             rs_instance.close();               
             stmt_instance.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return seriesList;
     }
@@ -265,7 +276,8 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return null;
     }
@@ -284,7 +296,8 @@ public class ReadFromIqcDatabase {
             rs_tableName.close();               
             stmt_tableName.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return pkList;
     }
@@ -304,7 +317,8 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return null;
     }
@@ -334,7 +348,8 @@ public class ReadFromIqcDatabase {
                 rs_analyseModule.close();
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return null;
     }
@@ -362,7 +377,8 @@ public class ReadFromIqcDatabase {
                 rs_analyseModuleCfg.close();
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
         return null;
     }

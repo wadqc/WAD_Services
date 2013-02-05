@@ -6,22 +6,23 @@ package wad.xml;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
-import wad.logger.LoggerWrapper;
 
 /**
  *
  * @author Ralph Berendsen <>
  */
 public class XMLInputFile {
+    
+    private static Log log = LogFactory.getLog(XMLInputFile.class);
     
     private String version;
     private String analyseModuleCfg;
@@ -49,11 +50,14 @@ public class XMLInputFile {
             dom = db.parse(inputFile);
             
         }catch (ParserConfigurationException pce) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{XMLInputFile.class.getName(), pce});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{XMLInputFile.class.getName(), pce});
+            log.error(pce);
         }catch (SAXException se) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{XMLInputFile.class.getName(), se});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{XMLInputFile.class.getName(), se});
+            log.error(se);
         }catch (IOException ioe){
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{XMLInputFile.class.getName(), ioe});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{XMLInputFile.class.getName(), ioe});
+            log.error(ioe);
         }    
     }
     

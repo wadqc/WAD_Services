@@ -8,8 +8,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import wad.xml.AnalyseModuleResultFile;
 import wad.xml.ResultsBoolean;
 import wad.xml.ResultsChar;
@@ -25,6 +25,8 @@ public class WriteResultaten {
     AnalyseModuleResultFile resultaten;
     int gewensteProcessenKey;
     //int resultatenKey;
+    
+    private static Log log = LogFactory.getLog(WriteResultaten.class);
 
     public WriteResultaten(Connection dbConnection, AnalyseModuleResultFile resultFile, int gpKey) {
         this.resultaten = resultFile;
@@ -83,7 +85,8 @@ public class WriteResultaten {
             int count = stmt_Write.executeUpdate(statement, Statement.RETURN_GENERATED_KEYS);
             stmt_Write.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteResultaten.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteResultaten.class.getName(), ex});
+            log.error(ex);
         }
     }
 
@@ -103,7 +106,8 @@ public class WriteResultaten {
             int count = stmt_Write.executeUpdate(statement, Statement.RETURN_GENERATED_KEYS);
             stmt_Write.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
     }
 
@@ -138,7 +142,8 @@ public class WriteResultaten {
             int count = stmt_Write.executeUpdate(statement, Statement.RETURN_GENERATED_KEYS);
             stmt_Write.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
     }
 
@@ -164,7 +169,8 @@ public class WriteResultaten {
             int count = stmt_Write.executeUpdate(statement, Statement.RETURN_GENERATED_KEYS);
             stmt_Write.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
         }
     }
 
@@ -211,7 +217,8 @@ public class WriteResultaten {
             stmt_Write.close();
             return true;
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+            log.error(ex);
             return false;
         }
     }

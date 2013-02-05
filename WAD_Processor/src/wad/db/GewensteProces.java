@@ -4,15 +4,13 @@
  */
 package wad.db;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  *
@@ -27,7 +25,9 @@ public class GewensteProces {
     private int status=-1;
     private int inputKey=-1;
     private int outputKey=-1;    
-        
+
+    private static Log log = LogFactory.getLog(GewensteProces.class);
+    
     public Boolean getFirstGewensteProcesByStatus(Connection dbConnection, int status){
         ResultSet rs_gp;        
         Statement stmt_gp;
@@ -49,7 +49,8 @@ public class GewensteProces {
                 return false;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.WARNING, "{0} {1}", new Object[]{GewensteProces.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.WARNING, "{0} {1}", new Object[]{GewensteProces.class.getName(), ex});
+            log.warn(ex);
             return false;
         }
     }
@@ -75,7 +76,8 @@ public class GewensteProces {
                 return false;
             }
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.WARNING, "{0} {1}", new Object[]{GewensteProces.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.WARNING, "{0} {1}", new Object[]{GewensteProces.class.getName(), ex});
+            log.warn(ex);
             return false;
         }
     }
@@ -102,7 +104,8 @@ public class GewensteProces {
             int count = stmt_Write.executeUpdate(sqlStatement); 
             stmt_Write.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GewensteProces.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{GewensteProces.class.getName(), ex});
+            log.error(ex);
         }
     }
     

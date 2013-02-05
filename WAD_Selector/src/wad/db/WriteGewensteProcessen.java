@@ -4,7 +4,6 @@
  */
 package wad.db;
 
-import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,8 +12,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import wad.xml.*;
 
 /**
@@ -22,6 +21,8 @@ import wad.xml.*;
  * @author Ralph Berendsen <>
  */
 public class WriteGewensteProcessen {
+    
+    private static Log log = LogFactory.getLog(WriteGewensteProcessen.class);
     
     public static void writeDataSeries(Connection dbConnection,String selectorPk, String seriesPk){
         Statement stmt_Write;
@@ -65,7 +66,8 @@ public class WriteGewensteProcessen {
             stmt_gewenste.close();
             rs_gewenste.close();
         } catch (SQLException ex) {            
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+            log.error(ex);
         }
         
         if (!rowExists){
@@ -87,7 +89,8 @@ public class WriteGewensteProcessen {
                 stmt_Write.close();
                 //WriteToIqcDatabase.UpdateSeriesStatus(dbConnection, seriesFk, "3");
             } catch (SQLException ex) {
-                LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+                //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+                log.error(ex);
             }
         }
         
@@ -135,7 +138,8 @@ public class WriteGewensteProcessen {
             stmt_gewenste.close();
             rs_gewenste.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+            log.error(ex);
         }
         
         if (!rowExists){
@@ -156,7 +160,8 @@ public class WriteGewensteProcessen {
                 int count = stmt_Write.executeUpdate(sqlStatement);
                 stmt_Write.close();
             } catch (SQLException ex) {
-                LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+                //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+                log.error(ex);
             }
         }   
     }
@@ -203,7 +208,8 @@ public class WriteGewensteProcessen {
             stmt_gewenste.close();
             rs_gewenste.close();
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+            log.error(ex);
         }
                 
         if (!rowExists){
@@ -224,7 +230,8 @@ public class WriteGewensteProcessen {
                 int count = stmt_Write.executeUpdate(sqlStatement); 
                 stmt_Write.close();
             } catch (SQLException ex) {
-                LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+                //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+                log.error(ex);
             }            
         }   
     }
@@ -281,7 +288,8 @@ public class WriteGewensteProcessen {
             
             return fks;
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteGewensteProcessen.class.getName(), ex});
+            log.error(ex);
         }
         fks.add("-1");
         fks.add("-1");

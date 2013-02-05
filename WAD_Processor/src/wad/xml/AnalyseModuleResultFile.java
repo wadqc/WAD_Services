@@ -9,10 +9,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.logging.Level;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.w3c.dom.DOMImplementation;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -22,7 +23,6 @@ import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSOutput;
 import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
-import wad.logger.LoggerWrapper;
 
 /**
  *
@@ -32,6 +32,8 @@ public class AnalyseModuleResultFile {
     private ArrayList<Object> resultArray;
     private File analayseModuleResultFile;
     Document dom;
+    
+    private static Log log = LogFactory.getLog(AnalyseModuleResultFile.class);
     
 //    public AnalyseModuleInputFile(Patient patient, AnalyseModuleInputValues analyseModuleInputValues){
 //        this.patient = patient;        
@@ -339,11 +341,14 @@ public class AnalyseModuleResultFile {
             dom = db.parse(inputFile);
             
         } catch (SAXException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleResultFile.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleResultFile.class.getName(), ex});
+            log.error(ex);
         } catch (IOException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleResultFile.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleResultFile.class.getName(), ex});
+            log.error(ex);
         } catch (ParserConfigurationException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleResultFile.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleResultFile.class.getName(), ex});
+            log.error(ex);
         }    
     }
     

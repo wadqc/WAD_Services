@@ -5,8 +5,8 @@
 package wad.db;
 
 import java.sql.*;
-import java.util.logging.Level;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 /**
  *
  * @author Ralph Berendsen <>
@@ -17,6 +17,7 @@ public class PacsDatabaseConnection {
     public static final String MYSQL_AUTO_RECONNECT = "autoReconnect";
     public static final String MYSQL_MAX_RECONNECTS = "maxReconnects";
     
+    private static Log log = LogFactory.getLog(PacsDatabaseConnection.class);
     
     public static Connection conDb(DatabaseParameters dbParam) {
          String driver = dbParam.driverclass;
@@ -35,9 +36,11 @@ public class PacsDatabaseConnection {
             connProperties.put(MYSQL_MAX_RECONNECTS, "4");
             return DriverManager.getConnection(dbURL, connProperties);
         } catch (SQLException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+            log.error(ex);
         } catch (ClassNotFoundException ex) {
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});            
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+            log.error(ex);
         }
          return null;
         
@@ -55,7 +58,8 @@ public class PacsDatabaseConnection {
                 con.close();
             }
         } catch (SQLException ex) {
-                    LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+                    //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{PacsDatabaseConnection.class.getName(), ex});
+            log.error(ex);
                 }
     } 
 }

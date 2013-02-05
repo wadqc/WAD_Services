@@ -9,9 +9,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import wad.logger.LoggerWrapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 
 
 /**
@@ -20,6 +20,8 @@ import wad.logger.LoggerWrapper;
  */
 public class CollectorStatusTable {
     private ArrayList<CollectorStatusRow> colStatusTable = new ArrayList<CollectorStatusRow>();
+    
+    private static Log log = LogFactory.getLog(CollectorStatusTable.class);
     
     public CollectorStatusTable(Connection dbConnection, String tableName){        
         ResultSet rs_collectorStatus;        
@@ -38,7 +40,8 @@ public class CollectorStatusTable {
             //PacsDatabaseConnection.closeDb(dbConnection, stmt_collectorStatus, rs_collectorStatus);
         } catch (SQLException ex) {
             //PacsDatabaseConnection.closeDb(dbConnection, null, null);            
-            LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{CollectorStatusTable.class.getName(), ex});
+            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{CollectorStatusTable.class.getName(), ex});
+            log.error(ex);
         }
         //PacsDatabaseConnection.closeDb(dbConnection, null, null);
         

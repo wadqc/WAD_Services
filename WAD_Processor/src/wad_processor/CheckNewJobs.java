@@ -4,18 +4,17 @@
  */
 package wad_processor;
 
-import java.io.File;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TimerTask;
-import java.util.logging.Level;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import wad.db.DatabaseParameters;
 import wad.db.GewensteProces;
 import wad.db.PacsDatabaseConnection;
 import wad.db.ReadFromIqcDatabase;
 import wad.db.WriteResultaten;
-import wad.logger.LoggerWrapper;
 import wad.xml.AnalyseModuleResultFile;
 import wad.xml.ReadConfigXML;
 
@@ -24,7 +23,9 @@ import wad.xml.ReadConfigXML;
  * @author titulaer
  */
 public class CheckNewJobs extends TimerTask {
-
+    
+    private static Log log = LogFactory.getLog(CheckNewJobs.class);
+    
     public int aantalConcurrentJobs = 4;
     ArrayList<WAD_ProcessThread> processList = new ArrayList<WAD_ProcessThread>();
     int processID = 0;
@@ -34,8 +35,9 @@ public class CheckNewJobs extends TimerTask {
     public int teller = 0;
 
     public void run() {
-        LoggerWrapper loggerWrapper = LoggerWrapper.getInstance();
-        LoggerWrapper.myLogger.log(Level.INFO, "Begin cyclus processor.");
+        //LoggerWrapper loggerWrapper = LoggerWrapper.getInstance();
+        //LoggerWrapper.myLogger.log(Level.INFO, "");
+        log.info("Begin cyclus processor.");
         teller++;
         //RB inlezen db parameters
         DatabaseParameters iqcDBParams = new DatabaseParameters();
@@ -48,7 +50,8 @@ public class CheckNewJobs extends TimerTask {
             teller = 0;
             rp = i.next();
             if (!rp.isRunning()) {
-                LoggerWrapper.myLogger.log(Level.INFO, "{0}", "thread " + rp.ID() + " stopped, removing from currentJobList");
+                //LoggerWrapper.myLogger.log(Level.INFO, "{0}", "Thread " + rp.ID() + " stopped, removing from currentJobList");
+                log.info("Thread " + rp.ID() + " stopped, removing from currentJobList");
                 // RB BT update process met rp.ID() stopped
                 GewensteProces gp = new GewensteProces();
                 gp.getGewensteProcesByKey(dbConnection, Integer.toString(rp.ID()));
@@ -130,26 +133,31 @@ public class CheckNewJobs extends TimerTask {
                     p.setDaemon(false);
                     p.start();
                     //counter += 1;
-                    LoggerWrapper.myLogger.log(Level.INFO, "{0}", "Process id: " + processID);
+                    //LoggerWrapper.myLogger.log(Level.INFO, "{0}", "Process id: " + processID);
+                    log.info("Process id: " + processID);
                 } catch (Exception e) {
                     processList.remove(p);
-                    LoggerWrapper.myLogger.log(Level.INFO, "{0}", "Problem starting task: " + e.getMessage());
+                    //LoggerWrapper.myLogger.log(Level.INFO, "{0}", "Problem starting task: " + e.getMessage());
+                    log.info("Problem starting task: " + e.getMessage());
                     //Zet het gewenste process op status 10 (Error)
                     gp.updateStatus(dbConnection, 10);
                 }
             }
         } else {
-            LoggerWrapper.myLogger.log(Level.INFO, "{0}", "Cannot add process, current number of processes: " + processList.size());
+            //LoggerWrapper.myLogger.log(Level.INFO, "{0}", "Cannot add process, current number of processes: " + processList.size());
+            log.info("Cannot add process, current number of processes: " + processList.size());
         }
         //RB sluiten van de DBconnectie
         PacsDatabaseConnection.closeDb(dbConnection, null, null);
-        LoggerWrapper.myLogger.log(Level.INFO, "Einde cyclus processor.");
+        //LoggerWrapper.myLogger.log(Level.INFO, "Einde cyclus processor.");
+        log.info("Einde cyclus processor.");
         //RB
         //RB Sluiten applicatie voor testdoeleinden, gebruik setting in config.xml
         if (ReadConfigXML.readSettingsElement("stop").equals("1")) {
             if (teller == 5) {
                 //System.out.println(datum+" "+ tijd + ":Afsluiten.");
-                LoggerWrapper.myLogger.log(Level.INFO, "Afsluiten processor.");
+                //LoggerWrapper.myLogger.log(Level.INFO, "Afsluiten processor.");
+                log.info("Afsluiten processor.");
                 this.cancel();
                 System.exit(0);
             }
