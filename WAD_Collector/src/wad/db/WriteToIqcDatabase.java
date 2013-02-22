@@ -55,6 +55,7 @@ public class WriteToIqcDatabase {
                         } else if (value instanceof String){
                             String strValue = (String) value;
                             strValue = strValue.replace("\\", "\\\\");
+                            strValue = strValue.replace("\'", "\\'");
                             sqlValues = sqlValues+"'"+strValue+"'";
                         } else {
                             sqlValues = sqlValues+"'"+value+"'";
