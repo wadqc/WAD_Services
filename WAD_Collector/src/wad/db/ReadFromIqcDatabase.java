@@ -34,7 +34,7 @@ public class ReadFromIqcDatabase {
                 //serie_fk = rs_patient.getString("pk");                
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getStudies : "+ ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }        
@@ -55,7 +55,7 @@ public class ReadFromIqcDatabase {
                 return false;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("seriesExistsBySeriesIUID : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -75,7 +75,7 @@ public class ReadFromIqcDatabase {
                 return false;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("rowExistsByPrimaryKey : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -97,7 +97,7 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getCollectorStudyStatusByStudyFk : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -119,7 +119,7 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getCollectorSeriesStatusBySeriesFk : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -145,7 +145,7 @@ public class ReadFromIqcDatabase {
                 //serie_fk = rs_patient.getString("pk");                
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getColllectorStatusPkByStatus : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -167,7 +167,7 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getSeriesFkByInstanceFkFromInstance : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -189,7 +189,7 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getStudyFkBySeriesFkFromSeries : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -211,7 +211,7 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getPatientFkByStudyFkFromStudy : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -237,7 +237,7 @@ public class ReadFromIqcDatabase {
             rs_serie.close();               
             stmt_serie.close();
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getSeriesPkListWithStudyFk : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -263,7 +263,7 @@ public class ReadFromIqcDatabase {
             rs_instance.close();               
             stmt_instance.close();
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getInstancePkListWithSeriesFk : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -286,7 +286,7 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getFilenameFromTable : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -307,7 +307,7 @@ public class ReadFromIqcDatabase {
             rs_tableName.close();               
             stmt_tableName.close();
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getPkListFromTable : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -329,7 +329,7 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getStudyStatusByStudyFk : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -351,7 +351,7 @@ public class ReadFromIqcDatabase {
                 return null;
             }
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getStudyStatusByStudyIUID : "+ex);
             //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -373,7 +373,7 @@ public class ReadFromIqcDatabase {
             rs_files.close();
             stmt_files.close();
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getFilepathWithFilemd5 : "+ex);
             //Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -394,7 +394,7 @@ public class ReadFromIqcDatabase {
             rs_files.close();
             stmt_files.close();
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getFilemd5ListFromFiles : "+ex);
             //Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }
@@ -414,12 +414,36 @@ public class ReadFromIqcDatabase {
                 return result;
             }                      
         } catch (SQLException ex) {
-            log.error(ex);
+            log.error("getPkWithUniqueIdentifier : "+ex);
             //Logger.getLogger(ReadFromPacsDatabase.class.getName()).log(Level.SEVERE, null, ex);
             //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
         }        
         return "-1";
         
+    }
+    
+    public static ArrayList<String> getStudyIUIDWithCollectorStudyStatus(Connection dbConnection, String status){
+        ArrayList<String> valueList = new ArrayList<String>();
+        ResultSet rs;        
+        Statement stmt;        
+        
+        try {
+            stmt = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            String statement = "SELECT DISTINCT study_iuid, pk "+
+                                "FROM iqc.study " +
+                                "LEFT JOIN (SELECT study_fk, study_status FROM iqc.collector_study_status) AS status ON pk=status.study_fk WHERE status.study_status='"+status+"'";
+            rs = stmt.executeQuery(statement);            
+            while (rs.next()) {
+                valueList.add(rs.getString("study_iuid"));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            log.error("getStudyIUIDWithCollectorStudyStatus : "+ex);
+            //Logger.getLogger(ReadFromIqcDatabase.class.getName()).log(Level.SEVERE, null, ex);
+            //LoggerWrapper.myLogger.log(Level.INFO, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
+        }
+        return valueList;
     }
     
 }
