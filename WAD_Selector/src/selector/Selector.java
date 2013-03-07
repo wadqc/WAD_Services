@@ -502,15 +502,15 @@ public class Selector {
             String selectorSeriesValue = selectorSeriesMap.get(columnLabel);
             String seriesValue = seriesMap.get(columnLabel);
             if (!(selectorSeriesValue==null)){
-                if (!selectorSeriesValue.equals("null") && !selectorSeriesValue.equals("")){
-                    if (!columnLabel.equals("availability") && 
-                        !columnLabel.equals("series_status") && 
-                        !columnLabel.equals("pk") &&
-                        !columnLabel.equals("pps_start") &&    
-                        !columnLabel.equals("created_time") &&
-                        !columnLabel.equals("updated_time")     
+                if (!selectorSeriesValue.equalsIgnoreCase("null") && !selectorSeriesValue.equalsIgnoreCase("")){
+                    if (!columnLabel.equalsIgnoreCase("availability") && 
+                        !columnLabel.equalsIgnoreCase("series_status") && 
+                        !columnLabel.equalsIgnoreCase("pk") &&
+                        !columnLabel.equalsIgnoreCase("pps_start") &&    
+                        !columnLabel.equalsIgnoreCase("created_time") &&
+                        !columnLabel.equalsIgnoreCase("updated_time")     
                             ){
-                        if (!selectorSeriesValue.equals(seriesValue)){
+                        if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
                             match=false;
                         }
                     }
@@ -529,16 +529,16 @@ public class Selector {
             String selectorStudyValue = selectorStudyMap.get(columnLabel);
             String studyValue = studyMap.get(columnLabel);
             if (!(selectorStudyValue==null)){
-                if (!selectorStudyValue.equals("null") && !selectorStudyValue.equals("")){
-                    if (!columnLabel.equals("availability") && 
-                        !columnLabel.equals("study_status") && 
-                        !columnLabel.equals("study_datetime") && 
-                        !columnLabel.equals("pk") && 
-                        !columnLabel.equals("checked_time") && 
-                        !columnLabel.equals("updated_time") && 
-                        !columnLabel.equals("created_time")
+                if (!selectorStudyValue.equalsIgnoreCase("null") && !selectorStudyValue.equalsIgnoreCase("")){
+                    if (!columnLabel.equalsIgnoreCase("availability") && 
+                        !columnLabel.equalsIgnoreCase("study_status") && 
+                        !columnLabel.equalsIgnoreCase("study_datetime") && 
+                        !columnLabel.equalsIgnoreCase("pk") && 
+                        !columnLabel.equalsIgnoreCase("checked_time") && 
+                        !columnLabel.equalsIgnoreCase("updated_time") && 
+                        !columnLabel.equalsIgnoreCase("created_time")
                             ){
-                        if (!selectorStudyValue.equals(studyValue)){
+                        if (!selectorStudyValue.equalsIgnoreCase(studyValue)){
                             match=false;
                         }
                     }
@@ -557,14 +557,14 @@ public class Selector {
             String selectorSeriesValue = selectorPatientMap.get(columnLabel);
             String seriesValue = patientMap.get(columnLabel);
             if (!(selectorSeriesValue==null)){
-                if (!selectorSeriesValue.equals("null") && !selectorSeriesValue.equals("")){
-                    if (!columnLabel.equals("pk") && 
-                        !columnLabel.equals("merge_fk") &&                          
-                        !columnLabel.equals("created_time") &&
-                        !columnLabel.equals("updated_time") &&
-                        !columnLabel.equals("pat_attrs")    
+                if (!selectorSeriesValue.equalsIgnoreCase("null") && !selectorSeriesValue.equalsIgnoreCase("")){
+                    if (!columnLabel.equalsIgnoreCase("pk") && 
+                        !columnLabel.equalsIgnoreCase("merge_fk") &&                          
+                        !columnLabel.equalsIgnoreCase("created_time") &&
+                        !columnLabel.equalsIgnoreCase("updated_time") &&
+                        !columnLabel.equalsIgnoreCase("pat_attrs")    
                             ){
-                        if (!selectorSeriesValue.equals(seriesValue)){
+                        if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
                             match=false;
                         }
                     }
@@ -583,17 +583,17 @@ public class Selector {
             String selectorSeriesValue = selectorInstanceMap.get(columnLabel);
             String seriesValue = instanceMap.get(columnLabel);
             if (!(selectorSeriesValue==null)){
-                if (!selectorSeriesValue.equals("null") && !selectorSeriesValue.equals("")){
-                    if (!columnLabel.equals("pk") && 
-                        !columnLabel.equals("content_datetime") &&  
-                        !columnLabel.equals("availability") &&
-                        !columnLabel.equals("inst_status") &&
-                        !columnLabel.equals("all_attrs") &&
-                        !columnLabel.equals("commitment") &&
-                        !columnLabel.equals("archived") &&
-                        !columnLabel.equals("created_time") &&
-                        !columnLabel.equals("updated_time") &&
-                        !columnLabel.equals("inst_attrs")     
+                if (!selectorSeriesValue.equalsIgnoreCase("null") && !selectorSeriesValue.equalsIgnoreCase("")){
+                    if (!columnLabel.equalsIgnoreCase("pk") && 
+                        !columnLabel.equalsIgnoreCase("content_datetime") &&  
+                        !columnLabel.equalsIgnoreCase("availability") &&
+                        !columnLabel.equalsIgnoreCase("inst_status") &&
+                        !columnLabel.equalsIgnoreCase("all_attrs") &&
+                        !columnLabel.equalsIgnoreCase("commitment") &&
+                        !columnLabel.equalsIgnoreCase("archived") &&
+                        !columnLabel.equalsIgnoreCase("created_time") &&
+                        !columnLabel.equalsIgnoreCase("updated_time") &&
+                        !columnLabel.equalsIgnoreCase("inst_attrs")     
                             ){
                         if (!selectorSeriesValue.equals(seriesValue)){
                             match=false;
