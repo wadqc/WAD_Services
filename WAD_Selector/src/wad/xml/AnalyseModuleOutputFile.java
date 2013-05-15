@@ -39,7 +39,7 @@ public class AnalyseModuleOutputFile {
         
         //this.absoluteFilename = this.filePath.replace("..",mainDir)+ this.fileName;
         this.absoluteFilename = ReadConfigXML.readFileElement("XML")+this.filePath+ this.fileName;
-        this.absoluteFilename = this.absoluteFilename.replace("/","\\");
+        this.absoluteFilename = this.absoluteFilename.replace("/",File.separator);
         File file = new File(this.absoluteFilename);
         boolean created = false;
         try {
