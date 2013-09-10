@@ -60,7 +60,9 @@ public class WAD_ProcessThread extends Thread {
             BufferedReader reader = new BufferedReader(new InputStreamReader(_proc.getInputStream()));
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println("tasklist: " + line);
+                // JK terminal output van tread naar logfile ipv stdout
+                //System.out.println("tasklist: " + line);
+                log.info("Thread " + _ID + ": " + line);
             }
             _proc.waitFor();
             //doc: Zet de parameter die aangeeft dat process klaar 
