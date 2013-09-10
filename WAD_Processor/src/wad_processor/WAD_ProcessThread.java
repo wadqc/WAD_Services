@@ -25,7 +25,7 @@ public class WAD_ProcessThread extends Thread {
     private boolean _error = false;
     private String[] _args;
     private Process _proc;
-    Runtime rt = Runtime.getRuntime();
+    //Runtime rt = Runtime.getRuntime();
 
     public boolean isRunning() {
         return _running;
@@ -55,7 +55,11 @@ public class WAD_ProcessThread extends Thread {
     //doc: deze routine wordt aangeroepen als de inherited method thread.start wordt aangeroepen
     public void run() {
         try {
-            _proc = rt.exec(_args);
+            // JK process builder kan stderr samenvoegen met stdout stream
+            //_proc = rt.exec(_args);
+            ProcessBuilder builder = new ProcessBuilder( _args );
+            builder.redirectErrorStream( true );
+            _proc = builder.start();
             //BT alleen wachten indien geconfigureerd, bijv html pagina openen kan reden zijn dat neit te doen
             BufferedReader reader = new BufferedReader(new InputStreamReader(_proc.getInputStream()));
             String line;
