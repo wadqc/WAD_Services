@@ -192,7 +192,7 @@ public class WriteResultaten {
             try {
                 ps.setFloat(index, Float.parseFloat(value.replace(",", ".")));
             } catch (NumberFormatException ex) {
-                // FIXME: een NULL inserten of SQL-exception laten genereren?
+                ps.setNull(index, Types.FLOAT);
                 log.error(ex);
             }
         }
