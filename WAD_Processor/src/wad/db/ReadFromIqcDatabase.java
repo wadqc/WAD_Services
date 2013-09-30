@@ -4,6 +4,7 @@
  */
 package wad.db;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -342,7 +343,7 @@ public class ReadFromIqcDatabase {
                     String filename = rs_analyseModule.getString("filename");
                     String filepath = rs_analyseModule.getString("filepath");                    
                     String uploadPath = ReadConfigXML.readFileElement("uploads");
-                    return (uploadPath+filepath+filename).replace("/","\\");
+                    return (uploadPath+filepath+filename).replace("/",File.separator);
                 }
                 stmt_analyseModule.close();
                 rs_analyseModule.close();
@@ -371,7 +372,7 @@ public class ReadFromIqcDatabase {
                     String filepath=rs_analyseModuleCfg.getString("filepath");
                     String filename=rs_analyseModuleCfg.getString("filename");                    
                     String uploadPath = ReadConfigXML.readFileElement("uploads");
-                    return (uploadPath+filepath+filename).replace("/","\\");
+                    return (uploadPath+filepath+filename).replace("/",File.separator);
                 }
                 stmt_analyseModuleCfg.close();
                 rs_analyseModuleCfg.close();

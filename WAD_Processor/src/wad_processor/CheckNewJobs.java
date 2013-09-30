@@ -4,10 +4,12 @@
  */
 package wad_processor;
 
+import java.io.File;
 import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.TimerTask;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import wad.db.DatabaseParameters;
@@ -98,7 +100,7 @@ public class CheckNewJobs extends TimerTask {
 //                    File dir = new File(currentDir);
 //                    String mainDir = dir.getParent();
 //                    input = input.replace("..", mainDir);
-                    input = input.replace("/", "\\");
+                    input = input.replace("/", File.separator);
 
                     //controle op type extensie, zodat m-files, java-files etc de juiste commandline meekrijgen
                     //command[0] = "java -jar "+anaModuleFile + " \"" + input +"\"";
@@ -109,7 +111,17 @@ public class CheckNewJobs extends TimerTask {
                         command[1] = "-jar";
                         command[2] = anaModuleFile;
                         command[3] = "\"" + input + "\"";
-                    } else {
+		    } else if (matchExtension(anaModuleFile, "py")) {
+                        command = new String[3];
+                        command[0] = "python";
+                        command[1] = anaModuleFile;
+                        command[2] = input;
+		    } else if (matchExtension(anaModuleFile, "sh") && SystemUtils.IS_OS_LINUX) {
+			command = new String[3];
+                        command[0] = "bash";
+                        command[1] = anaModuleFile;
+                        command[2] = input;
+		    } else {
                         command = new String[2];
                         command[0] = anaModuleFile;
                         command[1] = "\"" + input + "\"";
@@ -172,7 +184,7 @@ public class CheckNewJobs extends TimerTask {
     private void processFinishedProcess(Connection dbConnection, GewensteProces gp) {
         // aanpassen bij absoluut filepath voor XML in config.xml
         String output = ReadConfigXML.readFileElement("XML") + ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_output", gp.getOutputKey());
-        output = output.replace("/", "\\");
+        output = output.replace("/", File.separator);
         gp.updateStatus(dbConnection, 3);
         AnalyseModuleResultFile resultFile = new AnalyseModuleResultFile(output);
         Boolean succes = resultFile.read();

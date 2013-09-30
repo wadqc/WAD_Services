@@ -8,6 +8,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.Types;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import wad.xml.AnalyseModuleResultFile;
@@ -71,105 +73,91 @@ public class WriteResultaten {
 //    }
 
     private void writeBoolean(Connection dbConnection, ResultsBoolean results) {
-        Statement stmt_Write;
-        String statement = "INSERT INTO resultaten_boolean(niveau, gewenste_processen_fk, omschrijving, volgnummer, waarde) ";
-        statement = statement + "values ('" + results.getNiveau() + "','"
-                + this.gewensteProcessenKey + "','"
-                + results.getOmschrijving() + "',"
-                + results.getVolgnummer() + ",'"
-                + results.getWaarde()+"'"//+
-                //checkEmptyString(results.getDatetime())
-                + ")";
         try {
-            stmt_Write = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            int count = stmt_Write.executeUpdate(statement, Statement.RETURN_GENERATED_KEYS);
-            stmt_Write.close();
+            PreparedStatement pstmt = dbConnection.prepareStatement("INSERT INTO resultaten_boolean(niveau, gewenste_processen_fk, omschrijving, volgnummer, waarde) values (?,?,?,?,?)");
+            pstmt.setString(1, results.getNiveau());
+            pstmt.setInt(2, this.gewensteProcessenKey);
+            pstmt.setString(3, results.getOmschrijving());
+            pstmt.setString(4, results.getVolgnummer());
+            pstmt.setString(5, results.getWaarde());
+            //log.debug(pstmt.toString());
+            pstmt.executeUpdate();
+            pstmt.close();
         } catch (SQLException ex) {
-            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{WriteResultaten.class.getName(), ex});
             log.error(ex);
         }
     }
 
     private void writeChar(Connection dbConnection, ResultsChar results) {
-        Statement stmt_Write;
-        String statement = "INSERT INTO resultaten_char(niveau, gewenste_processen_fk, omschrijving, volgnummer, waarde) ";
-        statement = statement + "values ('" + results.getNiveau() + "','"
-                + this.gewensteProcessenKey + "','"
-                + results.getOmschrijving() + "',"
-                + results.getVolgnummer() + ",'"
-                + results.getWaarde()+"'"//+
-                //checkEmptyString(results.getDatetime())
-                + ")";
-
         try {
-            stmt_Write = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            int count = stmt_Write.executeUpdate(statement, Statement.RETURN_GENERATED_KEYS);
-            stmt_Write.close();
+            PreparedStatement pstmt = dbConnection.prepareStatement("INSERT INTO resultaten_char(niveau, gewenste_processen_fk, omschrijving, volgnummer, waarde) values (?,?,?,?,?)");
+            pstmt.setString(1, results.getNiveau());
+            pstmt.setInt(2, this.gewensteProcessenKey);
+            pstmt.setString(3, results.getOmschrijving());
+            pstmt.setString(4, results.getVolgnummer());
+            pstmt.setString(5, results.getWaarde());
+    	    //log.debug(pstmt.toString());
+            pstmt.executeUpdate();
+            pstmt.close();
         } catch (SQLException ex) {
-            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
             log.error(ex);
         }
     }
 
     private void writeFloat(Connection dbConnection, ResultsFloat results) {
-        Statement stmt_Write;
-        String statement = "INSERT INTO resultaten_floating(niveau, "
+        try {
+            PreparedStatement pstmt = dbConnection.prepareStatement("INSERT INTO resultaten_floating("
+                + "niveau, "
                 + "gewenste_processen_fk, "
                 + "omschrijving, "
                 + "volgnummer, "
                 + "waarde, "
-                //+ "datetime, "
                 + "grootheid, "
                 + "eenheid, "
                 + "grens_kritisch_boven, "
                 + "grens_kritisch_onder, "
                 + "grens_acceptabel_boven, "
-                + "grens_acceptabel_onder) ";
-        statement = statement + "values ('" + results.getNiveau() + "','"
-                + this.gewensteProcessenKey + "','"
-                + results.getOmschrijving() + "',"
-                + results.getVolgnummer() + ","
-                + checkFloating(results.getWaarde()) + ",'"
-                + //checkEmptyString(results.getDatetime())+",'"+
-                results.getGrootheid() + "','"
-                + results.getEenheid() + "',"
-                + checkFloating(results.getGrensKritischBoven()) + ","
-                + checkFloating(results.getGrensKritischOnder()) + ","
-                + checkFloating(results.getGrensAcceptabelBoven()) + ","
-                + checkFloating(results.getGrensAcceptabelOnder()) + ")";
-        try {
-            stmt_Write = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            int count = stmt_Write.executeUpdate(statement, Statement.RETURN_GENERATED_KEYS);
-            stmt_Write.close();
+                + "grens_acceptabel_onder) "
+                + "values (?,?,?,?,?,?,?,?,?,?,?)");
+            pstmt.setString(1, results.getNiveau());
+            pstmt.setInt(2, this.gewensteProcessenKey);
+            pstmt.setString(3, results.getOmschrijving());
+            pstmt.setString(4, results.getVolgnummer());
+            setFloatOrNull(pstmt, 5, results.getWaarde());
+            pstmt.setString(6, results.getGrootheid());
+            pstmt.setString(7, results.getEenheid());
+            setFloatOrNull(pstmt, 8, results.getGrensKritischBoven());
+            setFloatOrNull(pstmt, 9, results.getGrensKritischOnder());
+            setFloatOrNull(pstmt, 10, results.getGrensAcceptabelBoven());
+            setFloatOrNull(pstmt, 11, results.getGrensAcceptabelOnder());
+            //log.debug(pstmt.toString());
+            pstmt.executeUpdate();
+            pstmt.close();
         } catch (SQLException ex) {
-            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
             log.error(ex);
-        }
+	}
     }
 
     private void writeObject(Connection dbConnection, ResultsObject results) {
-        Statement stmt_Write;
         String pad = results.getObjectnaampad();
         pad = pad.replace("\\", "/");
-        String statement = "INSERT INTO resultaten_object(niveau, "
+        try {
+            PreparedStatement pstmt = dbConnection.prepareStatement("INSERT INTO resultaten_object("
+                + "niveau, "
                 + "gewenste_processen_fk, "
                 + "omschrijving, "
                 + "volgnummer, "
-                + "object_naam_pad) ";
-                //+ "datetime) ";
-        statement = statement + "values ('" + results.getNiveau() + "','"
-                + this.gewensteProcessenKey + "','"
-                + results.getOmschrijving() + "',"
-                + results.getVolgnummer() + ",'"
-                + pad+"'"//+
-                // checkEmptyString(results.getDatetime())
-                + ")";
-        try {
-            stmt_Write = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            int count = stmt_Write.executeUpdate(statement, Statement.RETURN_GENERATED_KEYS);
-            stmt_Write.close();
+                + "object_naam_pad) "
+                + "values (?,?,?,?,?)");
+            pstmt.setString(1, results.getNiveau());
+            pstmt.setInt(2, this.gewensteProcessenKey);
+            pstmt.setString(3, results.getOmschrijving());
+            pstmt.setString(4, results.getVolgnummer());
+            pstmt.setString(5, pad);
+            //log.debug(pstmt.toString());
+            pstmt.executeUpdate();
+            pstmt.close();
         } catch (SQLException ex) {
-            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
             log.error(ex);
         }
     }
@@ -197,27 +185,38 @@ public class WriteResultaten {
         }
     }
 
-    private Float checkFloating(String value) {
+    private void setFloatOrNull(PreparedStatement ps, int index, String value) throws SQLException {
         if (value.isEmpty()) {
-            return null;
-        } else if (value.contains(",")) {
-            value = value.replace(",", ".");
-            return Float.parseFloat(value);
+            ps.setNull(index, Types.FLOAT);
         } else {
-            return Float.parseFloat(value);
+            try {
+                ps.setFloat(index, Float.parseFloat(value.replace(",", ".")));
+            } catch (NumberFormatException ex) {
+                // FIXME: een NULL inserten of SQL-exception laten genereren?
+                log.error(ex);
+            }
         }
     }
+
+//    private Float checkFloating(String value) {
+//        if (value.isEmpty()) {
+//            return null;
+//        } else if (value.contains(",")) {
+//            value = value.replace(",", ".");
+//            return Float.parseFloat(value);
+//        } else {
+//            return Float.parseFloat(value);
+//        }
+//    }
     
     private Boolean removeResults(Connection dbConnection, String table){
-        Statement stmt_Write;
-        String statement = "DELETE FROM "+table+ " WHERE gewenste_processen_fk="+this.gewensteProcessenKey;
         try {
-            stmt_Write = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_UPDATABLE);
-            int count = stmt_Write.executeUpdate(statement, Statement.RETURN_GENERATED_KEYS);
-            stmt_Write.close();
+            PreparedStatement pstmt = dbConnection.prepareStatement("DELETE FROM "+table+ " WHERE gewenste_processen_fk=?");
+            pstmt.setInt(1, this.gewensteProcessenKey);
+            pstmt.executeUpdate();
+            pstmt.close();
             return true;
         } catch (SQLException ex) {
-            //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{ReadFromIqcDatabase.class.getName(), ex});
             log.error(ex);
             return false;
         }

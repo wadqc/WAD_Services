@@ -4,6 +4,7 @@
  */
 package wad.xml;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -32,7 +33,7 @@ public class AnalyseModuleInputValues {
         analyselevel = "";
         setCfgFile(dbConnection, selectorPk);
         this.analyseModuleCfg = ReadConfigXML.readFileElement("uploads")+this.analyseModuleCfg; 
-        this.analyseModuleCfg = this.analyseModuleCfg.replace("/","\\");
+	this.analyseModuleCfg = this.analyseModuleCfg.replace("/",File.separator);
     }
     
     private void setCfgFile(Connection dbConnection, String selectorPk){
