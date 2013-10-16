@@ -6,11 +6,14 @@ package wad_collector;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.Properties;
 import java.util.Timer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
+import wad.db.DatabaseParameters;
+import wad.db.PacsDatabaseConnection;
 import wad.xml.ReadConfigXML;
 
 /**
@@ -21,6 +24,8 @@ public class WAD_Collector {
     Timer studyCheckTimer;    
     private static Log log = LogFactory.getLog(WAD_Collector.class);
     private static Properties logProperties = new Properties();
+    //Versie van de Collector dient hardcoded in onderstaande regel opgenomen te worden.
+    private static String version= "0.9.0";
     
     private WAD_Collector(){
         studyCheckTimer = new Timer();
@@ -42,6 +47,15 @@ public class WAD_Collector {
             log.error(ex);
         }
         
-        WAD_Collector client = new WAD_Collector();        
+        DatabaseParameters iqcDBParams = new DatabaseParameters();
+        iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
+        Connection iqcConnection = PacsDatabaseConnection.conDb(iqcDBParams);
+        CheckCollectorVersion check = new CheckCollectorVersion();        
+        check.CheckVersion(iqcConnection, version);
+        PacsDatabaseConnection.closeDb(iqcConnection, null, null);
+        //Indien de major versie van database en collector niet overeenkomen de Collector niet starten
+        if (check.passedCheck == true) {
+            WAD_Collector client = new WAD_Collector(); 
+        }
     }
 }
