@@ -6,11 +6,14 @@ package wad_processor;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Connection;
 import java.util.Properties;
 import java.util.Timer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.PropertyConfigurator;
+import wad.db.DatabaseParameters;
+import wad.db.PacsDatabaseConnection;
 import wad.xml.ReadConfigXML;
 
 /**
@@ -22,6 +25,8 @@ public class WAD_Processor {
     Timer processListTimer;
     private static Log log = LogFactory.getLog(WAD_Processor.class);
     private static Properties logProperties = new Properties();
+    //Versie van de Processor dient hardcoded in onderstaande regel opgenomen te worden.
+    private static String version= "0.9.0";
 
     private WAD_Processor() {
         processListTimer = new Timer();
@@ -46,7 +51,16 @@ public class WAD_Processor {
         } catch (IOException ex) {
             log.error(ex);
         }
-
-        WAD_Processor client = new WAD_Processor();
+        
+        DatabaseParameters iqcDBParams = new DatabaseParameters();
+        iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
+        Connection iqcConnection = PacsDatabaseConnection.conDb(iqcDBParams);
+        CheckProcessorVersion check = new CheckProcessorVersion();        
+        check.CheckVersion(iqcConnection, version);
+        PacsDatabaseConnection.closeDb(iqcConnection, null, null);
+        //Indien de major versie van database en collector niet overeenkomen de Collector niet starten
+        if (check.passedCheck == true) {
+            WAD_Processor client = new WAD_Processor();
+        }
     }
 }
