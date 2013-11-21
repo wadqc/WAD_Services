@@ -106,13 +106,10 @@ public class CheckNewStudy {
                     //System.out.println("Series_iuid : " + pacsSeriesIUID.get(i));
                     WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getSeriesResultSetWithSeriesIUID(pacsConnection, seriesIUID.get(i)), "series");
                     String seriesFk = ReadFromPacsDatabase.getPkWithUniqueIdentifier(pacsConnection, "series", "series_iuid", seriesIUID.get(i));
-                    //Instances kopieren
+                    //Instances en filesystem kopieren
                     ArrayList<String> instancePk = ReadFromPacsDatabase.getInstancePkWithSeriesIUID(pacsConnection, seriesIUID.get(i)); 
                     for (int j=0;j<instancePk.size();j++){
-                        WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithPrimaryKey(pacsConnection, "instance", instancePk.get(j)), "instance");
-                        //WriteToIqcDatabase.CreateRowInGewensteProcessen(iqcDBParams, "instance", instancePk.get(j), "100");
-                        //Files kopieren
-                        WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithForeignKey(pacsConnection, "files","instance_fk" ,instancePk.get(j)), "files");
+                        // Eerst filesystem kopieren dan pas de instances ivm restricties/relaties database 
                         //Filesystem kopieren
                         //controleren of filesystem bestaat, zo niet dan kopieren                        
                         String filePk = ReadFromPacsDatabase.getFilesPkWithInstancePk(pacsConnection, instancePk.get(j));
@@ -120,6 +117,11 @@ public class CheckNewStudy {
                         if (!ReadFromIqcDatabase.rowExistsByPrimaryKey(iqcConnection, "filesystem", filesystemFk)){
                             WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithPrimaryKey(pacsConnection, "filesystem", filesystemFk), "filesystem");
                         }
+                        // Instance kopieren
+                        WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithPrimaryKey(pacsConnection, "instance", instancePk.get(j)), "instance");
+                        //WriteToIqcDatabase.CreateRowInGewensteProcessen(iqcDBParams, "instance", instancePk.get(j), "100");
+                        //Files kopieren
+                        WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithForeignKey(pacsConnection, "files","instance_fk" ,instancePk.get(j)), "files");
                     }
                     WriteToIqcDatabase.WriteSeriesStatus(iqcConnection, seriesFk, "1");
                     //System.out.println("Series status : 1");

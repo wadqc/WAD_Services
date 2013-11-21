@@ -48,13 +48,10 @@ public class CheckSeriesWithStudyIUID {
                     //serie kopieren
                     WriteToIqcDatabase.WriteResulsetInTable(iqcConnection,ReadFromPacsDatabase.getSeriesResultSetWithSeriesIUID(pacsConnection, pacsSeriesIUID.get(i)),"series");
                     
-                    //Instances kopieren
+                    //Instances en filesystem kopieren
                     ArrayList<String> instancePk = ReadFromPacsDatabase.getInstancePkWithSeriesIUID(pacsConnection, pacsSeriesIUID.get(i)); 
                     for (int j=0;j<instancePk.size();j++){
-                        WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithPrimaryKey(pacsConnection, "instance", instancePk.get(j)), "instance");
-                        //WriteToIqcDatabase.CreateRowInGewensteProcessen(iqcDBParams, "instance", instancePk.get(j), "100");
-                        //Files kopieren
-                        WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithForeignKey(pacsConnection, "files","instance_fk" ,instancePk.get(j)), "files");
+                        // Eerst filesystem kopieren dan pas de instances ivm restricties/relaties database 
                         //Filesystem kopieren
                         //controleren of filesystem bestaat, zo niet dan kopieren                        
                         String filePk = ReadFromPacsDatabase.getFilesPkWithInstancePk(pacsConnection, instancePk.get(j));
@@ -62,6 +59,11 @@ public class CheckSeriesWithStudyIUID {
                         if (!ReadFromIqcDatabase.rowExistsByPrimaryKey(iqcConnection, "filesystem", filesystemFk)){
                             WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithPrimaryKey(pacsConnection, "filesystem", filesystemFk), "filesystem");
                         }
+                        // Instance kopieren
+                        WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithPrimaryKey(pacsConnection, "instance", instancePk.get(j)), "instance");
+                        //WriteToIqcDatabase.CreateRowInGewensteProcessen(iqcDBParams, "instance", instancePk.get(j), "100");
+                        //Files kopieren
+                        WriteToIqcDatabase.WriteResulsetInTable(iqcConnection, ReadFromPacsDatabase.getTableResultSetWithForeignKey(pacsConnection, "files","instance_fk" ,instancePk.get(j)), "files");
                     }
                     //Serie is toegevoegd aan iqcDB nu nog markeren voor de selector middels cllector_series_status = 1
                     String seriesFk = ReadFromPacsDatabase.getPkWithUniqueIdentifier(pacsConnection, "series", "series_iuid", pacsSeriesIUID.get(i));                    
