@@ -2,6 +2,9 @@ WAD install services scripts
 
 Installs WAD_Collector, WAD_Selector and WAD_Processor as a Windows service
 
+Note: recommended to create a new user account for WAD services and run the services
+as this user. User needs to have full (read/write) access to XML input/output folders.
+
 DEPENDENCIES
 - Windows 2003 Resource kit, distributed at no cost by Microsoft.
   In fact only the executable SrvAny from that package is needed.
@@ -17,4 +20,4 @@ NOTES
 # Use of this software is your own responsibility, sofware comes without
 # warranty.
 ##########################################################################
-README Version 1.0 / 20121115 / Joost Kuijer / VUmc
+README Version 1.1 / 20130115 / Joost Kuijer / VUmc

@@ -35,13 +35,13 @@ regedit WAD_Collector_params.reg
 sc config WAD_Collector depend= mysql
 
 echo.
-echo Install WAD_Collector service
+echo Install WAD_Selector service
 sc create WAD_Selector start= auto binPath= %SrvAnyExe%
 regedit WAD_Selector_params.reg
 sc config WAD_Selector depend= mysql
 
 echo.
-echo Install WAD_Collector service
+echo Install WAD_Processor service
 sc create WAD_Processor start= auto binPath= %SrvAnyExe%
 regedit WAD_Processor_params.reg
 sc config WAD_Processor depend= mysql
