@@ -510,7 +510,10 @@ public class Selector {
                         !columnLabel.equalsIgnoreCase("created_time") &&
                         !columnLabel.equalsIgnoreCase("updated_time")     
                             ){
-                        if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
+                        //if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
+                        //    match=false;
+                        //}
+                        if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
                             match=false;
                         }
                     }
@@ -538,7 +541,10 @@ public class Selector {
                         !columnLabel.equalsIgnoreCase("updated_time") && 
                         !columnLabel.equalsIgnoreCase("created_time")
                             ){
-                        if (!selectorStudyValue.equalsIgnoreCase(studyValue)){
+                        //if (!selectorStudyValue.equalsIgnoreCase(studyValue)){
+                        //    match=false;
+                        //}
+                        if (!selectorStudyValue.matches("(?i:(^|(.*;))\\s*"+studyValue+"\\s*((;.*|$)))")){
                             match=false;
                         }
                     }
@@ -564,7 +570,10 @@ public class Selector {
                         !columnLabel.equalsIgnoreCase("updated_time") &&
                         !columnLabel.equalsIgnoreCase("pat_attrs")    
                             ){
-                        if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
+                        //if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
+                        //    match=false;
+                        //}
+                        if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
                             match=false;
                         }
                     }
@@ -595,7 +604,10 @@ public class Selector {
                         !columnLabel.equalsIgnoreCase("updated_time") &&
                         !columnLabel.equalsIgnoreCase("inst_attrs")     
                             ){
-                        if (!selectorSeriesValue.equals(seriesValue)){
+                        //if (!selectorSeriesValue.equals(seriesValue)){
+                        //    match=false;
+                        //}
+                        if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
                             match=false;
                         }
                     }
