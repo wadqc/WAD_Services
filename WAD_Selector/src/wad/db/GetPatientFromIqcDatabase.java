@@ -4,6 +4,7 @@
  */
 package wad.db;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -171,7 +172,7 @@ public class GetPatientFromIqcDatabase {
                 while (rs_files.next()){
                     String filessystemFk = rs_files.getString("filesystem_fk");
                     filepath = rs_files.getString("filepath");
-                    filepath = filepath.replace('/', '\\');
+                    filepath = filepath.replace("/", File.separator);
                     Statement stmt_filesystem = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                     ResultSet rs_filesystem = stmt_filesystem.executeQuery("SELECT * FROM filesystem WHERE pk='"+filessystemFk+"'");
                     while (rs_filesystem.next()){
@@ -181,7 +182,7 @@ public class GetPatientFromIqcDatabase {
                     stmt_filesystem.close();
                 }
                 String archivePath = ReadConfigXML.readFileElement("archive");
-                archivePath = archivePath.replace('/', '\\');
+                archivePath = archivePath.replace("/", File.separator);
                 // VUmc - JK - 20121203 - allow multiple archive locations
                 // If database table filesystem column dirpath starts with '/', '\' or has ':' as 2nd character
                 // then we assume the dirpath is absolute and we don't need to add the archivePath. However,
@@ -189,10 +190,10 @@ public class GetPatientFromIqcDatabase {
                 // the archive path, so it needs to be added in that case.
                 if ( (dirpath.indexOf("/") == 0) || (dirpath.indexOf("\\") == 0) || (dirpath.indexOf(":") == 1) ) {
                     // assume this is an absolute path
-                    instance.setFilename(dirpath+"\\"+filepath);
+                    instance.setFilename(dirpath+File.separator+filepath);
                 } else {
                     // assume this is a relative path and need to add configured archivePath in front
-                    instance.setFilename(archivePath+dirpath+"\\"+filepath);
+                    instance.setFilename(archivePath+dirpath+File.separator+filepath);
                 }
                 // End VUmc - JK - 20121203
                 rs_files.close();

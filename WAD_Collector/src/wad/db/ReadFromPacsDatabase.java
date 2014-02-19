@@ -4,6 +4,7 @@
  */
 package wad.db;
 
+import java.io.File;
 import java.sql.Statement;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -57,12 +58,12 @@ public class ReadFromPacsDatabase {
                         
                         //files identiefier bekend, nu filepath uitlezen en uit filesystem dirpath uitlezen
                         filepath = rs_files.getString("filepath");
-                        filepath = filepath.replace('/', '\\');
+                        filepath = filepath.replace("/", File.separator);
                         stmt_filesystem = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                         rs_filesystem = stmt_filesystem.executeQuery("SELECT dirpath FROM filesystem WHERE pk='"+filesystem_fk+"'");
                         while (rs_filesystem.next()){
                             dirpath = rs_filesystem.getString("dirpath"); 
-                            profileList.add(dirpath+"\\"+filepath);
+                            profileList.add(dirpath+File.separator+filepath);
                         }
                     }
                 }
