@@ -19,7 +19,8 @@ import org.apache.commons.logging.LogFactory;
  */
 public class AnalyseModuleOutputFile {
     String selectorPk;
-    String analyseModule;
+	String selectorName;
+    //String analyseModule;
     String absoluteFilename;
     String filePath;
     String fileName;
@@ -29,7 +30,7 @@ public class AnalyseModuleOutputFile {
     public AnalyseModuleOutputFile(Connection dbConnection, String SelectorPk, String createDateTime){
         this.selectorPk = SelectorPk;
         getModuleName(dbConnection);
-        this.fileName = this.analyseModule+"/"+createDateTime+"/result.xml";
+        this.fileName = this.selectorName+"/"+createDateTime+"/result.xml";
         //aanpassen bij absoluut filepath voor XML in config.xml
         String currentDir = System.getProperty("user.dir");
         File dir = new File(currentDir);
@@ -61,8 +62,10 @@ public class AnalyseModuleOutputFile {
         try {
             stmt_selector = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs_selector = stmt_selector.executeQuery("SELECT * FROM selector WHERE pk='"+selectorPk+"'");
-            while (rs_selector.next()) {                
-                String analyseModule_fk=rs_selector.getString("analysemodule_fk");
+            while (rs_selector.next()) {
+				this.selectorName=rs_selector.getString("name");
+                /* 
+				String analyseModule_fk=rs_selector.getString("analysemodule_fk");
                 stmt_analyseModule = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
                 rs_analyseModule = stmt_analyseModule.executeQuery("SELECT * FROM analysemodule WHERE pk='"+analyseModule_fk+"'");
                 while (rs_analyseModule.next()) {                    
@@ -73,7 +76,9 @@ public class AnalyseModuleOutputFile {
                 }
                 stmt_analyseModule.close();
                 rs_analyseModule.close();
+				*/
             }
+			rs_selector.close();
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{AnalyseModuleOutputFile.class.getName(), ex});            
             log.error(ex);
