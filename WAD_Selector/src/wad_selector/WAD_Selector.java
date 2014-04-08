@@ -26,7 +26,7 @@ public class WAD_Selector {
     private static Log log = LogFactory.getLog(WAD_Selector.class);
     private static Properties logProperties = new Properties();
     //Versie van de Selector dient hardcoded in onderstaande regel opgenomen te worden.
-    private static String version= "1.0.0";
+    private static String version= "0.9.0";
     
     private WAD_Selector(){ 
         studyCheckTimer = new Timer();
