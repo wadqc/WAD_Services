@@ -15,6 +15,7 @@ public class ResultsChar {
     private String waarde;
     private String omschrijving;
     private String volgnummer;
+    private String criterium;
     
     public ResultsChar(){
         this.type ="char";
@@ -23,6 +24,7 @@ public class ResultsChar {
         this.waarde="";
         this.omschrijving="";
         this.volgnummer="";
+	this.criterium = "";
     }
     
     public String getNiveau(){
@@ -72,4 +74,13 @@ public class ResultsChar {
     public String getVolgnummer(){
         return this.volgnummer;
     }
+
+    public String getCriterium(){
+        return this.criterium;
+    }
+
+    public void setCriterium(String criterium){
+        this.criterium = criterium;
+    }
+
 }

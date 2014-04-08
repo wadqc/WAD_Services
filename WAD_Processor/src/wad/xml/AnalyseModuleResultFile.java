@@ -195,6 +195,10 @@ public class AnalyseModuleResultFile {
         waardeElement.appendChild(waardeText);
         resultElement.appendChild(waardeElement);        
         
+        Element criteriumElement = dom.createElement("criterium");
+        Text criteriumText = dom.createTextNode(result.getCriterium());
+        criteriumElement.appendChild(criteriumText);
+        resultElement.appendChild(criteriumElement);        
         return resultElement;
     }
     
@@ -378,6 +382,7 @@ public class AnalyseModuleResultFile {
                     result.setOmschrijving(getTextValue(elResults, "omschrijving"));
                     result.setVolgnummer(getTextValue(elResults, "volgnummer"));
                     result.setWaarde(getTextValue(elResults, "waarde"));                    
+                    result.setCriterium(getTextValue(elResults, "criterium"));                    
                     resultArray.add(result);
                 } else if (type.equals("boolean")){
                     ResultsBoolean result = new ResultsBoolean();
