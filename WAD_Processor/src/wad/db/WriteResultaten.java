@@ -90,12 +90,13 @@ public class WriteResultaten {
 
     private void writeChar(Connection dbConnection, ResultsChar results) {
         try {
-            PreparedStatement pstmt = dbConnection.prepareStatement("INSERT INTO resultaten_char(niveau, gewenste_processen_fk, omschrijving, volgnummer, waarde) values (?,?,?,?,?)");
+            PreparedStatement pstmt = dbConnection.prepareStatement("INSERT INTO resultaten_char(niveau, gewenste_processen_fk, omschrijving, volgnummer, waarde, criterium) values (?,?,?,?,?,?)");
             pstmt.setString(1, results.getNiveau());
             pstmt.setInt(2, this.gewensteProcessenKey);
             pstmt.setString(3, results.getOmschrijving());
             pstmt.setString(4, results.getVolgnummer());
             pstmt.setString(5, results.getWaarde());
+            pstmt.setString(6, results.getCriterium());
     	    //log.debug(pstmt.toString());
             pstmt.executeUpdate();
             pstmt.close();
