@@ -11,6 +11,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.regex.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import wad.db.CollectorStatusTable;
@@ -513,6 +514,7 @@ public class Selector {
                         //if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
                         //    match=false;
                         //}
+			seriesValue = Pattern.quote(seriesValue);
                         if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
                             match=false;
                         }
@@ -544,6 +546,7 @@ public class Selector {
                         //if (!selectorStudyValue.equalsIgnoreCase(studyValue)){
                         //    match=false;
                         //}
+			studyValue = Pattern.quote(studyValue);
                         if (!selectorStudyValue.matches("(?i:(^|(.*;))\\s*"+studyValue+"\\s*((;.*|$)))")){
                             match=false;
                         }
@@ -573,6 +576,7 @@ public class Selector {
                         //if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
                         //    match=false;
                         //}
+			seriesValue = Pattern.quote(seriesValue);
                         if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
                             match=false;
                         }
@@ -607,6 +611,7 @@ public class Selector {
                         //if (!selectorSeriesValue.equals(seriesValue)){
                         //    match=false;
                         //}
+			seriesValue = Pattern.quote(seriesValue);
                         if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
                             match=false;
                         }
