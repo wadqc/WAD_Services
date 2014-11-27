@@ -33,13 +33,13 @@ public class CheckNewStudy {
         //DatabaseParameters pacsDBParams = new DatabaseParameters();
         //pacsDBParams = ReadConfigXML.ReadPacsDBParameters(pacsDBParams);
         //Lezen van studie tabel in PACSDB
-        ArrayList<String> pacsStudyIUID = ReadFromPacsDatabase.getStudies(pacsConnection);
+        //ArrayList<String> pacsStudyIUID = ReadFromPacsDatabase.getStudies(pacsConnection);
         
         //Ophalen iqc parameters uit config.xml
         //DatabaseParameters iqcDBParams = new DatabaseParameters();
         //iqcDBParams = ReadConfigXML.ReadIqcDBParameters(iqcDBParams);
         //Lezen van studie tabel in iqcDB
-        ArrayList<String> iqcStudyIUID = ReadFromIqcDatabase.getStudies(iqcConnection);
+        //ArrayList<String> iqcStudyIUID = ReadFromIqcDatabase.getStudies(iqcConnection);
         
         //Bestaat de study_iuid niet in iqcDB dan timer starten op controleren van de serie   
 //        for (int i=0;i<pacsStudyIUID.size();i++){
