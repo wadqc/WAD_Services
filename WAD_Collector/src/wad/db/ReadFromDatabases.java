@@ -34,9 +34,24 @@ public class ReadFromDatabases {
                     + "SELECT * "
                     + "FROM "+db2+"."+t2+" "
                     + "WHERE "+db2+"."+t2+"."+c2+"="+db1+"."+t1+"."+c1+")";            
-            rs = stmt.executeQuery(statement);
+            
+            //New faster statement
+            //This statement will return a set in which unique values from the joined table are selected
+            //in case the value came from table1
+            
+            String statement2 = "SELECT * FROM "
+                    + "(SELECT *, COUNT(`"+c1+"`) FROM "
+                    + "(SELECT `"+c1+"`, 't1' as `naam` FROM `"+db1+"`.`"+t1+"` "
+                    + "UNION ALL " 
+                    + "SELECT `"+c2+"`, 't2' as `naam` FROM `"+db2+"`.`"+t2+"`)"
+                    + "as temp "
+                    + "GROUP BY (`"+c1+"`) HAVING COUNT(`"+c1+"`) = 1)"
+                    + "temp2 WHERE `naam`= 't1'";
+            
+            rs = stmt.executeQuery(statement2);
             while (rs.next()) {
                 valueList.add(rs.getString(c1));
+                log.debug("getDifferenceOfTwoColomns : New "+c1+" found: "+rs.getString(c1) );
             }
             rs.close();
             stmt.close();
