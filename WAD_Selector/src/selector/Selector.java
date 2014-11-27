@@ -502,7 +502,7 @@ public class Selector {
             String columnLabel = columnList.get(j);
             String selectorSeriesValue = selectorSeriesMap.get(columnLabel);
             String seriesValue = seriesMap.get(columnLabel);
-            if (!(selectorSeriesValue==null)){
+            if (!(selectorSeriesValue==null || seriesValue==null)){
                 if (!selectorSeriesValue.equalsIgnoreCase("null") && !selectorSeriesValue.equalsIgnoreCase("")){
                     if (!columnLabel.equalsIgnoreCase("availability") && 
                         !columnLabel.equalsIgnoreCase("series_status") && 
@@ -533,7 +533,7 @@ public class Selector {
             String columnLabel = columnList.get(j);
             String selectorStudyValue = selectorStudyMap.get(columnLabel);
             String studyValue = studyMap.get(columnLabel);
-            if (!(selectorStudyValue==null)){
+            if (!(selectorStudyValue==null || studyValue==null)){
                 if (!selectorStudyValue.equalsIgnoreCase("null") && !selectorStudyValue.equalsIgnoreCase("")){
                     if (!columnLabel.equalsIgnoreCase("availability") && 
                         !columnLabel.equalsIgnoreCase("study_status") && 
@@ -565,7 +565,7 @@ public class Selector {
             String columnLabel = columnList.get(j);
             String selectorSeriesValue = selectorPatientMap.get(columnLabel);
             String seriesValue = patientMap.get(columnLabel);
-            if (!(selectorSeriesValue==null)){
+            if (!(selectorSeriesValue==null || seriesValue==null)){
                 if (!selectorSeriesValue.equalsIgnoreCase("null") && !selectorSeriesValue.equalsIgnoreCase("")){
                     if (!columnLabel.equalsIgnoreCase("pk") && 
                         !columnLabel.equalsIgnoreCase("merge_fk") &&                          
@@ -595,7 +595,7 @@ public class Selector {
             String columnLabel = columnList.get(j);
             String selectorSeriesValue = selectorInstanceMap.get(columnLabel);
             String seriesValue = instanceMap.get(columnLabel);
-            if (!(selectorSeriesValue==null)){
+            if (!(selectorSeriesValue==null || seriesValue==null)){
                 if (!selectorSeriesValue.equalsIgnoreCase("null") && !selectorSeriesValue.equalsIgnoreCase("")){
                     if (!columnLabel.equalsIgnoreCase("pk") && 
                         !columnLabel.equalsIgnoreCase("content_datetime") &&  
