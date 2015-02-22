@@ -514,7 +514,7 @@ public class Selector {
                        !columnLabel.equalsIgnoreCase("updated_time")     
                       ) {
                            seriesValue = Pattern.quote(seriesValue);
-                           if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
+                           if (!matches(seriesValue,selectorSeriesValue)) {
                               match=false;
                            }
                    }
@@ -544,7 +544,7 @@ public class Selector {
                       !columnLabel.equalsIgnoreCase("updated_time") && 
                       !columnLabel.equalsIgnoreCase("created_time")
                      ) {
-                          if (!selectorStudyValue.matches("(?i:(^|(.*;))\\s*"+studyValue+"\\s*((;.*|$)))")){
+                          if (!matches(studyValue,selectorStudyValue)) {
                               match=false;
                           }
                   }
@@ -573,7 +573,7 @@ public class Selector {
                       !columnLabel.equalsIgnoreCase("pat_attrs")    
                      ) {
                           patientValue = Pattern.quote(patientValue);
-                          if (!selectorPatientValue.matches("(?i:(^|(.*;))\\s*"+patientValue+"\\s*((;.*|$)))")){
+                          if (!matches(patientValue,selectorPatientValue)) {
                              match=false;
                           }
                   }
@@ -607,7 +607,7 @@ public class Selector {
                       !columnLabel.equalsIgnoreCase("inst_attrs")
                      ) {
                           instanceValue = Pattern.quote(instanceValue);
-                          if (!selectorInstanceValue.matches("(?i:(^|(.*;))\\s*"+instanceValue+"\\s*((;.*|$)))")) {
+                          if (!matches(instanceValue,selectorInstanceValue)) {
                               match=false;
                           }
                   }
@@ -698,4 +698,25 @@ public class Selector {
         }
         return null;
     }
+
+
+    // text = te doorzoeken string
+    // pattern = zoekpatroon, bestaande uit een ";" gescheiden string met
+    //           zoekparameters, waarbij de wildcards * en ? worden ondersteund
+    //           en leading/trailing spaties worden genegeerd.
+    //           bijv: "*Uniformity* ; *QC*"
+    // Matching gebeurt case-insensitive!
+    // Functie geeft "true" terug als er bij minimaal 1 zoekparameter een match is.
+    private static boolean matches(String text, String pattern)
+    {
+        boolean searchmatch = false;
+        String[] searchparams = pattern.split(";");
+        for (String param: searchparams)
+        {
+           param = param.trim();
+           searchmatch = searchmatch || text.matches("(?i)"+param.replace("?", ".?").replace("*", ".*?"));
+        }
+        return searchmatch;
+    }
+
 }
