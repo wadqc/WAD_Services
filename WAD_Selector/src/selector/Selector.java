@@ -513,7 +513,6 @@ public class Selector {
                        !columnLabel.equalsIgnoreCase("created_time") &&
                        !columnLabel.equalsIgnoreCase("updated_time")     
                       ) {
-                           seriesValue = Pattern.quote(seriesValue);
                            if (!matches(seriesValue,selectorSeriesValue)) {
                               match=false;
                            }
@@ -572,7 +571,6 @@ public class Selector {
                       !columnLabel.equalsIgnoreCase("updated_time") &&
                       !columnLabel.equalsIgnoreCase("pat_attrs")    
                      ) {
-                          patientValue = Pattern.quote(patientValue);
                           if (!matches(patientValue,selectorPatientValue)) {
                              match=false;
                           }
@@ -606,7 +604,6 @@ public class Selector {
                       !columnLabel.equalsIgnoreCase("updated_time") &&
                       !columnLabel.equalsIgnoreCase("inst_attrs")
                      ) {
-                          instanceValue = Pattern.quote(instanceValue);
                           if (!matches(instanceValue,selectorInstanceValue)) {
                               match=false;
                           }
