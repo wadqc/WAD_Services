@@ -502,24 +502,22 @@ public class Selector {
             String columnLabel = columnList.get(j);
             String selectorSeriesValue = selectorSeriesMap.get(columnLabel);
             String seriesValue = seriesMap.get(columnLabel);
-            if (!(selectorSeriesValue==null || seriesValue==null)){
-                if (!selectorSeriesValue.equalsIgnoreCase("null") && !selectorSeriesValue.equalsIgnoreCase("")){
-                    if (!columnLabel.equalsIgnoreCase("availability") && 
-                        !columnLabel.equalsIgnoreCase("series_status") && 
-                        !columnLabel.equalsIgnoreCase("pk") &&
-                        !columnLabel.equalsIgnoreCase("pps_start") &&    
-                        !columnLabel.equalsIgnoreCase("created_time") &&
-                        !columnLabel.equalsIgnoreCase("updated_time")     
-                            ){
-                        //if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
-                        //    match=false;
-                        //}
-			seriesValue = Pattern.quote(seriesValue);
-                        if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
-                            match=false;
-                        }
-                    }
-                }
+            if (!(selectorSeriesValue==null || selectorSeriesValue.equalsIgnoreCase("null") || selectorSeriesValue.equalsIgnoreCase(""))) {
+               if(seriesValue==null || seriesValue.equalsIgnoreCase("")){
+                   match=false;
+               } else {
+                   if (!columnLabel.equalsIgnoreCase("availability") && 
+                       !columnLabel.equalsIgnoreCase("series_status") && 
+                       !columnLabel.equalsIgnoreCase("pk") &&
+                       !columnLabel.equalsIgnoreCase("pps_start") &&    
+                       !columnLabel.equalsIgnoreCase("created_time") &&
+                       !columnLabel.equalsIgnoreCase("updated_time")     
+                      ) {
+                           if (!matches(seriesValue,selectorSeriesValue)) {
+                              match=false;
+                           }
+                   }
+               }
             }
         }
         return match; 
@@ -528,30 +526,28 @@ public class Selector {
     private boolean isEqualStudyHashmaps(HashMap<String, String> selectorStudyMap, HashMap<String, String> studyMap){
         //Maak een lijst van de kolommen uit selector_series om te doorlopen een vergelijken
         ArrayList<String> columnList = getColomnNamesFromTable("selector_study");
-        Boolean match = true;            
+        Boolean match = true;
         for (int j=0;j<columnList.size();j++){
             String columnLabel = columnList.get(j);
             String selectorStudyValue = selectorStudyMap.get(columnLabel);
             String studyValue = studyMap.get(columnLabel);
-            if (!(selectorStudyValue==null || studyValue==null)){
-                if (!selectorStudyValue.equalsIgnoreCase("null") && !selectorStudyValue.equalsIgnoreCase("")){
-                    if (!columnLabel.equalsIgnoreCase("availability") && 
-                        !columnLabel.equalsIgnoreCase("study_status") && 
-                        !columnLabel.equalsIgnoreCase("study_datetime") && 
-                        !columnLabel.equalsIgnoreCase("pk") && 
-                        !columnLabel.equalsIgnoreCase("checked_time") && 
-                        !columnLabel.equalsIgnoreCase("updated_time") && 
-                        !columnLabel.equalsIgnoreCase("created_time")
-                            ){
-                        //if (!selectorStudyValue.equalsIgnoreCase(studyValue)){
-                        //    match=false;
-                        //}
-			studyValue = Pattern.quote(studyValue);
-                        if (!selectorStudyValue.matches("(?i:(^|(.*;))\\s*"+studyValue+"\\s*((;.*|$)))")){
-                            match=false;
-                        }
-                    }
-                }
+            if (!(selectorStudyValue==null || selectorStudyValue.equalsIgnoreCase("null") || selectorStudyValue.equalsIgnoreCase(""))) {
+               if (studyValue==null || studyValue.equalsIgnoreCase("")){
+                  match=false;
+               } else {
+                  if (!columnLabel.equalsIgnoreCase("availability") && 
+                      !columnLabel.equalsIgnoreCase("study_status") && 
+                      !columnLabel.equalsIgnoreCase("study_datetime") && 
+                      !columnLabel.equalsIgnoreCase("pk") && 
+                      !columnLabel.equalsIgnoreCase("checked_time") && 
+                      !columnLabel.equalsIgnoreCase("updated_time") && 
+                      !columnLabel.equalsIgnoreCase("created_time")
+                     ) {
+                          if (!matches(studyValue,selectorStudyValue)) {
+                              match=false;
+                          }
+                  }
+               }
             }
         }
         return match; 
@@ -563,25 +559,23 @@ public class Selector {
         Boolean match = true;
         for (int j=0;j<columnList.size();j++){
             String columnLabel = columnList.get(j);
-            String selectorSeriesValue = selectorPatientMap.get(columnLabel);
-            String seriesValue = patientMap.get(columnLabel);
-            if (!(selectorSeriesValue==null || seriesValue==null)){
-                if (!selectorSeriesValue.equalsIgnoreCase("null") && !selectorSeriesValue.equalsIgnoreCase("")){
-                    if (!columnLabel.equalsIgnoreCase("pk") && 
-                        !columnLabel.equalsIgnoreCase("merge_fk") &&                          
-                        !columnLabel.equalsIgnoreCase("created_time") &&
-                        !columnLabel.equalsIgnoreCase("updated_time") &&
-                        !columnLabel.equalsIgnoreCase("pat_attrs")    
-                            ){
-                        //if (!selectorSeriesValue.equalsIgnoreCase(seriesValue)){
-                        //    match=false;
-                        //}
-			seriesValue = Pattern.quote(seriesValue);
-                        if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
-                            match=false;
-                        }
-                    }
-                }
+            String selectorPatientValue = selectorPatientMap.get(columnLabel);
+            String patientValue = patientMap.get(columnLabel);
+            if (!(selectorPatientValue==null || selectorPatientValue.equalsIgnoreCase("null") || selectorPatientValue.equalsIgnoreCase(""))) {
+               if (patientValue==null || patientValue.equalsIgnoreCase("")) {
+                  match=false;
+               } else {
+                  if (!columnLabel.equalsIgnoreCase("pk") && 
+                      !columnLabel.equalsIgnoreCase("merge_fk") &&                          
+                      !columnLabel.equalsIgnoreCase("created_time") &&
+                      !columnLabel.equalsIgnoreCase("updated_time") &&
+                      !columnLabel.equalsIgnoreCase("pat_attrs")    
+                     ) {
+                          if (!matches(patientValue,selectorPatientValue)) {
+                             match=false;
+                          }
+                  }
+               }
             }
         }
         return match; 
@@ -593,30 +587,28 @@ public class Selector {
         Boolean match = true;
         for (int j=0;j<columnList.size();j++){
             String columnLabel = columnList.get(j);
-            String selectorSeriesValue = selectorInstanceMap.get(columnLabel);
-            String seriesValue = instanceMap.get(columnLabel);
-            if (!(selectorSeriesValue==null || seriesValue==null)){
-                if (!selectorSeriesValue.equalsIgnoreCase("null") && !selectorSeriesValue.equalsIgnoreCase("")){
-                    if (!columnLabel.equalsIgnoreCase("pk") && 
-                        !columnLabel.equalsIgnoreCase("content_datetime") &&  
-                        !columnLabel.equalsIgnoreCase("availability") &&
-                        !columnLabel.equalsIgnoreCase("inst_status") &&
-                        !columnLabel.equalsIgnoreCase("all_attrs") &&
-                        !columnLabel.equalsIgnoreCase("commitment") &&
-                        !columnLabel.equalsIgnoreCase("archived") &&
-                        !columnLabel.equalsIgnoreCase("created_time") &&
-                        !columnLabel.equalsIgnoreCase("updated_time") &&
-                        !columnLabel.equalsIgnoreCase("inst_attrs")     
-                            ){
-                        //if (!selectorSeriesValue.equals(seriesValue)){
-                        //    match=false;
-                        //}
-			seriesValue = Pattern.quote(seriesValue);
-                        if (!selectorSeriesValue.matches("(?i:(^|(.*;))\\s*"+seriesValue+"\\s*((;.*|$)))")){
-                            match=false;
-                        }
-                    }
-                }
+            String selectorInstanceValue = selectorInstanceMap.get(columnLabel);
+            String instanceValue = instanceMap.get(columnLabel);
+            if (!(selectorInstanceValue==null || selectorInstanceValue.equalsIgnoreCase("null") || selectorInstanceValue.equalsIgnoreCase(""))) {
+               if (instanceValue==null || instanceValue.equalsIgnoreCase("")) {
+                  match=false;
+               } else {
+                  if (!columnLabel.equalsIgnoreCase("pk") &&
+                      !columnLabel.equalsIgnoreCase("content_datetime") &&
+                      !columnLabel.equalsIgnoreCase("availability") &&
+                      !columnLabel.equalsIgnoreCase("inst_status") &&
+                      !columnLabel.equalsIgnoreCase("all_attrs") &&
+                      !columnLabel.equalsIgnoreCase("commitment") &&
+                      !columnLabel.equalsIgnoreCase("archived") &&
+                      !columnLabel.equalsIgnoreCase("created_time") &&
+                      !columnLabel.equalsIgnoreCase("updated_time") &&
+                      !columnLabel.equalsIgnoreCase("inst_attrs")
+                     ) {
+                          if (!matches(instanceValue,selectorInstanceValue)) {
+                              match=false;
+                          }
+                  }
+               }
             }
         }
         return match; 
@@ -703,4 +695,25 @@ public class Selector {
         }
         return null;
     }
+
+
+    // text = te doorzoeken string
+    // pattern = zoekpatroon, bestaande uit een ";" gescheiden string met
+    //           zoekparameters, waarbij de wildcards * en ? worden ondersteund
+    //           en leading/trailing spaties worden genegeerd.
+    //           bijv: "*Uniformity* ; *QC*"
+    // Matching gebeurt case-insensitive!
+    // Functie geeft "true" terug als er bij minimaal 1 zoekparameter een match is.
+    private static boolean matches(String text, String pattern)
+    {
+        boolean searchmatch = false;
+        String[] searchparams = pattern.split(";");
+        for (String param: searchparams)
+        {
+           param = param.trim();
+           searchmatch = searchmatch || text.matches("(?i)"+param.replace("?", ".?").replace("*", ".*?"));
+        }
+        return searchmatch;
+    }
+
 }

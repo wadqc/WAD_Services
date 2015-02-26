@@ -3,7 +3,12 @@
  * and open the template in the editor.
  */
 package wad_processor;
-
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.PreparedStatement;
+import java.sql.Types;
 import java.io.File;
 import java.sql.Connection;
 import java.util.ArrayList;
@@ -102,6 +107,12 @@ public class CheckNewJobs extends TimerTask {
 //                    input = input.replace("..", mainDir);
                     input = input.replace("/", File.separator);
 
+                    // output folder tbv logging per proces
+                    String outputFolder = ReadConfigXML.readFileElement("XML") + ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_output", gp.getInputKey());
+                    outputFolder = outputFolder.replace("/", File.separator);
+                    outputFolder = outputFolder.substring(0,outputFolder.lastIndexOf(File.separator));
+                    p.set_outputFolder(outputFolder);
+
                     //controle op type extensie, zodat m-files, java-files etc de juiste commandline meekrijgen
                     //command[0] = "java -jar "+anaModuleFile + " \"" + input +"\"";
                     //command[1] = anaModuleFile + " " + input;
@@ -185,6 +196,7 @@ public class CheckNewJobs extends TimerTask {
         // aanpassen bij absoluut filepath voor XML in config.xml
         String output = ReadConfigXML.readFileElement("XML") + ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_output", gp.getOutputKey());
         output = output.replace("/", File.separator);
+
         gp.updateStatus(dbConnection, 3);
         AnalyseModuleResultFile resultFile = new AnalyseModuleResultFile(output);
         Boolean succes = resultFile.read();
@@ -197,5 +209,29 @@ public class CheckNewJobs extends TimerTask {
             gp.updateStatus(dbConnection, 10);
         }
         
+        // voeg processor.log toe aan DB als object met volgnummer 999 op niveau 2
+        // FIXME: Hiermee wordt de logfile voor alle exit-statussen opgeslagen.
+        //        Als we deze alleen bij succes=false willen opslaan, deze routine bovenaan
+        //        de functie zetten.
+        String outputFolder = output.substring(0,output.lastIndexOf(File.separator));
+        try {
+            PreparedStatement pstmt = dbConnection.prepareStatement("INSERT INTO resultaten_object("
+                + "niveau, "
+                + "gewenste_processen_fk, "
+                + "omschrijving, "
+                + "volgnummer, "
+                + "object_naam_pad) "
+                + "values (?,?,?,?,?)");
+            pstmt.setString(1, "2");
+            pstmt.setInt(2, Integer.parseInt(gp.getKey()));
+            pstmt.setString(3, "processor.log");
+            pstmt.setString(4, "999");
+            pstmt.setString(5, outputFolder+File.separator+"processor.log");
+            pstmt.executeUpdate();
+            pstmt.close();
+        } catch (SQLException ex) {
+            log.error(ex);
+        }
+
     }
 }

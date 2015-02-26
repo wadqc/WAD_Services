@@ -8,6 +8,7 @@ import java.io.*;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+
 /**
  *
  * @author titulaer
@@ -25,6 +26,7 @@ public class WAD_ProcessThread extends Thread {
     private boolean _error = false;
     private String[] _args;
     private Process _proc;
+    private String _outputFolder;
     //Runtime rt = Runtime.getRuntime();
 
     public boolean isRunning() {
@@ -62,12 +64,15 @@ public class WAD_ProcessThread extends Thread {
             _proc = builder.start();
             //BT alleen wachten indien geconfigureerd, bijv html pagina openen kan reden zijn dat neit te doen
             BufferedReader reader = new BufferedReader(new InputStreamReader(_proc.getInputStream()));
+            FileWriter writer = new FileWriter(_outputFolder + File.separator + "processor.log");
             String line;
             while ((line = reader.readLine()) != null) {
                 // JK terminal output van tread naar logfile ipv stdout
                 //System.out.println("tasklist: " + line);
                 log.info("Thread " + _ID + ": " + line);
+                writer.write(line + "\n");
             }
+            writer.close();
             _proc.waitFor();
             //doc: Zet de parameter die aangeeft dat process klaar 
             _running = false;
@@ -111,4 +116,9 @@ public class WAD_ProcessThread extends Thread {
         return result;
 
     }
+
+    public void set_outputFolder(String outputfolder) {
+        this._outputFolder = outputfolder;
+    }
+
 }
