@@ -109,7 +109,7 @@ public class CheckNewJobs extends TimerTask {
 
                     // output folder tbv logging per proces
                     String outputFolder = ReadConfigXML.readFileElement("XML") + ReadFromIqcDatabase.getFilenameFromTable(dbConnection, "analysemodule_output", gp.getInputKey());
-                    outputFolder.replace("/", File.separator);
+                    outputFolder = outputFolder.replace("/", File.separator);
                     outputFolder = outputFolder.substring(0,outputFolder.lastIndexOf(File.separator));
                     p.set_outputFolder(outputFolder);
 
