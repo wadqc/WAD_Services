@@ -711,7 +711,7 @@ public class Selector {
         for (String param: searchparams)
         {
            param = param.trim();
-           searchmatch = searchmatch || text.matches("(?i)"+param.replace("?", ".?").replace("*", ".*?"));
+           searchmatch = searchmatch || text.trim().matches("(?i)"+param.replace("?", ".?").replace("*", ".*?"));
         }
         return searchmatch;
     }
