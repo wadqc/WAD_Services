@@ -4,6 +4,7 @@
  */
 package wad.db;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -248,15 +249,15 @@ public class WriteGewensteProcessen {
         
         String anaModInputFilepath = "XML/analysemodule_input/";
         String absAnaModInputFilepath = ReadConfigXML.readFileElement("analysemodule_input")+anaModInputFilepath;                
-        
+
         AnalyseModuleInputValues anaModInputVal = writeFiles(dbConnection, levelPk, selectorFk, dateFormat.format(date));
-        
+        String selectorName = anaModInputVal.getSelectorName();
                 
         String sqlTableInput = "INSERT INTO analysemodule_input(";
         String sqlTableOutput = "INSERT INTO analysemodule_output(";
         String sqlColomn = "filename, filepath";
         String sqlMiddle = ") values (";
-        String sqlValuesInput = "'"+dateFormat.format(date)+".xml','"+anaModInputFilepath+"'";
+        String sqlValuesInput = "'"+dateFormat.format(date)+".xml','"+anaModInputFilepath+selectorName+File.separator+"'";
         String sqlValuesOutput = "'"+anaModInputVal.getAnalyseModuleOutputFilename()+"','"+anaModInputVal.getAnalyseModuleOutputFilepath()+"'";
         String sqlEnd = ")";
         String sqlStatementInput = sqlTableInput+sqlColomn+sqlMiddle+sqlValuesInput+sqlEnd;
@@ -310,10 +311,11 @@ public class WriteGewensteProcessen {
         String absAnaModInputFilepath = ReadConfigXML.readFileElement("XML")+"XML/analysemodule_input/";
         
         //String anaModAbsFilename = anaModInputFilepath.replace("..", mainDir);
-        String anaModAbsFilename = absAnaModInputFilepath.replace("/","\\");
+        //String anaModAbsFilename = absAnaModInputFilepath.replace("/","\\");
         GetPatientFromIqcDatabase patient = new GetPatientFromIqcDatabase( dbConnection, levelPk, analyseModuleInputValues.getAnalyseLevel());
         AnalyseModuleInputFile anaModInputFile = new AnalyseModuleInputFile(patient.getPatient(), analyseModuleInputValues);        
-        anaModInputFile.write(absAnaModInputFilepath+createDateTime+".xml");        
+        String selectorName = anaModOutFile.getSelectorName();
+        anaModInputFile.write(absAnaModInputFilepath+selectorName+File.separator+createDateTime+".xml");        
         return analyseModuleInputValues;    
     }
 }

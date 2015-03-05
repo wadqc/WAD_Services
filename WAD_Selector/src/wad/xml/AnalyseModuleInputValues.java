@@ -18,6 +18,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class AnalyseModuleInputValues {
     private String version;
+    private String selectorName;
     private String analyseModuleCfg;
     private String analyseModuleOutput;
     private String analyselevel;
@@ -46,6 +47,7 @@ public class AnalyseModuleInputValues {
             stmt_selector = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs_selector = stmt_selector.executeQuery("SELECT * FROM selector WHERE pk='"+selectorPk+"'");
             while (rs_selector.next()) {
+                this.selectorName=rs_selector.getString("name");
                 this.analyselevel=rs_selector.getString("analyselevel");
                 String analyseModuleCfg_fk=rs_selector.getString("analysemodule_cfg_fk");
                 stmt_analyseModuleCfg = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -100,5 +102,9 @@ public class AnalyseModuleInputValues {
     
     public String getAnalyseLevel(){
         return analyselevel;
+    }
+
+    public String getSelectorName(){
+        return selectorName;
     }
 }

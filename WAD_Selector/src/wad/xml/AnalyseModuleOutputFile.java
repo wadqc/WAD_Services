@@ -19,7 +19,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class AnalyseModuleOutputFile {
     String selectorPk;
-	String selectorName;
+    String selectorName;
     //String analyseModule;
     String absoluteFilename;
     String filePath;
@@ -95,6 +95,10 @@ public class AnalyseModuleOutputFile {
     
     public String getAbsoluteFilename(){
         return this.absoluteFilename;
+    }
+
+    public String getSelectorName(){
+        return this.selectorName;
     }
     
 }
