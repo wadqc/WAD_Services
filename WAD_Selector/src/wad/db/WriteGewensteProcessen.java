@@ -257,7 +257,7 @@ public class WriteGewensteProcessen {
         String sqlTableOutput = "INSERT INTO analysemodule_output(";
         String sqlColomn = "filename, filepath";
         String sqlMiddle = ") values (";
-        String sqlValuesInput = "'"+dateFormat.format(date)+".xml','"+anaModInputFilepath+selectorName+File.separator+"'";
+        String sqlValuesInput = "'"+dateFormat.format(date)+".xml','"+anaModInputFilepath+selectorName+"/'";
         String sqlValuesOutput = "'"+anaModInputVal.getAnalyseModuleOutputFilename()+"','"+anaModInputVal.getAnalyseModuleOutputFilepath()+"'";
         String sqlEnd = ")";
         String sqlStatementInput = sqlTableInput+sqlColomn+sqlMiddle+sqlValuesInput+sqlEnd;
