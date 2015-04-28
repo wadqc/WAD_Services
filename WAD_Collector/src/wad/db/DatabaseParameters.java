@@ -6,7 +6,7 @@ package wad.db;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class DatabaseParameters {
     public String connectionURL;

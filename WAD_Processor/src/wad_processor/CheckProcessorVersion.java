@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class CheckProcessorVersion {
     private static Log log = LogFactory.getLog(CheckProcessorVersion.class);

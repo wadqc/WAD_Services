@@ -28,7 +28,7 @@ import wad.db.DatabaseParameters;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class ReadConfigXML {
     

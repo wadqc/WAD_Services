@@ -20,7 +20,7 @@ import wad.xml.Series;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class GetPatientFromIqcDatabase {
     private Patient patient;

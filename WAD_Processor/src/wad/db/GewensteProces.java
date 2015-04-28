@@ -14,7 +14,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class GewensteProces {
     private int key=-1;

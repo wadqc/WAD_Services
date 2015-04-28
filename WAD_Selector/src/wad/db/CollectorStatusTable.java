@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class CollectorStatusTable {
     private ArrayList<CollectorStatusRow> colStatusTable = new ArrayList<CollectorStatusRow>();

@@ -6,7 +6,7 @@ package wad.db;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class CollectorStatusRow {
     private String pk;

@@ -22,7 +22,7 @@ import wad.db.WriteToIqcDatabase;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class Selector {
     //DatabaseParameters dbParam;

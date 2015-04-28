@@ -20,7 +20,7 @@ import wad.xml.ResultsObject;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class WriteResultaten {
 

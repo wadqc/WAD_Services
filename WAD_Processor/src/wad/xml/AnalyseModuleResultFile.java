@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class AnalyseModuleResultFile {
     private ArrayList<Object> resultArray;
