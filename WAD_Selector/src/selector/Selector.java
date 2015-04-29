@@ -708,10 +708,12 @@ public class Selector {
     {
         boolean searchmatch = false;
         String[] searchparams = pattern.split(";");
+        text = text.trim().replaceAll("([\\\\\\.\\[\\{\\(\\+\\^\\$\\|])", "\b"); // replace all regex (except '*' and '?' by unlikely backspace character (escaping the offending character results in a failing match because a single character is replaced by two characters, which does not match with a single '?')
+
         for (String param: searchparams)
         {
-           param = param.trim();
-           searchmatch = searchmatch || text.trim().matches("(?i)"+param.replace("?", ".?").replace("*", ".*?"));
+           param = param.trim().replaceAll("([\\\\\\.\\[\\{\\(\\+\\^\\$\\|])", "\b");
+           searchmatch = searchmatch || text.matches("(?i)"+param.replace("?", ".?").replace("*", ".*?"));
         }
         return searchmatch;
     }
