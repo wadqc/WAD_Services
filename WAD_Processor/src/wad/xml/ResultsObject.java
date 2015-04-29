@@ -6,7 +6,7 @@ package wad.xml;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class ResultsObject {
     private String type;

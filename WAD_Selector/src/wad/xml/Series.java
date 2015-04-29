@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class Series {
     private String number;

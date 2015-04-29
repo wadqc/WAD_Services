@@ -27,7 +27,7 @@ import org.w3c.dom.ls.LSSerializer;
 import org.xml.sax.SAXException;
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class AnalyseModuleInputFile {
     private String version;

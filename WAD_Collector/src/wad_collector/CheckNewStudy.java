@@ -17,7 +17,7 @@ import wad.xml.ReadConfigXML;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class CheckNewStudy {
     

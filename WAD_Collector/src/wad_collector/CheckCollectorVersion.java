@@ -16,7 +16,7 @@ import org.apache.commons.logging.LogFactory;
 
 /**
  *
- * @author Ralph Berendsen <>
+ * @author Ralph Berendsen 
  */
 public class CheckCollectorVersion {
     private static Log log = LogFactory.getLog(CheckNewStudy.class);
