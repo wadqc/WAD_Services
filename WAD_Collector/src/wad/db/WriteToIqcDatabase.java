@@ -37,6 +37,8 @@ public class WriteToIqcDatabase {
             ResultSetMetaData rsWriteMetaData = rsRead.getMetaData();
             int nrOfColomns = rsWriteMetaData.getColumnCount();
             while (rsRead.next()){
+               sqlColomn = "";
+               sqlValues = "";
                 for (int i=1;i<=nrOfColomns;i++){
                     if (!sqlColomn.equals("")){
                         sqlColomn = sqlColomn+", ";
