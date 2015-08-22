@@ -121,7 +121,7 @@ public class CheckNewJobs extends TimerTask {
                         command[0] = "java";
                         command[1] = "-jar";
                         command[2] = anaModuleFile;
-                        command[3] = "\"" + input + "\"";
+                        command[3] = input;
 		    } else if (matchExtension(anaModuleFile, "py")) {
                         command = new String[3];
                         command[0] = "python";
@@ -135,7 +135,7 @@ public class CheckNewJobs extends TimerTask {
 		    } else {
                         command = new String[2];
                         command[0] = anaModuleFile;
-                        command[1] = "\"" + input + "\"";
+                        command[1] = input;
                     }
 
 
