@@ -24,12 +24,15 @@ import wad.db.WriteToIqcDatabase;
  *
  * @author Ralph Berendsen 
  */
+     
+
 public class Selector {
     //DatabaseParameters dbParam;
     Connection dbConnection;
     
     private static Log log = LogFactory.getLog(Selector.class);
     
+
     public void Selector(Connection dbConnection){
         this.dbConnection = dbConnection;
         CollectorStatusTable colSeriesStatusTable = new CollectorStatusTable(this.dbConnection, "collector_series_status"); 
@@ -59,7 +62,6 @@ public class Selector {
                 studyFk.add(colStudyStatusTable.getColllectorStatusRow(i).getFk());                
             }
         }
-        
         //Per Analyselvl een uitwerking, hierbij is de lijst met series van belang voor de lvl instance en series, en de lijst met study voor lvl study
         selectorInstanceLevel(seriesFk);
         selectorSeriesLevel(seriesFk);
@@ -74,10 +76,10 @@ public class Selector {
             boolean studyMatch = false;
             boolean seriesMatch = false;
             boolean instanceMatch = false;
+            //study en patient bij deze series zoeken
+            String studyFk = getStudyFkFromSeries(seriesFkList.get(i));
+            String patientFk = getPatientFkFromStudy(studyFk);                
             for (int j=0;j<selectorPk.size();j++){
-                //study en patient bij deze series zoeken
-                String studyFk = getStudyFkFromSeries(seriesFkList.get(i));
-                String patientFk = getPatientFkFromStudy(studyFk);                
                 //Heeft selector een patient_fk dan vergelijken, anders doorgaan met study_fk                
                 String selectorPatientFk = getLevelFkByPk(selectorPk.get(j), "patient");
                 if (selectorPatientFk!=null){
@@ -104,8 +106,9 @@ public class Selector {
                     HashMap<String, String> studyMap = getLevelHashmap(studyFk, "study");
                     studyMatch = isEqualStudyHashmaps(selectorStudyMap, studyMap);
                 } else {
-                    studyMatch = true;
+                   studyMatch = true;
                 }
+
                 if (!studyMatch){
                     continue;
                 }
@@ -152,7 +155,7 @@ public class Selector {
                         WriteGewensteProcessen.writeDataInstance(this.dbConnection, selectorPk.get(j), instancePkList.get(k));
                     }
                 }                 
-            }
+            } // for j...
         }
     }
     
@@ -164,10 +167,10 @@ public class Selector {
             boolean studyMatch = false;
             boolean seriesMatch = false;
             boolean instanceMatch = false;
+	    //study en patient bij deze series zoeken
+	    String studyFk = getStudyFkFromSeries(seriesFkList.get(i));
+	    String patientFk = getPatientFkFromStudy(studyFk);                
             for (int j=0;j<selectorPk.size();j++){
-                //study en patient bij deze series zoeken
-                String studyFk = getStudyFkFromSeries(seriesFkList.get(i));
-                String patientFk = getPatientFkFromStudy(studyFk);                
                 //Heeft selector een patient_fk dan vergelijken, anders doorgaan met study_fk                
                 String selectorPatientFk = getLevelFkByPk(selectorPk.get(j), "patient");
                 if (selectorPatientFk!=null){
@@ -223,7 +226,7 @@ public class Selector {
                     //Maak een hashmap met <kolomnaam, waarde> van selector_instance met betreffende pk
                     HashMap<String, String> selectorInstanceMap = getSelectorLevelHashmap(selectorInstanceFk, "instance"); 
                     //Voor elke instance in deze series moet een controle plaatsvinden.
-                    //Als instanceMatch is true voor één van de instances in deze series dan moet deze series op seriesLevel in GewensteProcessen
+                    //Als instanceMatch is true voor \E9\E9n van de instances in deze series dan moet deze series op seriesLevel in GewensteProcessen
                     ArrayList<String> instancePkList = getInstancePkListFromInstance(seriesFkList.get(i));
                     for (int k=0;k<instancePkList.size();k++){
                         //Maak een hashmap met <kolomnaam, waarde> van de instance met betreffende pk
@@ -232,7 +235,7 @@ public class Selector {
                         if (instanceMatch){
                             //Toevoegen aan tabel gewensteprocessen
                             WriteGewensteProcessen.writeDataSeries(this.dbConnection, selectorPk.get(j), seriesFkList.get(i));
-                            //Na één match hoeft er verder geen controle te zijn dus break
+                            //Na \E9\E9n match hoeft er verder geen controle te zijn dus break
                             break;
                         }
                     }
@@ -391,19 +394,22 @@ public class Selector {
     //Input voor analyselevel is:"study", "series" of "instance", anders is de ArrayList van lengte 0;
     private ArrayList<String> getSelectorPkByAnalyseLvl(String analyseLvl){
         ArrayList<String> selectorPk = new  ArrayList<String>();           
-        ResultSet rs_selector;        
-        Statement stmt_selector;        
+        ResultSet rs_selector = null;        
+        Statement stmt_selector = null;        
         
         try {
             stmt_selector = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            rs_selector = stmt_selector.executeQuery("SELECT * FROM selector WHERE analyselevel='"+analyseLvl+"'");            
+            rs_selector = stmt_selector.executeQuery("SELECT pk FROM selector WHERE analyselevel='"+analyseLvl+"'");            
             while (rs_selector.next()) {
                 selectorPk.add(rs_selector.getString("pk"));                                              
             }            
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
             log.error(ex);
-        }
+        }  finally {
+             try { if (rs_selector != null) rs_selector.close(); } catch (Exception e) {};
+             try { if (stmt_selector != null) stmt_selector.close(); } catch (Exception e) {};
+        }        
         return selectorPk;
     }
     
@@ -411,26 +417,34 @@ public class Selector {
     //Input voor level is:"patient", "study", "series" of "instance", anders is de ArrayList van lengte 0;
     private String getLevelFkByPk(String pk, String level){
         String levelFk = null;               
-        ResultSet rs_selector;        
-        Statement stmt_selector;        
-        
+        ResultSet rs_selector = null;        
+        Statement stmt_selector = null;        
+
         try {
             stmt_selector = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
-            rs_selector = stmt_selector.executeQuery("SELECT * FROM selector WHERE pk='"+pk+"'");            
+            rs_selector = stmt_selector.executeQuery("SELECT "+"selector_"+level+"_fk"+" FROM selector WHERE pk='"+pk+"'");            
             while (rs_selector.next()) {
-                levelFk = rs_selector.getString("selector_"+level+"_fk");                                              
+                levelFk = rs_selector.getString("selector_"+level+"_fk");
             }            
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
             log.error(ex);
+        }  finally {
+             try { if (rs_selector != null) rs_selector.close(); } catch (Exception e) {};
+             try { if (stmt_selector != null) stmt_selector.close(); } catch (Exception e) {};
+        }        
+
+	// AS: value "0" means this selector level is not defined!
+	if(levelFk != null && levelFk.equals("0")){ 
+		levelFk = null;
         }
         return levelFk;
     }
     
     private HashMap<String, String> getSelectorLevelHashmap(String pk, String level){
         HashMap<String, String> selectorLevelMap = new HashMap<String, String>();        
-        ResultSet rs_series;        
-        Statement stmt_series;
+        ResultSet rs_series = null;        
+        Statement stmt_series = null;
         
         try {
             stmt_series = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -446,14 +460,17 @@ public class Selector {
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
             log.error(ex);
+        }  finally {
+             try { if (rs_series != null) rs_series.close(); } catch (Exception e) {};
+             try { if (stmt_series != null) stmt_series.close(); } catch (Exception e) {};
         }        
         return selectorLevelMap;
     }
     
     private ArrayList<String> getColomnNamesFromTable(String tableName){
         ArrayList<String> columnList = new ArrayList<String>();
-        ResultSet rs_series;        
-        Statement stmt_series;
+        ResultSet rs_series = null;        
+        Statement stmt_series = null;
         
         try {
             stmt_series = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -467,15 +484,18 @@ public class Selector {
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
             log.error(ex);
+        }  finally {
+             try { if (rs_series != null) rs_series.close(); } catch (Exception e) {};
+             try { if (stmt_series != null) stmt_series.close(); } catch (Exception e) {};
         }        
         return columnList;
     }
     
     private HashMap<String, String> getLevelHashmap(String pk, String level){
         HashMap<String, String> levelMap = new HashMap<String, String>();
-        ResultSet rs_series;        
-        Statement stmt_series;
-        
+        ResultSet rs_series = null;        
+        Statement stmt_series = null;
+
         try {
             stmt_series = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
             rs_series = stmt_series.executeQuery("SELECT * FROM "+level+" WHERE pk='"+pk+"'");
@@ -483,14 +503,16 @@ public class Selector {
             int columnCount = md.getColumnCount();
             while (rs_series.next()) {
                 //Let op md.getColumnLabel(i) eerste kolom heeft index 1 en niet 0
-                for (int i=1;i<=columnCount;i++){
-                    levelMap.put(md.getColumnLabel(i), rs_series.getString(i));
-                }                                               
+                for (int i=1;i<=columnCount;i++)
+              	  levelMap.put(md.getColumnLabel(i), rs_series.getString(i));
             }
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
             log.error(ex);
-        }
+        }  finally {
+             try { if (rs_series != null) rs_series.close(); } catch (Exception e) {};
+             try { if (stmt_series != null) stmt_series.close(); } catch (Exception e) {};
+        }        
         return levelMap;
     }
     
@@ -615,8 +637,8 @@ public class Selector {
     }
     
     private String getStudyFkFromSeries(String seriesFk){
-        ResultSet rs_series;        
-        Statement stmt_series;        
+        ResultSet rs_series = null;        
+        Statement stmt_series = null;        
         
         try {
             stmt_series = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -631,13 +653,16 @@ public class Selector {
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
             log.error(ex);
-        }
+        }  finally {
+             try { if (rs_series != null) rs_series.close(); } catch (Exception e) {};
+             try { if (stmt_series != null) stmt_series.close(); } catch (Exception e) {};
+        }        
         return null;
     }
     
     private String getPatientFkFromStudy(String studyFk){
-        ResultSet rs_study;        
-        Statement stmt_study;        
+        ResultSet rs_study = null;        
+        Statement stmt_study = null;        
         
         try {
             stmt_study = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -652,14 +677,17 @@ public class Selector {
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
             log.error(ex);
-        }
+        }  finally {
+             try { if (rs_study != null) rs_study.close(); } catch (Exception e) {};
+             try { if (stmt_study != null) stmt_study.close(); } catch (Exception e) {};
+        }        
         return null;
     }
     
     private ArrayList<String> getInstancePkListFromInstance(String seriesFk){
         ArrayList<String> instancePkList = new  ArrayList<String>();
-        ResultSet rs_instance;        
-        Statement stmt_instance;        
+        ResultSet rs_instance = null;        
+        Statement stmt_instance = null;        
         
         try {
             stmt_instance = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -672,14 +700,17 @@ public class Selector {
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
             log.error(ex);
-        }
+        }  finally {
+             try { if (rs_instance != null) rs_instance.close(); } catch (Exception e) {};
+             try { if (stmt_instance != null) stmt_instance.close(); } catch (Exception e) {};
+        }        
         return null;
     }
     
     private ArrayList<String> getSeriesPkListFromSeries(String studyFk){
         ArrayList<String> instancePkList = new  ArrayList<String>();
-        ResultSet rs_series;        
-        Statement stmt_series;        
+        ResultSet rs_series = null;        
+        Statement stmt_series = null;        
         
         try {
             stmt_series = dbConnection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
@@ -692,7 +723,10 @@ public class Selector {
         } catch (SQLException ex) {
             //LoggerWrapper.myLogger.log(Level.SEVERE, "{0} {1}", new Object[]{Selector.class.getName(),ex});
             log.error(ex);
-        }
+        }  finally {
+             try { if (rs_series != null) rs_series.close(); } catch (Exception e) {};
+             try { if (stmt_series != null) stmt_series.close(); } catch (Exception e) {};
+        }        
         return null;
     }
 
